@@ -14,6 +14,7 @@ struct SettingsView: View {
     @State private var justmail = ""
     @State private var birthday = Date()
     @State private var DarkOn = false
+    @State private var color = "Red"
     
     var body: some View {
         
@@ -41,6 +42,11 @@ struct SettingsView: View {
                 Section(header: Text("Visual Settings")){
                     Toggle("Dark Mode", isOn: $DarkOn)
                         .toggleStyle(SwitchToggleStyle(tint: .red))
+                    
+                    Picker("Accent Color", selection: $color) {
+                        Text("Red")
+                        Text("Green")
+                    }
                 }
                 
             }
