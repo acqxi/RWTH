@@ -18,16 +18,16 @@ struct ContentView: View {
                     Text("Home")
                 }
             
-            Calendar()
+            CalendarView()
                 .tabItem {
                     Image(systemName: "calendar")
                     Text("Calendar")
                 }
 			
-			HomeView()
+			ProjectsView()
                 .tabItem {
                     Image(systemName: "book.fill")
-                    Text("Project")
+                    Text("Projects")
                 }
             
             ActivityListView()

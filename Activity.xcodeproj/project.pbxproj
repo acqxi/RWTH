@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C883FED12B4E98CA006B716A /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C883FED02B4E98CA006B716A /* Calendar.swift */; };
+		C883FED12B4E98CA006B716A /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C883FED02B4E98CA006B716A /* CalendarView.swift */; };
+		C883FED32B4EA97D006B716A /* ProjectsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C883FED22B4EA97D006B716A /* ProjectsView.swift */; };
 		C8D03AAB2B38654500C9B57D /* ActivityApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D03AAA2B38654500C9B57D /* ActivityApp.swift */; };
 		C8D03AAD2B38654500C9B57D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D03AAC2B38654500C9B57D /* ContentView.swift */; };
 		C8D03AAF2B38654700C9B57D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8D03AAE2B38654700C9B57D /* Assets.xcassets */; };
@@ -18,7 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C883FED02B4E98CA006B716A /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
+		C883FED02B4E98CA006B716A /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		C883FED22B4EA97D006B716A /* ProjectsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsView.swift; sourceTree = "<group>"; };
 		C8D03AA72B38654500C9B57D /* Activity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Activity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8D03AAA2B38654500C9B57D /* ActivityApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityApp.swift; sourceTree = "<group>"; };
 		C8D03AAC2B38654500C9B57D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -62,7 +64,8 @@
 				C8D03AAC2B38654500C9B57D /* ContentView.swift */,
 				C8D03AAA2B38654500C9B57D /* ActivityApp.swift */,
 				C8D200672B38930200E06148 /* HomeView.swift */,
-				C883FED02B4E98CA006B716A /* Calendar.swift */,
+				C883FED02B4E98CA006B716A /* CalendarView.swift */,
+				C883FED22B4EA97D006B716A /* ProjectsView.swift */,
 				C8D200652B3892C400E06148 /* ActivityListView.swift */,
 				C8D2006B2B3896E200E06148 /* SettingsView.swift */,
 				C8D03AAE2B38654700C9B57D /* Assets.xcassets */,
@@ -150,9 +153,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8D2006C2B3896E200E06148 /* SettingsView.swift in Sources */,
-				C883FED12B4E98CA006B716A /* Calendar.swift in Sources */,
+				C883FED12B4E98CA006B716A /* CalendarView.swift in Sources */,
 				C8D03AAD2B38654500C9B57D /* ContentView.swift in Sources */,
 				C8D200682B38930200E06148 /* HomeView.swift in Sources */,
+				C883FED32B4EA97D006B716A /* ProjectsView.swift in Sources */,
 				C8D03AAB2B38654500C9B57D /* ActivityApp.swift in Sources */,
 				C8D200662B3892C400E06148 /* ActivityListView.swift in Sources */,
 			);
