@@ -23,6 +23,12 @@ struct ContentView: View {
                     Image(systemName: "calendar")
                     Text("Calendar")
                 }
+			
+			HomeView()
+                .tabItem {
+                    Image(systemName: "book.fill")
+                    Text("Project")
+                }
             
             ActivityListView()
                 .tabItem {

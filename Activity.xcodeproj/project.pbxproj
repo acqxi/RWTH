@@ -59,8 +59,8 @@
 		C8D03AA92B38654500C9B57D /* Activity */ = {
 			isa = PBXGroup;
 			children = (
-				C8D03AAA2B38654500C9B57D /* ActivityApp.swift */,
 				C8D03AAC2B38654500C9B57D /* ContentView.swift */,
+				C8D03AAA2B38654500C9B57D /* ActivityApp.swift */,
 				C8D200672B38930200E06148 /* HomeView.swift */,
 				C883FED02B4E98CA006B716A /* Calendar.swift */,
 				C8D200652B3892C400E06148 /* ActivityListView.swift */,
