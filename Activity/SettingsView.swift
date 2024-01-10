@@ -46,6 +46,7 @@ struct SettingsView: View {
                     Picker("Accent Color", selection: $color) {
                         Text("Red")
                         Text("Green")
+                        Text("Blue")
                     }
                 }
                 
