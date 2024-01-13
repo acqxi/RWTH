@@ -46,11 +46,30 @@ struct BoxView: View {
 }
 
 struct NewProjectView: View {
+    @State private var userInput: String = ""
+    @Environment(\.presentationMode) var presentationMode
+    
     var body: some View {
         NavigationView {
-            Text("Hi")
+            Form {
+               Section(header: Text("Project Name")) {
+                  TextField("", text: $userInput)
+               }
+            }
         }
-        .navigationTitle("New Project")
+        .navigationBarTitle("New Project")
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(
+            leading: Button("Cancel") {
+                self.presentationMode.wrappedValue.dismiss()
+            },
+            trailing: Button("Save") {
+                        // 在這裡處理保存的邏輯
+                        // 可以將輸入的內容傳遞給上一個頁面或進行其他操作
+                print("保存輸入內容: \(userInput)")
+                self.presentationMode.wrappedValue.dismiss()
+             }
+        )
     }
 
 }
@@ -65,6 +84,7 @@ CheckListItem(id:4,title:"Leg Extensions")
 
 struct ProjectContentView: View {
     var title: String
+    @State private var isEditing = false
     var body: some View {
         NavigationView {
             List(checkListData){ item in
@@ -73,6 +93,14 @@ struct ProjectContentView: View {
                     .font(.title)
         }
         .navigationTitle(title)
+        .navigationBarItems(
+            trailing:Button(action: {
+                isEditing.toggle()
+            }) {
+               Text(isEditing ? "Done" : "Edit")
+            }
+         )
+         .environment(\.editMode, .constant(isEditing ? .active : .inactive))
     }
 }
 
@@ -97,6 +125,7 @@ struct CheckView: View {
         }
     }
 }
+
 
 #Preview {
     ProjectsView()
