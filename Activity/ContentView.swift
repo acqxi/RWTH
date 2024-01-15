@@ -46,7 +46,7 @@ struct ContentView: View {
         }
         
         .accentColor(.red)
-        // .environment(\.colorScheme, .dark)
+        .environment(\.colorScheme, UserDefaults.standard.bool(forKey: "forceDarkMode") ? .dark : .light)
         
     }
 }
