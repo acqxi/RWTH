@@ -10,6 +10,7 @@ import SwiftUI
 struct ProjectsView: View {
     var body: some View {
         NavigationView {
+            
             List{
                 NavigationLink(destination: ProjectContentView(title: "Leg")) {
                     BoxView(title: "Leg")
@@ -64,8 +65,6 @@ struct NewProjectView: View {
                 self.presentationMode.wrappedValue.dismiss()
             },
             trailing: Button("Save") {
-                        // 在這裡處理保存的邏輯
-                        // 可以將輸入的內容傳遞給上一個頁面或進行其他操作
                 print("保存輸入內容: \(userInput)")
                 self.presentationMode.wrappedValue.dismiss()
              }
