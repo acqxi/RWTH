@@ -33,7 +33,7 @@ struct ContentView: View {
             ActivityListView()
                 .tabItem {
                     Image(systemName: "figure.highintensity.intervaltraining")
-                    Text("Activity List")
+                    Text("Summary")
                 }
             
             SettingsView()
