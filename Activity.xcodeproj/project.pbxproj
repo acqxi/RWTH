@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B0BC28F42B5562A30087B309 /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BC28F32B5562A30087B309 /* TaskDetailView.swift */; };
 		C883FED12B4E98CA006B716A /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C883FED02B4E98CA006B716A /* CalendarView.swift */; };
 		C883FED32B4EA97D006B716A /* ProjectsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C883FED22B4EA97D006B716A /* ProjectsView.swift */; };
 		C8D03AAB2B38654500C9B57D /* ActivityApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D03AAA2B38654500C9B57D /* ActivityApp.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B0BC28F32B5562A30087B309 /* TaskDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailView.swift; sourceTree = "<group>"; };
 		C883FED02B4E98CA006B716A /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		C883FED22B4EA97D006B716A /* ProjectsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsView.swift; sourceTree = "<group>"; };
 		C8D03AA72B38654500C9B57D /* Activity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Activity.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -68,6 +70,7 @@
 				C883FED02B4E98CA006B716A /* CalendarView.swift */,
 				C8D200652B3892C400E06148 /* ActivityListView.swift */,
 				C8D2006B2B3896E200E06148 /* SettingsView.swift */,
+				B0BC28F32B5562A30087B309 /* TaskDetailView.swift */,
 				C8D03AAE2B38654700C9B57D /* Assets.xcassets */,
 				C8D03AB02B38654700C9B57D /* Preview Content */,
 			);
@@ -152,6 +155,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0BC28F42B5562A30087B309 /* TaskDetailView.swift in Sources */,
 				C8D2006C2B3896E200E06148 /* SettingsView.swift in Sources */,
 				C883FED12B4E98CA006B716A /* CalendarView.swift in Sources */,
 				C8D03AAD2B38654500C9B57D /* ContentView.swift in Sources */,
