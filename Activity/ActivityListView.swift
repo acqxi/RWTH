@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ActivityListView: View {
+    
     var body: some View {
         
         NavigationView{
@@ -18,6 +19,8 @@ struct ActivityListView: View {
         
     }
 }
+
+
 
 #Preview {
     ActivityListView()

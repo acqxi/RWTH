@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		56A3D9802B55B21B00135F90 /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A3D97F2B55B21B00135F90 /* Stopwatch.swift */; };
 		B0BC28F42B5562A30087B309 /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BC28F32B5562A30087B309 /* TaskDetailView.swift */; };
 		C883FED12B4E98CA006B716A /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C883FED02B4E98CA006B716A /* CalendarView.swift */; };
 		C883FED32B4EA97D006B716A /* ProjectsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C883FED22B4EA97D006B716A /* ProjectsView.swift */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		56A3D97F2B55B21B00135F90 /* Stopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stopwatch.swift; sourceTree = "<group>"; };
 		B0BC28F32B5562A30087B309 /* TaskDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailView.swift; sourceTree = "<group>"; };
 		C883FED02B4E98CA006B716A /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		C883FED22B4EA97D006B716A /* ProjectsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsView.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 				B0BC28F32B5562A30087B309 /* TaskDetailView.swift */,
 				C8D03AAE2B38654700C9B57D /* Assets.xcassets */,
 				C8D03AB02B38654700C9B57D /* Preview Content */,
+				56A3D97F2B55B21B00135F90 /* Stopwatch.swift */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -163,6 +166,7 @@
 				C883FED32B4EA97D006B716A /* ProjectsView.swift in Sources */,
 				C8D03AAB2B38654500C9B57D /* ActivityApp.swift in Sources */,
 				C8D200662B3892C400E06148 /* ActivityListView.swift in Sources */,
+				56A3D9802B55B21B00135F90 /* Stopwatch.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
