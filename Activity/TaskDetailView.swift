@@ -34,20 +34,22 @@ struct TaskDetailView: View {
     }
 
     private func exerciseItemView(_ item: ExerciseItem) -> some View {
-        HStack {
-            VStack(alignment: .leading) {
-                Text(item.name)
-                    .font(.headline)
-                Text("times: \(item.repetitions)")
-                    .font(.subheadline)
+        NavigationLink(destination: Stopwatch()) {
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(item.name)
+                        .font(.headline)
+                    Text("times: \(item.repetitions)")
+                        .font(.subheadline)
+                }
+                Spacer()
+                Image(systemName: item.isCompleted ? "checkmark.circle.fill" : "circle")
+                    .foregroundColor(item.isCompleted ? .green : .gray)
             }
-            Spacer()
-            Image(systemName: item.isCompleted ? "checkmark.circle.fill" : "circle")
-                .foregroundColor(item.isCompleted ? .green : .gray)
+            .padding()
+            .background(Color.gray.opacity(0.1))
+            .cornerRadius(10)
         }
-        .padding()
-        .background(Color.gray.opacity(0.1))
-        .cornerRadius(10)
     }
 }
 

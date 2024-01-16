@@ -53,6 +53,7 @@ struct CalendarView: View {
                 }
             }
             .padding()
+            .safeAreaPadding()
         }
     }
 
