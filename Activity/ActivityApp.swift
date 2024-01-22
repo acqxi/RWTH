@@ -13,7 +13,7 @@ struct ActivityApp: App {
     
     let container: ModelContainer = {
         let schema = Schema([
-            Exercise.self,
+            Project.self,
             Settings.self,
         ])
         //let config = ModelConfiguration(groupContainer: <#T##ModelConfiguration.GroupContainer#>, cloudKitDatabase: <#T##ModelConfiguration.CloudKitDatabase#>)
