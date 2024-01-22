@@ -10,7 +10,7 @@ import SwiftData
 
 struct ProjectsView: View {
     @Environment(\.modelContext) var context
-    @Query(sort: \Exercise.name) var exercises: [Exercise]
+    @Query(sort: \Projects.name) var exercises: [Projects]
     var body: some View {
         NavigationView {
             
@@ -43,7 +43,7 @@ struct ProjectsView: View {
 
 
 struct ExerciseCell: View {
-    var exercise: Exercise
+    var exercise: Projects
     var body: some View {
         RoundedRectangle(cornerRadius: 10)
             .fill(Color.white)
@@ -75,7 +75,7 @@ struct NewExerciseView: View {
                 dismiss()
             },
             trailing: Button("Save") {
-                let exercise = Exercise(name: name)
+                let exercise = Projects(name: name)
                 context.insert(exercise)
                 try! context.save()
                 dismiss()
@@ -86,7 +86,7 @@ struct NewExerciseView: View {
 }
 
 struct ProjectContentView: View {
-    var exercise: Exercise
+    var exercise: Projects
     @State private var isEditing = false
     var body: some View {
         NavigationView {
@@ -126,7 +126,7 @@ struct NewTaskView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var context
 
-    var exercise: Exercise
+    var exercise: Projects
     @State private var name: String = ""
     @State private var newTag: String = ""
     @State private var tags: [String] = []
@@ -250,7 +250,7 @@ struct CheckView: View {
     ProjectsView()
 }
 #Preview {
-    ProjectContentView(exercise: Exercise(
+    ProjectContentView(exercise: Projects(
         name: "Sample Exercise",
         tasks: [
             Task(name: "Task 1", tags: []),
