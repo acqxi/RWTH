@@ -16,8 +16,8 @@ struct ActivityApp: App {
             Projects.self,
             Settings.self,
         ])
-        //let config = ModelConfiguration(groupContainer: <#T##ModelConfiguration.GroupContainer#>, cloudKitDatabase: <#T##ModelConfiguration.CloudKitDatabase#>)
-        let container = try! ModelContainer(for: schema, configurations: [])
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try! ModelContainer(for: schema, configurations: config)
         return container
     }()
     
