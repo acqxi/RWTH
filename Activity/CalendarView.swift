@@ -94,10 +94,6 @@ struct DayView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 5))
                 .frame(maxWidth: .infinity)
 
-            // show task
-//            ForEach(tasks, id: \.self) { task in
-//                TaskView(task: task)
-//            }
             
             ForEach(tasks, id: \.self) { task in
                 NavigationLink(destination: TaskDetailView(date: "\(day) \( DateFormatter.monthAndYear.string(from:date))", exerciseItems: [
