@@ -11,9 +11,9 @@ import SwiftData
 struct ProjectsView: View {
     @Environment(\.modelContext) var context
     @Environment(\.editMode) var editMode
-    @Query(sort: [SortDescriptor(\Projects.priority, order: .reverse), SortDescriptor(\Projects.name)]) var exercises: [Projects]
+    @Query(sort: [SortDescriptor(\Project.priority, order: .reverse), SortDescriptor(\Project.name)]) var exercises: [Project]
     
-    @State private var sortOrder = SortDescriptor(\Projects.name)
+    @State private var sortOrder = SortDescriptor(\Project.name)
     
     var body: some View {
         NavigationStack {
@@ -65,7 +65,7 @@ struct ProjectsView: View {
 }
 
 struct ExerciseCell: View {
-    var exercise: Projects
+    var exercise: Project
     var body: some View {
         RoundedRectangle(cornerRadius: 10)
             .fill(Color.white)
@@ -211,7 +211,7 @@ struct NewTaskView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var context
 
-    var exercise: Projects
+    var exercise: Project
     @State private var name: String = ""
     @State private var startDate: Date = .now
     @State private var priority: Int = 2
@@ -344,17 +344,17 @@ struct CheckView: View {
 }
 
 
-//#Preview {
-//    ProjectsView()
-//}
-//
-//#Preview {
-//    ProjectContentView(exercise: Projects(
-//        name: "Sample Exercise",
-//        tasks: [
-//            Task(name: "Task 1", tags: ["Legs"], startDate: .now, priority: 2),
-////            Task(name: "Task 2", checked: true, tags: []),
-////            Task(name: "Task 3", tags: [])
-//        ], startDate: Date()
-//    ))
-//}
+#Preview {
+    ProjectsView()
+}
+
+#Preview {
+    ProjectContentView(exercise: Project(
+        name: "Sample Exercise",
+        tasks: [
+            Task(name: "Task 1", tags: ["Legs"], startDate: .now, priority: 2),
+            Task(name: "Task 2", checked: true, tags: []),
+            Task(name: "Task 3", tags: [])
+        ], startDate: Date()
+    ))
+}

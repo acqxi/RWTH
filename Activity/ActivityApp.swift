@@ -13,7 +13,7 @@ struct ActivityApp: App {
     
     let container: ModelContainer = {
         let schema = Schema([
-            Projects.self,
+            Project.self,
             Settings.self,
         ])
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
