@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-class Exercise {
+class Project {
     var name: String
     var tasks: [Task]
     

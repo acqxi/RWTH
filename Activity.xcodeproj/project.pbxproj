@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5600F2252B5E92C800EBFF22 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5600F2242B5E92C800EBFF22 /* Settings.swift */; };
-		5660A4A22B5C6F3B005B8BCE /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5660A4A12B5C6F3B005B8BCE /* Exercise.swift */; };
+		5660A4A22B5C6F3B005B8BCE /* Projects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5660A4A12B5C6F3B005B8BCE /* Projects.swift */; };
 		56A3D9802B55B21B00135F90 /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A3D97F2B55B21B00135F90 /* Stopwatch.swift */; };
 		B0BC28F42B5562A30087B309 /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BC28F32B5562A30087B309 /* TaskDetailView.swift */; };
 		C883FED12B4E98CA006B716A /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C883FED02B4E98CA006B716A /* CalendarView.swift */; };
@@ -24,7 +24,7 @@
 
 /* Begin PBXFileReference section */
 		5600F2242B5E92C800EBFF22 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
-		5660A4A12B5C6F3B005B8BCE /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
+		5660A4A12B5C6F3B005B8BCE /* Projects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Projects.swift; sourceTree = "<group>"; };
 		56A3D97F2B55B21B00135F90 /* Stopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stopwatch.swift; sourceTree = "<group>"; };
 		B0BC28F32B5562A30087B309 /* TaskDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailView.swift; sourceTree = "<group>"; };
 		C883FED02B4E98CA006B716A /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
@@ -50,13 +50,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5600F2232B5E92BB00EBFF22 /* Models */ = {
+		5600F2232B5E92BB00EBFF22 /* Database */ = {
 			isa = PBXGroup;
 			children = (
-				5660A4A12B5C6F3B005B8BCE /* Exercise.swift */,
+				5660A4A12B5C6F3B005B8BCE /* Projects.swift */,
 				5600F2242B5E92C800EBFF22 /* Settings.swift */,
 			);
-			path = Models;
+			path = Database;
 			sourceTree = "<group>";
 		};
 		C8D03A9E2B38654500C9B57D = {
@@ -86,7 +86,7 @@
 				C8D200652B3892C400E06148 /* ActivityListView.swift */,
 				C8D2006B2B3896E200E06148 /* SettingsView.swift */,
 				B0BC28F32B5562A30087B309 /* TaskDetailView.swift */,
-				5600F2232B5E92BB00EBFF22 /* Models */,
+				5600F2232B5E92BB00EBFF22 /* Database */,
 				C8D03AAE2B38654700C9B57D /* Assets.xcassets */,
 				C8D03AB02B38654700C9B57D /* Preview Content */,
 				56A3D97F2B55B21B00135F90 /* Stopwatch.swift */,
@@ -177,7 +177,7 @@
 				C883FED12B4E98CA006B716A /* CalendarView.swift in Sources */,
 				C8D03AAD2B38654500C9B57D /* ContentView.swift in Sources */,
 				C8D200682B38930200E06148 /* HomeView.swift in Sources */,
-				5660A4A22B5C6F3B005B8BCE /* Exercise.swift in Sources */,
+				5660A4A22B5C6F3B005B8BCE /* Projects.swift in Sources */,
 				C883FED32B4EA97D006B716A /* ProjectsView.swift in Sources */,
 				C8D03AAB2B38654500C9B57D /* ActivityApp.swift in Sources */,
 				C8D200662B3892C400E06148 /* ActivityListView.swift in Sources */,
