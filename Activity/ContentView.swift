@@ -6,8 +6,12 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
+    @Query var settingsList: [Settings]
+    var settings: Settings? { settingsList.first }
+    
     var body: some View {
         
         TabView {
@@ -44,10 +48,7 @@ struct ContentView: View {
             
             
         }
-        
-        .accentColor(.red)
-        .environment(\.colorScheme, UserDefaults.standard.bool(forKey: "forceDarkMode") ? .dark : .light)
-        
+        .accentColor(settings?.accentColor.swiftuiAccentColor ?? .red)
     }
 }
 
