@@ -15,9 +15,9 @@ struct CalendarView: View {
     private let daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
     var body: some View {
-        NavigationStack {
+        NavigationView {
             VStack {
-                // Month change controller
+                // Month change controler
                 HStack {
                     Button(action: { self.changeMonth(by: -1) }) {
                         Image(systemName: "chevron.left")
@@ -32,7 +32,7 @@ struct CalendarView: View {
                 }
                 .padding()
                 
-                // Show week's title
+                // show week's title
                 HStack {
                     ForEach(daysOfWeek, id: \.self) { day in
                         Text(day)
@@ -40,19 +40,20 @@ struct CalendarView: View {
                     }
                 }
                 
-                // Month calendar
+                // month calendar
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7)) {
-                    // Show empty day
+                    // show empty day
                     ForEach(0..<numberOfEmptyCells(at: currentMonth), id: \.self) { _ in
                         Text("")
                     }
-                    // Show date
+                    // show date
                     ForEach(1...daysInMonth(date: currentMonth), id: \.self) { day in
                         DayView(date: currentMonth, day: day, tasks: Array(repeating: "task", count: Int.random(in: 0...3)))
                     }
                 }
             }
             .padding()
+            .safeAreaPadding()
         }
     }
 

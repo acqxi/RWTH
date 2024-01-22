@@ -10,7 +10,9 @@ import SwiftData
 
 struct ProjectsView: View {
     @Environment(\.modelContext) var context
-    @Query(sort: \Projects.name) var exercises: [Projects]
+    @Query(sort: [SortDescriptor(\Projects.priority, order: .reverse), SortDescriptor(\Projects.name)]) var exercises: [Projects]
+    @State private var sortOrder = SortDescriptor(\Projects.name)
+    
     var body: some View {
         NavigationStack {
             
@@ -29,6 +31,21 @@ struct ProjectsView: View {
                 .padding()
                                 
             }
+            .toolbar {
+                Menu("Sort", systemImage: "arrow.up.arrow.down") {
+                    Picker("Sort", selection: $sortOrder) {
+                        Text("Name")
+                            .tag(SortDescriptor(\Projects.name))
+
+                        Text("Priority")
+                            .tag(SortDescriptor(\Projects.priority, order: .reverse))
+
+                        Text("Date")
+                            .tag(SortDescriptor(\Projects.startDate))
+                    }
+                    .pickerStyle(.inline)
+                }
+            }
             .navigationTitle("Projects")
             .navigationBarItems(
                 trailing:
@@ -39,8 +56,6 @@ struct ProjectsView: View {
         }
     }
 }
-
-
 
 struct ExerciseCell: View {
     var exercise: Projects
@@ -61,7 +76,7 @@ struct NewExerciseView: View {
     @State private var name: String = ""
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                Section(header: Text("Project Name")) {
                   TextField("", text: $name)
@@ -75,7 +90,7 @@ struct NewExerciseView: View {
                 dismiss()
             },
             trailing: Button("Save") {
-                let exercise = Projects(name: name)
+                let exercise = Projects(name: name, startDate: .now, priority: 2)
                 context.insert(exercise)
                 try! context.save()
                 dismiss()
@@ -86,10 +101,11 @@ struct NewExerciseView: View {
 }
 
 struct ProjectContentView: View {
+    @Environment(\.modelContext) var context
     var exercise: Projects
     @State private var isEditing = false
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List(exercise.tasks) { task in
                 CheckView(
                     isChecked: Binding(
@@ -102,6 +118,11 @@ struct ProjectContentView: View {
                 )
             }
             .font(.title)
+//            .onDelete { indexSet in
+//                for index in indexSet {
+//                    context.delete(exercise.tasks[index])
+//                }
+//            }
         }
         .navigationTitle(exercise.name)
         .navigationBarItems(
@@ -128,16 +149,29 @@ struct NewTaskView: View {
 
     var exercise: Projects
     @State private var name: String = ""
+    @State private var startDate: Date = .now
+    @State private var priority: Int = 2
     @State private var newTag: String = ""
     @State private var tags: [String] = []
     @State private var showNewTagPopup = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section(header: Text("Task Name")) {
                     TextField("", text: $name)
+                    DatePicker("Start Date", selection: $startDate)
                 }
+                
+                Section("Priority") {
+                    Picker("Priority", selection: $priority) {
+                        Text("Meh").tag(1)
+                        Text("Maybe").tag(2)
+                        Text("Must").tag(3)
+                    }
+                    .pickerStyle(.segmented)
+                }
+                
                 Section(header: Text("Tags")) {
                     ForEach(0..<tags.count, id: \.self) { index in
                         Text(tags[index])
@@ -183,7 +217,7 @@ struct TagChoice: View {
     @State var newTagName: String = ""
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 Form {
                     ForEach(settings?.availableTags ?? []) { tag in

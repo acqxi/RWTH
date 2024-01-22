@@ -9,28 +9,31 @@ import Foundation
 import SwiftData
 
 @Model
-class Projects {
+class Projects: Identifiable {
+    let id = UUID()  // Unique identifier for Identifiable protocol
     var name: String
     var tasks: [Task]
+    var startDate: Date  // Date type
+    var priority: Int
     
-    init(name: String) {
+    init(name: String, startDate: Date, priority: Int = 2) {
         self.name = name
         self.tasks = []
+        self.startDate = startDate
+        self.priority = priority
     }
     
-    init(name: String, tasks: [Task]) {
+    init(name: String, tasks: [Task], startDate: Date, priority: Int = 2) {
         self.name = name
         self.tasks = tasks
+        self.startDate = startDate
+        self.priority = priority
     }
 }
 
 @Model
 class Task: Identifiable {
-    var id: String {
-        get {
-            return name
-        }
-    }
+    let id = UUID()  // Unique identifier for Identifiable protocol
     
     var name: String
     var checked: Bool
