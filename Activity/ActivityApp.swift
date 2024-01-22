@@ -15,6 +15,7 @@ struct ActivityApp: App {
         let schema = Schema([
             Project.self,
             Settings.self,
+            StopwatchData.self
         ])
         //let config = ModelConfiguration(groupContainer: <#T##ModelConfiguration.GroupContainer#>, cloudKitDatabase: <#T##ModelConfiguration.CloudKitDatabase#>)
         let container = try! ModelContainer(for: schema, configurations: [])

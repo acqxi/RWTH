@@ -10,6 +10,7 @@
 		5600F2252B5E92C800EBFF22 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5600F2242B5E92C800EBFF22 /* Settings.swift */; };
 		5660A4A22B5C6F3B005B8BCE /* Projects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5660A4A12B5C6F3B005B8BCE /* Projects.swift */; };
 		56A3D9802B55B21B00135F90 /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A3D97F2B55B21B00135F90 /* Stopwatch.swift */; };
+		56EDD9DB2B5EF5E30030555D /* StopwatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EDD9DA2B5EF5E30030555D /* StopwatchData.swift */; };
 		B0BC28F42B5562A30087B309 /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BC28F32B5562A30087B309 /* TaskDetailView.swift */; };
 		C883FED12B4E98CA006B716A /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C883FED02B4E98CA006B716A /* CalendarView.swift */; };
 		C883FED32B4EA97D006B716A /* ProjectsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C883FED22B4EA97D006B716A /* ProjectsView.swift */; };
@@ -26,6 +27,7 @@
 		5600F2242B5E92C800EBFF22 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		5660A4A12B5C6F3B005B8BCE /* Projects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Projects.swift; sourceTree = "<group>"; };
 		56A3D97F2B55B21B00135F90 /* Stopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stopwatch.swift; sourceTree = "<group>"; };
+		56EDD9DA2B5EF5E30030555D /* StopwatchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchData.swift; sourceTree = "<group>"; };
 		B0BC28F32B5562A30087B309 /* TaskDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailView.swift; sourceTree = "<group>"; };
 		C883FED02B4E98CA006B716A /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		C883FED22B4EA97D006B716A /* ProjectsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsView.swift; sourceTree = "<group>"; };
@@ -55,6 +57,7 @@
 			children = (
 				5660A4A12B5C6F3B005B8BCE /* Projects.swift */,
 				5600F2242B5E92C800EBFF22 /* Settings.swift */,
+				56EDD9DA2B5EF5E30030555D /* StopwatchData.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -173,6 +176,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B0BC28F42B5562A30087B309 /* TaskDetailView.swift in Sources */,
+				56EDD9DB2B5EF5E30030555D /* StopwatchData.swift in Sources */,
 				C8D2006C2B3896E200E06148 /* SettingsView.swift in Sources */,
 				C883FED12B4E98CA006B716A /* CalendarView.swift in Sources */,
 				C8D03AAD2B38654500C9B57D /* ContentView.swift in Sources */,

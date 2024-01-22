@@ -26,25 +26,15 @@ class Project {
 
 @Model
 class Task: Identifiable {
-    var id: String {
-        get {
-            return name
-        }
-    }
-    
+    var id: UUID
     var name: String
     var checked: Bool
     var tags: [String]
     
-    init(name: String, tags: [String] = []) {
-        self.name = name
-        self.checked = false
-        self.tags = tags
-    }
-    
-    init(name: String, checked: Bool, tags: [String] = []) {
+    init(id: UUID = UUID(), name: String, checked: Bool = false, tags: [String] = []) {
         self.name = name
         self.checked = checked
         self.tags = tags
+        self.id = id
     }
 }
