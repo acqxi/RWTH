@@ -19,7 +19,7 @@ struct TaskDetailView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("date: \(date)")
+            Text("Date: \(date)")
                 .font(.headline)
                 .padding()
 
@@ -56,8 +56,8 @@ struct TaskDetailView: View {
 
 #Preview {
     TaskDetailView(date: "2024/01/12", exerciseItems: [
-        ExerciseItem(name: "跑步", repetitions: 10, isCompleted: true),
-        ExerciseItem(name: "跑步2", repetitions: 20, isCompleted: false),
-        ExerciseItem(name: "跑步3", repetitions: 30, isCompleted: false),
+        ExerciseItem(name: "First", repetitions: 10, isCompleted: true),
+        ExerciseItem(name: "Second", repetitions: 20, isCompleted: false),
+        ExerciseItem(name: "Third", repetitions: 30, isCompleted: false),
     ])
 }

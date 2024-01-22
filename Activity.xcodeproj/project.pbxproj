@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5600F2252B5E92C800EBFF22 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5600F2242B5E92C800EBFF22 /* Settings.swift */; };
+		5660A4A22B5C6F3B005B8BCE /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5660A4A12B5C6F3B005B8BCE /* Exercise.swift */; };
 		56A3D9802B55B21B00135F90 /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A3D97F2B55B21B00135F90 /* Stopwatch.swift */; };
 		B0BC28F42B5562A30087B309 /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BC28F32B5562A30087B309 /* TaskDetailView.swift */; };
 		C883FED12B4E98CA006B716A /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C883FED02B4E98CA006B716A /* CalendarView.swift */; };
@@ -21,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5600F2242B5E92C800EBFF22 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		5660A4A12B5C6F3B005B8BCE /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
 		56A3D97F2B55B21B00135F90 /* Stopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stopwatch.swift; sourceTree = "<group>"; };
 		B0BC28F32B5562A30087B309 /* TaskDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailView.swift; sourceTree = "<group>"; };
 		C883FED02B4E98CA006B716A /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
@@ -46,6 +50,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5600F2232B5E92BB00EBFF22 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5660A4A12B5C6F3B005B8BCE /* Exercise.swift */,
+				5600F2242B5E92C800EBFF22 /* Settings.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		C8D03A9E2B38654500C9B57D = {
 			isa = PBXGroup;
 			children = (
@@ -73,6 +86,7 @@
 				C8D200652B3892C400E06148 /* ActivityListView.swift */,
 				C8D2006B2B3896E200E06148 /* SettingsView.swift */,
 				B0BC28F32B5562A30087B309 /* TaskDetailView.swift */,
+				5600F2232B5E92BB00EBFF22 /* Models */,
 				C8D03AAE2B38654700C9B57D /* Assets.xcassets */,
 				C8D03AB02B38654700C9B57D /* Preview Content */,
 				56A3D97F2B55B21B00135F90 /* Stopwatch.swift */,
@@ -163,9 +177,11 @@
 				C883FED12B4E98CA006B716A /* CalendarView.swift in Sources */,
 				C8D03AAD2B38654500C9B57D /* ContentView.swift in Sources */,
 				C8D200682B38930200E06148 /* HomeView.swift in Sources */,
+				5660A4A22B5C6F3B005B8BCE /* Exercise.swift in Sources */,
 				C883FED32B4EA97D006B716A /* ProjectsView.swift in Sources */,
 				C8D03AAB2B38654500C9B57D /* ActivityApp.swift in Sources */,
 				C8D200662B3892C400E06148 /* ActivityListView.swift in Sources */,
+				5600F2252B5E92C800EBFF22 /* Settings.swift in Sources */,
 				56A3D9802B55B21B00135F90 /* Stopwatch.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -300,7 +316,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Activity/Preview Content\"";
-				DEVELOPMENT_TEAM = KBCL8FNLZP;
+				DEVELOPMENT_TEAM = W47WJ7672R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -308,6 +324,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -329,7 +346,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Activity/Preview Content\"";
-				DEVELOPMENT_TEAM = KBCL8FNLZP;
+				DEVELOPMENT_TEAM = W47WJ7672R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -337,6 +354,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

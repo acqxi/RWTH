@@ -6,12 +6,25 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct ActivityApp: App {
+    
+    let container: ModelContainer = {
+        let schema = Schema([
+            Exercise.self,
+            Settings.self,
+        ])
+        //let config = ModelConfiguration(groupContainer: <#T##ModelConfiguration.GroupContainer#>, cloudKitDatabase: <#T##ModelConfiguration.CloudKitDatabase#>)
+        let container = try! ModelContainer(for: schema, configurations: [])
+        return container
+    }()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(container)
     }
 }
