@@ -17,8 +17,7 @@ struct SettingsView: View {
     @State private var color = "Red"
     
     var body: some View {
-        
-        NavigationView{
+        NavigationStack {
             Form{
                 
                 Section(header: Text("Personal Information")){
@@ -27,7 +26,7 @@ struct SettingsView: View {
                     TextField("Last Name", text: $lastname)
                     TextField("Email", text: $justmail)
                         .keyboardType(.emailAddress)
-                        .autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
+                        .autocapitalization(.none)
                         .autocorrectionDisabled(true)
                     DatePicker("Birthday", selection: $birthday, displayedComponents: .date)
                     
@@ -47,24 +46,20 @@ struct SettingsView: View {
                         }
                     
                     Picker("Accent Color", selection: $color) {
-                        Text("Red")
-                        Text("Green")
-                        Text("Blue")
+                        Text("Red").tag("Red")
+                        Text("Green").tag("Green")
+                        Text("Blue").tag("Blue")
                     }
                 }
                 
             }
             .navigationTitle("Settings")
         }
-        
-            
-        
-        
     }
 }
-    
 
-
-#Preview {
-    SettingsView()
+struct SettingsView_Previews: PreviewProvider {
+    static var previews: some View {
+        SettingsView()
+    }
 }

@@ -12,7 +12,7 @@ struct ProjectsView: View {
     @Environment(\.modelContext) var context
     @Query(sort: \Projects.name) var exercises: [Projects]
     var body: some View {
-        NavigationView {
+        NavigationStack {
             
             List{
                 ForEach(exercises) { exercise in
@@ -207,7 +207,7 @@ struct TagChoice: View {
                         if let settings = settings {
                             settings.availableTags.append(Tag(name: newTagName))
                         } else {
-                            var settings = Settings()
+                            let settings = Settings()
                             settings.availableTags.append(Tag(name: newTagName))
                             modelContext.insert(settings)
                         }
@@ -246,16 +246,17 @@ struct CheckView: View {
 }
 
 
-#Preview {
-    ProjectsView()
-}
-#Preview {
-    ProjectContentView(exercise: Projects(
-        name: "Sample Exercise",
-        tasks: [
-            Task(name: "Task 1", tags: []),
-            Task(name: "Task 2", checked: true, tags: []),
-            Task(name: "Task 3", tags: [])
-        ]
-    ))
-}
+//#Preview {
+//    ProjectsView()
+//}
+//
+//#Preview {
+//    ProjectContentView(exercise: Projects(
+//        name: "Sample Exercise",
+//        tasks: [
+//            Task(name: "Task 1", tags: []),
+//            Task(name: "Task 2", checked: true, tags: []),
+//            Task(name: "Task 3", tags: [])
+//        ]
+//    ))
+//}
