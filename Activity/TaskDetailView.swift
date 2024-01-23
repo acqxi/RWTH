@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ExerciseItem {
     var name: String
@@ -34,7 +35,11 @@ struct TaskDetailView: View {
     }
 
     private func exerciseItemView(_ item: ExerciseItem) -> some View {
-        NavigationLink(destination: Stopwatch()) {
+        NavigationLink(destination: {
+            
+            return Stopwatch(taskId: UUID())
+            
+        }) {
             HStack {
                 VStack(alignment: .leading) {
                     Text(item.name)

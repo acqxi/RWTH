@@ -6,11 +6,17 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct Stopwatch: View {
-    @StateObject private var viewModel = StopwatchViewModel()
+    @StateObject private var viewModel: StopwatchViewModel
     @Environment(\.colorScheme) var colorScheme
-
+    @Environment(\.modelContext) var context
+    
+    init(taskId: UUID) {
+        _viewModel = StateObject(wrappedValue: StopwatchViewModel(taskId: taskId))
+    }
+    
     var body: some View {
         ZStack {
             Color.black.opacity(0.06).edgesIgnoringSafeArea(.all)
@@ -21,7 +27,7 @@ struct Stopwatch: View {
                         .stroke(colorScheme == .light ? Color.black.opacity(0.09) : Color.white.opacity(0.09), style: StrokeStyle(lineWidth: 14, lineCap: .round))
                         .frame(width: 280, height: 280)
                         .padding()
-                    if (viewModel.elapsedPeriods < 1 || viewModel.elapsedTime.truncatingRemainder(dividingBy: 1) > 0.3) {
+                    if (viewModel.elapsedPeriods < 1 || viewModel.totalElapsedTime.truncatingRemainder(dividingBy: 1) > 0.3) {
                         Circle()
                             .trim(from: 0, to: min(viewModel.elapsedPeriods, 1.0))
                             .stroke(Color.green, style: StrokeStyle(lineWidth: 14, lineCap: .round))
@@ -45,9 +51,9 @@ struct Stopwatch: View {
                 HStack {
                     if viewModel.isRunning {
                         Button(action: viewModel.stop) {
-                            Text("Stop")
+                            Text("Pause")
                                 .padding()
-                                .background(Color.red)
+                                .background(Color.orange)
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                         }
@@ -62,58 +68,84 @@ struct Stopwatch: View {
                     }
                     
                     if viewModel.hasStarted {
-                        Button(action: viewModel.reset) {
-                            Text("Reset")
+                        Button(action:{
+                            viewModel.stop()
+                            context.insert(viewModel.stopwatchData)
+                        } ) {
+                            Text("End")
                                 .padding()
-                                .background(Color.blue)
+                                .background(Color.red)
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                         }
                     }
                 }
+//                List{
+//                    ForEach(times) { time in
+//                        
+//                            Text(time)
+//                        }
+//                        // TODO: Use .sheet()
+//                    }
+
+                    .padding()
+                                    
+                }
             }
         }
-    }
+    
 }
 
 class StopwatchViewModel: ObservableObject {
     @Published var timeElapsed: String = "00:00:00"
     @Published var isRunning: Bool = false
     @Published var hasStarted: Bool = false
-    @Published var elapsedTime: TimeInterval = 0
+    @Published var previousElapsedTime: TimeInterval = 0
+    @Published var currentElapsedTime: TimeInterval = 0
     @Published var period: TimeInterval = 60
-    var elapsedPeriods: Double {
-        get {
-            return elapsedTime / period
-        }
-    }
+    @Published var stopwatchData: StopwatchData
+    var elapsedPeriods: Double {totalElapsedTime / period}
+    var totalElapsedTime: TimeInterval {previousElapsedTime + currentElapsedTime}
     private var timer: Timer?
-    private var lastUpdate: Date?
+    private var startTime: Date?
 
+    init (taskId: UUID){
+        stopwatchData = StopwatchData(taskId: taskId, times: [])
+    }
+    
     func start() {
         isRunning = true
         hasStarted = true
-        lastUpdate = Date()
+        startTime = Date()
         
         timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { [weak self] _ in
-            guard let self = self, let lastUpdate = self.lastUpdate else { return }
+            guard let self = self, let startTime = self.startTime else { return }
             let currentTime = Date()
-            let sinceLastUpdate = currentTime.timeIntervalSince(lastUpdate)
-            elapsedTime += sinceLastUpdate
-            self.lastUpdate = currentTime
-            self.updateTimeElapsed(elapsedTime)
+            let sinceStart = currentTime.timeIntervalSince(startTime)
+            currentElapsedTime = sinceStart
+            self.updateTimeElapsed(previousElapsedTime + currentElapsedTime)
         }
     }
 
     func stop() {
         isRunning = false
         timer?.invalidate()
+        let currentTime = Date()
+        if let startTime = startTime {
+            let sinceStart = currentTime.timeIntervalSince(startTime)
+            currentElapsedTime = 0
+            previousElapsedTime += sinceStart
+            stopwatchData.times.append(Time(start: startTime, end: currentTime))
+        }
+        
+        
+        
     }
 
     func reset() {
         stop()
         hasStarted = false
-        elapsedTime = 0
+        currentElapsedTime = 0
         updateTimeElapsed(0)
     }
 
@@ -125,7 +157,10 @@ class StopwatchViewModel: ObservableObject {
     }
 }
 
+
 #Preview {
-    Stopwatch()
+    
+    return Stopwatch(taskId: UUID())
+    
 }
 

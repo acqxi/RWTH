@@ -6,19 +6,21 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct SettingsView: View {
+    @Environment(\.modelContext) var modelContext
+    @Query var settingsList: [Settings]
+    var settings: Settings? { settingsList.first }
     
     @State private var firstname = ""
     @State private var lastname = ""
     @State private var justmail = ""
     @State private var birthday = Date()
-    @State private var DarkOn = UserDefaults.standard.bool(forKey: "forceDarkMode")
-    @State private var color = "Red"
     
     var body: some View {
         NavigationStack {
-            Form{
+            Form {
                 
                 Section(header: Text("Personal Information")){
                     
@@ -39,16 +41,21 @@ struct SettingsView: View {
                 }
                 
                 Section(header: Text("Visual Settings")){
-                    Toggle("Dark Mode", isOn: $DarkOn)
-                        .toggleStyle(SwitchToggleStyle(tint: .red))
-                        .onChange(of: DarkOn) {
-                            UserDefaults.standard.set(DarkOn, forKey: "forceDarkMode")
+                    Picker("Accent Color", selection: Binding(
+                        get: { settings?.accentColor ?? .red },
+                        set: { newValue in
+                            if let settings = settings {
+                                settings.accentColor = newValue
+                            } else {
+                                let settings = Settings()
+                                settings.accentColor = newValue
+                                modelContext.insert(settings)
+                            }
                         }
-                    
-                    Picker("Accent Color", selection: $color) {
-                        Text("Red").tag("Red")
-                        Text("Green").tag("Green")
-                        Text("Blue").tag("Blue")
+                    )) {
+                        Text("Red").tag(AccentColor.red)
+                        Text("Green").tag(AccentColor.green)
+                        Text("Blue").tag(AccentColor.blue)
                     }
                 }
                 

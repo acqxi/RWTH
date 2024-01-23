@@ -15,6 +15,7 @@ struct ActivityApp: App {
         let schema = Schema([
             Project.self,
             Settings.self,
+            StopwatchData.self
         ])
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         let container = try! ModelContainer(for: schema, configurations: config)
