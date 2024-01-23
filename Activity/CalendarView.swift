@@ -40,19 +40,25 @@ struct CalendarView: View {
                     }
                 }
                 
-                // month calendar
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7)) {
-                    // show empty day
-                    ForEach(0..<numberOfEmptyCells(at: currentMonth), id: \.self) { _ in
-                        Text("")
-                    }
-                    // show date
-                    ForEach(1...daysInMonth(date: currentMonth), id: \.self) { day in
-                        DayView(date: currentMonth, day: day, tasks: Array(repeating: "task", count: Int.random(in: 0...3)))
+                ScrollView{
+                    // month calendar
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7)) {
+                        // show empty day
+                        let nofec = Int(numberOfEmptyCells(at: currentMonth))
+                        ForEach(100..<100+nofec, id: \.self) { i in
+                            VStack{
+                                Text("")
+                            }
+                        }
+                        
+                        // show date
+                        ForEach(1...daysInMonth(date: currentMonth), id: \.self) { day in
+                            DayView(date: currentMonth, day: day, tasks: Array(repeating: "task", count: Int.random(in: 0...3)))
+                        }
                     }
                 }
             }
-            .padding()
+            .padding([.leading, .trailing])
             .safeAreaPadding()
         }
     }
@@ -94,8 +100,12 @@ struct DayView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 5))
                 .frame(maxWidth: .infinity)
 
+            // show task
+//            ForEach(tasks, id: \.self) { task in
+//                TaskView(task: task)
+//            }
             
-            ForEach(tasks, id: \.self) { task in
+            ForEach(Array(tasks.enumerated()), id: \.offset) { index, task in
                 NavigationLink(destination: TaskDetailView(date: "\(day) \( DateFormatter.monthAndYear.string(from:date))", exerciseItems: [
                                 ExerciseItem(name: "run", repetitions: 10, isCompleted: false),
                                 ExerciseItem(name: "walk", repetitions: 20, isCompleted: false),

@@ -6,9 +6,9 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct ExerciseItem {
+    let id = UUID()
     var name: String
     var repetitions: Int
     var isCompleted: Bool
@@ -35,11 +35,7 @@ struct TaskDetailView: View {
     }
 
     private func exerciseItemView(_ item: ExerciseItem) -> some View {
-        NavigationLink(destination: {
-            
-            return Stopwatch(taskId: UUID())
-            
-        }) {
+        NavigationLink(destination: Stopwatch(taskId: UUID())) {
             HStack {
                 VStack(alignment: .leading) {
                     Text(item.name)
