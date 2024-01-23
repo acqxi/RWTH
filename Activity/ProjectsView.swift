@@ -353,8 +353,8 @@ struct CheckView: View {
         name: "Sample Exercise",
         tasks: [
             Task(name: "Task 1", tags: ["Legs"], startDate: .now, priority: 2),
-            Task(name: "Task 2", checked: true, tags: []),
-            Task(name: "Task 3", tags: [])
+            Task(name: "Task 2", checked: true, tags: [], startDate: .now),
+            Task(name: "Task 3", tags: [], startDate: .now)
         ], startDate: Date()
     ))
 }
