@@ -12,6 +12,7 @@ struct ProjectsView: View {
     @Environment(\.modelContext) var context
     @Environment(\.editMode) var editMode
     @Query(sort: [SortDescriptor(\Projects.priority, order: .reverse), SortDescriptor(\Projects.name)]) var exercises: [Projects]
+    
     @State private var sortOrder = SortDescriptor(\Projects.name)
     
     var body: some View {
@@ -91,17 +92,21 @@ struct NewExerciseView: View {
         }
         .navigationBarTitle("New Project")
         .navigationBarBackButtonHidden(true)
-        .navigationBarItems(
-            leading: Button("Cancel") {
-                dismiss()
-            },
-            trailing: Button("Save") {
-                let exercise = Projects(name: name, startDate: .now, priority: 2)
-                context.insert(exercise)
-                try! context.save()
-                dismiss()
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button("Cancel") {
+                    dismiss()
+                }
             }
-        )
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Save") {
+                    let exercise = Projects(name: name, startDate: .now, priority: 2)
+                    context.insert(exercise)
+                    try! context.save()
+                    dismiss()
+                }
+            }
+        }
     }
 
 }
@@ -113,6 +118,8 @@ struct ProjectTaskDetailView: View {
         Form {
             Section(header: Text("Task Name")) {
                 Text(task.name)
+                Text(task.startDate, style: .date)
+                Text("Priority:  \(task.priority)")
             }
             
             Section(header: Text("Tags")) {
@@ -125,6 +132,27 @@ struct ProjectTaskDetailView: View {
     }
 }
 
+struct EditTaskView: View {
+    @State private var name: String = ""
+
+    var task: Task
+
+    var body: some View {
+        Form {
+            Section(header: Text("Task Name")) {
+                Text(task.name)
+                Text(task.startDate, style: .date)
+                Text("Priority:  \(task.priority)")
+            }
+            
+            Section(header: Text("Tags")) {
+                ForEach(task.tags, id: \.self) { tag in
+                    Text(tag)
+                }
+            }
+        }
+    }
+}
 
 struct ProjectContentView: View {
     @Environment(\.modelContext) var modelContext
@@ -136,33 +164,41 @@ struct ProjectContentView: View {
         NavigationStack {
             List {
                 ForEach(exercise.tasks.indices, id: \.self) { index in
-                    NavigationLink(destination: ProjectTaskDetailView(task: exercise.tasks[index])) {
-                        HStack {
-                            Image(systemName: exercise.tasks[index].checked ? "checkmark.circle.fill" : "circle")
-                                .onTapGesture {
-                                    // Toggle the checked state
-                                    // Implement logic to update the model accordingly
-                                }
-                            Spacer()
+                    if isEditing {
+                        // Edit mode - show detail view for editing
+                        NavigationLink(destination: EditTaskView(task: exercise.tasks[index])) {
                             Text(exercise.tasks[index].name)
+                        }
+                    }
+                    else {
+                        NavigationLink(destination: ProjectTaskDetailView(task: exercise.tasks[index])) {
+                            HStack {
+                                Image(systemName: exercise.tasks[index].checked ? "checkmark.circle.fill" : "circle")
+                                    .onTapGesture {
+                                        // Toggle the checked state
+                                        // Implement logic to update the model accordingly
+                                    }
+                                Spacer()
+                                Text(exercise.tasks[index].name)
                             }
                         }
                     }
+                }
                 .onDelete(perform: deleteTasks)
             }
             .font(.title)
         }
         .navigationTitle(exercise.name)
-        .navigationBarItems(
-            trailing: HStack {
-                NavigationLink(destination: {
-                    NewTaskView(exercise: exercise)
-                }) {
-                    Image(systemName: "plus")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                HStack {
+                    NavigationLink(destination: NewTaskView(exercise: exercise)) {
+                        Image(systemName: "plus")
+                    }
+                    EditButton()
                 }
-                EditButton()
             }
-         )
+        }
          .environment(\.editMode, editMode)
     }
     
