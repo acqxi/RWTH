@@ -34,11 +34,11 @@ struct ContentView: View {
                     Text("Projects")
                 }
             
-            ActivityListView()
-                .tabItem {
-                    Image(systemName: "figure.highintensity.intervaltraining")
-                    Text("Summary")
-                }
+                        ActivityListView()
+              .tabItem {
+                  Image(systemName: "figure.highintensity.intervaltraining")
+                  Text("Summary")
+              }
             
             SettingsView()
                 .tabItem {
