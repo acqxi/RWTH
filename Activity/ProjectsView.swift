@@ -39,13 +39,13 @@ struct ProjectsView: View {
                     Menu("Sort", systemImage: "arrow.up.arrow.down") {
                         Picker("Sort", selection: $sortOrder) {
                             Text("Name")
-                                .tag(SortDescriptor(\Projects.name))
+                                .tag(SortDescriptor(\Project.name))
 
                             Text("Priority")
-                                .tag(SortDescriptor(\Projects.priority, order: .reverse))
+                                .tag(SortDescriptor(\Project.priority, order: .reverse))
 
                             Text("Date")
-                                .tag(SortDescriptor(\Projects.startDate))
+                                .tag(SortDescriptor(\Project.startDate))
                         }
                         .pickerStyle(.inline)
                     }
@@ -100,7 +100,7 @@ struct NewExerciseView: View {
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button("Save") {
-                    let exercise = Projects(name: name, startDate: .now, priority: 2)
+                    let exercise = Project(name: name, startDate: .now, priority: 2)
                     context.insert(exercise)
                     try! context.save()
                     dismiss()
@@ -156,7 +156,7 @@ struct EditTaskView: View {
 
 struct ProjectContentView: View {
     @Environment(\.modelContext) var modelContext
-    var exercise: Projects
+    var exercise: Project
     @State private var isEditing = false
     @Environment(\.editMode) var editMode
     
