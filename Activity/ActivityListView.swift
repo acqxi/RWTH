@@ -11,7 +11,7 @@ struct ActivityListView: View {
     
     var body: some View {
         
-        NavigationView{
+        NavigationStack {
           Text("Activity List")
             .navigationTitle("Activity List")
             

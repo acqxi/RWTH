@@ -10,9 +10,13 @@ import SwiftData
 
 struct ProjectsView: View {
     @Environment(\.modelContext) var context
-    @Query(sort: \Project.name) var exercises: [Project]
+    @Environment(\.editMode) var editMode
+    @Query(sort: [SortDescriptor(\Project.priority, order: .reverse), SortDescriptor(\Project.name)]) var exercises: [Project]
+    
+    @State private var sortOrder = SortDescriptor(\Project.name)
+    
     var body: some View {
-        NavigationView {
+        NavigationStack {
             
             List{
                 ForEach(exercises) { exercise in
@@ -29,6 +33,26 @@ struct ProjectsView: View {
                 .padding()
                                 
             }
+            .toolbar {
+                ToolbarItemGroup {
+                    
+                    Menu("Sort", systemImage: "arrow.up.arrow.down") {
+                        Picker("Sort", selection: $sortOrder) {
+                            Text("Name")
+                                .tag(SortDescriptor(\Projects.name))
+
+                            Text("Priority")
+                                .tag(SortDescriptor(\Projects.priority, order: .reverse))
+
+                            Text("Date")
+                                .tag(SortDescriptor(\Projects.startDate))
+                        }
+                        .pickerStyle(.inline)
+                    }
+                    
+                }
+                
+            }
             .navigationTitle("Projects")
             .navigationBarItems(
                 trailing:
@@ -39,8 +63,6 @@ struct ProjectsView: View {
         }
     }
 }
-
-
 
 struct ExerciseCell: View {
     var exercise: Project
@@ -61,7 +83,7 @@ struct NewExerciseView: View {
     @State private var name: String = ""
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                Section(header: Text("Project Name")) {
                   TextField("", text: $name)
@@ -70,55 +92,118 @@ struct NewExerciseView: View {
         }
         .navigationBarTitle("New Project")
         .navigationBarBackButtonHidden(true)
-        .navigationBarItems(
-            leading: Button("Cancel") {
-                dismiss()
-            },
-            trailing: Button("Save") {
-                let exercise = Project(name: name)
-                context.insert(exercise)
-                try! context.save()
-                dismiss()
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button("Cancel") {
+                    dismiss()
+                }
             }
-        )
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Save") {
+                    let exercise = Projects(name: name, startDate: .now, priority: 2)
+                    context.insert(exercise)
+                    try! context.save()
+                    dismiss()
+                }
+            }
+        }
     }
 
 }
 
-struct ProjectContentView: View {
-    var exercise: Project
-    @State private var isEditing = false
+struct ProjectTaskDetailView: View {
+    var task: Task
+
     var body: some View {
-        NavigationView {
-            List(exercise.tasks) { task in
-                CheckView(
-                    isChecked: Binding(
-                        get: { return task.checked },
-                        set: { newValue in
-                            task.checked = newValue
+        Form {
+            Section(header: Text("Task Name")) {
+                Text(task.name)
+                Text(task.startDate, style: .date)
+                Text("Priority:  \(task.priority)")
+            }
+            
+            Section(header: Text("Tags")) {
+                ForEach(task.tags, id: \.self) { tag in
+                    Text(tag)
+                }
+            }
+        }
+        .navigationBarTitle(task.name)
+    }
+}
+
+struct EditTaskView: View {
+    @State private var name: String = ""
+
+    var task: Task
+
+    var body: some View {
+        Form {
+            Section(header: Text("Task Name")) {
+                Text(task.name)
+                Text(task.startDate, style: .date)
+                Text("Priority:  \(task.priority)")
+            }
+            
+            Section(header: Text("Tags")) {
+                ForEach(task.tags, id: \.self) { tag in
+                    Text(tag)
+                }
+            }
+        }
+    }
+}
+
+struct ProjectContentView: View {
+    @Environment(\.modelContext) var modelContext
+    var exercise: Projects
+    @State private var isEditing = false
+    @Environment(\.editMode) var editMode
+    
+    var body: some View {
+        NavigationStack {
+            List {
+                ForEach(exercise.tasks.indices, id: \.self) { index in
+                    if isEditing {
+                        // Edit mode - show detail view for editing
+                        NavigationLink(destination: EditTaskView(task: exercise.tasks[index])) {
+                            Text(exercise.tasks[index].name)
                         }
-                    ),
-                    title: task.name
-                )
+                    }
+                    else {
+                        NavigationLink(destination: ProjectTaskDetailView(task: exercise.tasks[index])) {
+                            HStack {
+                                Image(systemName: exercise.tasks[index].checked ? "checkmark.circle.fill" : "circle")
+                                    .onTapGesture {
+                                        // Toggle the checked state
+                                        // Implement logic to update the model accordingly
+                                    }
+                                Spacer()
+                                Text(exercise.tasks[index].name)
+                            }
+                        }
+                    }
+                }
+                .onDelete(perform: deleteTasks)
             }
             .font(.title)
         }
         .navigationTitle(exercise.name)
-        .navigationBarItems(
-            trailing: HStack {
-                NavigationLink(destination: {
-                    NewTaskView(exercise: exercise)
-                }) {
-                    Image(systemName: "plus")
-                }
-                Button(action: {
-                    isEditing.toggle()
-                }) {
-                    Text(isEditing ? "Done" : "Edit")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                HStack {
+                    NavigationLink(destination: NewTaskView(exercise: exercise)) {
+                        Image(systemName: "plus")
+                    }
+                    EditButton()
                 }
             }
-         )
-         .environment(\.editMode, .constant(isEditing ? .active : .inactive))
+        }
+         .environment(\.editMode, editMode)
+    }
+    
+    func deleteTasks(at offsets: IndexSet) {
+        exercise.tasks.remove(atOffsets: offsets)
     }
 }
 
@@ -128,16 +213,29 @@ struct NewTaskView: View {
 
     var exercise: Project
     @State private var name: String = ""
+    @State private var startDate: Date = .now
+    @State private var priority: Int = 2
     @State private var newTag: String = ""
     @State private var tags: [String] = []
     @State private var showNewTagPopup = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section(header: Text("Task Name")) {
                     TextField("", text: $name)
+                    DatePicker("Start Date", selection: $startDate)
                 }
+                
+                Section("Priority") {
+                    Picker("Priority", selection: $priority) {
+                        Text("Meh").tag(1)
+                        Text("Maybe").tag(2)
+                        Text("Must").tag(3)
+                    }
+                    .pickerStyle(.segmented)
+                }
+                
                 Section(header: Text("Tags")) {
                     ForEach(0..<tags.count, id: \.self) { index in
                         Text(tags[index])
@@ -157,7 +255,7 @@ struct NewTaskView: View {
                 dismiss()
             },
             trailing: Button("Save") {
-                let newTask = Task(name: name, tags: tags)
+                let newTask = Task(name: name, tags: tags, startDate: .now, priority: 2)
                 exercise.tasks.append(newTask)
                 try! context.save()
                 dismiss()
@@ -183,7 +281,7 @@ struct TagChoice: View {
     @State var newTagName: String = ""
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 Form {
                     ForEach(settings?.availableTags ?? []) { tag in
@@ -207,7 +305,7 @@ struct TagChoice: View {
                         if let settings = settings {
                             settings.availableTags.append(Tag(name: newTagName))
                         } else {
-                            var settings = Settings()
+                            let settings = Settings()
                             settings.availableTags.append(Tag(name: newTagName))
                             modelContext.insert(settings)
                         }
@@ -249,13 +347,14 @@ struct CheckView: View {
 #Preview {
     ProjectsView()
 }
+
 #Preview {
     ProjectContentView(exercise: Project(
         name: "Sample Exercise",
         tasks: [
-            Task(name: "Task 1", tags: []),
+            Task(name: "Task 1", tags: ["Legs"], startDate: .now, priority: 2),
             Task(name: "Task 2", checked: true, tags: []),
             Task(name: "Task 3", tags: [])
-        ]
+        ], startDate: Date()
     ))
 }
