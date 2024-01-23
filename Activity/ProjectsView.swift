@@ -10,6 +10,7 @@ import SwiftData
 
 struct ProjectsView: View {
     @Environment(\.modelContext) var context
+    @Environment(\.editMode) var editMode
     @Query(sort: [SortDescriptor(\Projects.priority, order: .reverse), SortDescriptor(\Projects.name)]) var exercises: [Projects]
     @State private var sortOrder = SortDescriptor(\Projects.name)
     
@@ -32,19 +33,24 @@ struct ProjectsView: View {
                                 
             }
             .toolbar {
-                Menu("Sort", systemImage: "arrow.up.arrow.down") {
-                    Picker("Sort", selection: $sortOrder) {
-                        Text("Name")
-                            .tag(SortDescriptor(\Projects.name))
+                ToolbarItemGroup {
+                    
+                    Menu("Sort", systemImage: "arrow.up.arrow.down") {
+                        Picker("Sort", selection: $sortOrder) {
+                            Text("Name")
+                                .tag(SortDescriptor(\Projects.name))
 
-                        Text("Priority")
-                            .tag(SortDescriptor(\Projects.priority, order: .reverse))
+                            Text("Priority")
+                                .tag(SortDescriptor(\Projects.priority, order: .reverse))
 
-                        Text("Date")
-                            .tag(SortDescriptor(\Projects.startDate))
+                            Text("Date")
+                                .tag(SortDescriptor(\Projects.startDate))
+                        }
+                        .pickerStyle(.inline)
                     }
-                    .pickerStyle(.inline)
+                    
                 }
+                
             }
             .navigationTitle("Projects")
             .navigationBarItems(
@@ -100,29 +106,51 @@ struct NewExerciseView: View {
 
 }
 
+struct ProjectTaskDetailView: View {
+    var task: Task
+
+    var body: some View {
+        Form {
+            Section(header: Text("Task Name")) {
+                Text(task.name)
+            }
+            
+            Section(header: Text("Tags")) {
+                ForEach(task.tags, id: \.self) { tag in
+                    Text(tag)
+                }
+            }
+        }
+        .navigationBarTitle(task.name)
+    }
+}
+
+
 struct ProjectContentView: View {
-    @Environment(\.modelContext) var context
+    @Environment(\.modelContext) var modelContext
     var exercise: Projects
     @State private var isEditing = false
+    @Environment(\.editMode) var editMode
+    
     var body: some View {
         NavigationStack {
-            List(exercise.tasks) { task in
-                CheckView(
-                    isChecked: Binding(
-                        get: { return task.checked },
-                        set: { newValue in
-                            task.checked = newValue
+            List {
+                ForEach(exercise.tasks.indices, id: \.self) { index in
+                    NavigationLink(destination: ProjectTaskDetailView(task: exercise.tasks[index])) {
+                        HStack {
+                            Image(systemName: exercise.tasks[index].checked ? "checkmark.circle.fill" : "circle")
+                                .onTapGesture {
+                                    // Toggle the checked state
+                                    // Implement logic to update the model accordingly
+                                }
+                            Spacer()
+                            Text(exercise.tasks[index].name)
+                            }
                         }
-                    ),
-                    title: task.name
-                )
+                    }
+                .onDelete(perform: deleteTasks)
             }
             .font(.title)
-//            .onDelete { indexSet in
-//                for index in indexSet {
-//                    context.delete(exercise.tasks[index])
-//                }
-//            }
         }
         .navigationTitle(exercise.name)
         .navigationBarItems(
@@ -132,14 +160,14 @@ struct ProjectContentView: View {
                 }) {
                     Image(systemName: "plus")
                 }
-                Button(action: {
-                    isEditing.toggle()
-                }) {
-                    Text(isEditing ? "Done" : "Edit")
-                }
+                EditButton()
             }
          )
-         .environment(\.editMode, .constant(isEditing ? .active : .inactive))
+         .environment(\.editMode, editMode)
+    }
+    
+    func deleteTasks(at offsets: IndexSet) {
+        exercise.tasks.remove(atOffsets: offsets)
     }
 }
 
@@ -191,7 +219,7 @@ struct NewTaskView: View {
                 dismiss()
             },
             trailing: Button("Save") {
-                let newTask = Task(name: name, tags: tags)
+                let newTask = Task(name: name, tags: tags, startDate: .now, priority: 2)
                 exercise.tasks.append(newTask)
                 try! context.save()
                 dismiss()
@@ -288,9 +316,9 @@ struct CheckView: View {
 //    ProjectContentView(exercise: Projects(
 //        name: "Sample Exercise",
 //        tasks: [
-//            Task(name: "Task 1", tags: []),
-//            Task(name: "Task 2", checked: true, tags: []),
-//            Task(name: "Task 3", tags: [])
-//        ]
+//            Task(name: "Task 1", tags: ["Legs"], startDate: .now, priority: 2),
+////            Task(name: "Task 2", checked: true, tags: []),
+////            Task(name: "Task 3", tags: [])
+//        ], startDate: Date()
 //    ))
 //}
