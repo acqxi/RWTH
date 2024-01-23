@@ -53,7 +53,16 @@ struct CalendarView: View {
                         
                         // show date
                         ForEach(1...daysInMonth(date: currentMonth), id: \.self) { day in
-                            DayView(date: currentMonth, day: day, tasks: Array(repeating: "task", count: Int.random(in: 0...3)))
+                            NavigationLink(destination: TaskDetailView(date: "\(day) \( DateFormatter.monthAndYear.string(from:currentMonth))", exerciseItems: [
+                                ExerciseItem(name: "run", repetitions: 10, isCompleted: false),
+                                ExerciseItem(name: "walk", repetitions: 20, isCompleted: false),
+                                ExerciseItem(name: "boxing", repetitions: 30, isCompleted: false),
+                            ])) {
+                                DayView(date: currentMonth, day: day, tasks: Array(repeating: "0/3", count: 1))
+                            
+                            }
+                            .buttonStyle(PlainButtonStyle())
+
                         }
                     }
                 }
@@ -106,18 +115,14 @@ struct DayView: View {
 //            }
             
             ForEach(Array(tasks.enumerated()), id: \.offset) { index, task in
-                NavigationLink(destination: TaskDetailView(date: "\(day) \( DateFormatter.monthAndYear.string(from:date))", exerciseItems: [
-                                ExerciseItem(name: "run", repetitions: 10, isCompleted: false),
-                                ExerciseItem(name: "walk", repetitions: 20, isCompleted: false),
-                                ExerciseItem(name: "boxing", repetitions: 30, isCompleted: false),
-                            ])) {
-                                TaskView(task: task)
-                            }
-                        }
-
+                
+                    TaskView(task: task)
+                
+            }
+            
             Spacer() // same height of dayView
         }
-        .frame(height: 120) // fixed height
+        .frame(height: 80) // fixed height
         .padding(4)
         .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: 10))
