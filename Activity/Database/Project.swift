@@ -34,13 +34,15 @@ class Task: Identifiable {
     var tags: [String]
     var startDate: Date  // Date type
     var priority: Int
+    var selectedDays:[Int]
     
-    init(id: UUID = UUID(), name: String, checked: Bool = false, tags: [String] = [], startDate: Date, priority: Int = 2) {
+    init(id: UUID = UUID(), name: String, checked: Bool = false, tags: [String] = [], startDate: Date, priority: Int = 2,selectedDays:[Int] = []) {
         self.id = id
         self.name = name
         self.checked = checked
         self.tags = tags
         self.startDate = startDate
         self.priority = priority
+        self.selectedDays = selectedDays
     }
 }
