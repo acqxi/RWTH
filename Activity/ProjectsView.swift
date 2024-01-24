@@ -218,13 +218,39 @@ struct NewTaskView: View {
     @State private var newTag: String = ""
     @State private var tags: [String] = []
     @State private var showNewTagPopup = false
+    @State private var repeatDays = Set<DayOfWeek>()
     
     var body: some View {
         NavigationStack {
             Form {
-                Section(header: Text("Task Name")) {
-                    TextField("", text: $name)
+                Section(header: Text("Task")) {
+                    TextField("Name", text: $name)
                     DatePicker("Start Date", selection: $startDate)
+                    NavigationLink {
+                        RepeatDaysChoice(repeatDays: $repeatDays)
+                    } label: {
+                        HStack(alignment: .lastTextBaseline) {
+                            Text("Repeat")
+                            Spacer()
+                            if repeatDays.isEmpty {
+                                Text("Never")
+                            } else if repeatDays == Set<DayOfWeek>([.monday, .tuesday, .wednesday, .thursday, .friday]) {
+                                Text("Every Weekday")
+                            } else if repeatDays == Set<DayOfWeek>([.saturday, .sunday]) {
+                                Text("Every Weekend Day")
+                            } else if repeatDays == Set(DayOfWeek.all) {
+                                Text("Every Day")
+                            } else {
+                                Text(
+                                    repeatDays
+                                        .sorted(by: { $0.rawValue < $1.rawValue })
+                                        .lazy
+                                        .map { $0.shortString }
+                                        .joined(separator: ", ")
+                                )
+                            }
+                        }
+                    }
                 }
                 
                 Section("Priority") {
@@ -255,7 +281,7 @@ struct NewTaskView: View {
                 dismiss()
             },
             trailing: Button("Save") {
-                let newTask = Task(name: name, tags: tags, startDate: .now, priority: 2)
+                let newTask = Task(name: name, tags: tags, startDate: .now, priority: 2, repeatDays: repeatDays)
                 exercise.tasks.append(newTask)
                 try! context.save()
                 dismiss()
@@ -266,6 +292,32 @@ struct NewTaskView: View {
                 showNewTagPopup = false
                 tags.append(contentsOf: selectedTags)
             })
+        }
+    }
+}
+
+struct RepeatDaysChoice: View {
+    @Binding var repeatDays: Set<DayOfWeek>
+    
+    var body: some View {
+        VStack {
+            List {
+                ForEach(DayOfWeek.all) { dayOfWeek in
+                    CheckView(
+                        isChecked: Binding(
+                            get: { repeatDays.contains(dayOfWeek) },
+                            set: { newValue in
+                                if newValue {
+                                    repeatDays.insert(dayOfWeek)
+                                } else {
+                                    repeatDays.remove(dayOfWeek)
+                                }
+                            }
+                        ),
+                        title: "Every \(dayOfWeek.string)"
+                    )
+                }
+            }
         }
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct CalendarView: View {
     @State private var currentMonth = Date()
@@ -53,15 +54,12 @@ struct CalendarView: View {
                         
                         // show date
                         ForEach(1...daysInMonth(date: currentMonth), id: \.self) { day in
-                            NavigationLink(destination: TaskDetailView(date: "\(day) \( DateFormatter.monthAndYear.string(from:currentMonth))", exerciseItems: [
-                                ExerciseItem(name: "run", repetitions: 10, isCompleted: false),
-                                ExerciseItem(name: "walk", repetitions: 20, isCompleted: false),
-                                ExerciseItem(name: "boxing", repetitions: 30, isCompleted: false),
-                            ])) {
-                                DayView(date: currentMonth, day: day, tasks: Array(repeating: "0/3", count: 1))
-                            
-                            }
-                            .buttonStyle(PlainButtonStyle())
+                            let dateInDay = Date.from(
+                                year: Calendar.current.dateComponents([.year], from: currentMonth).year!,
+                                month: Calendar.current.dateComponents([.month], from: currentMonth).month!,
+                                day: day
+                            )
+                            DayView(date: dateInDay)
 
                         }
                     }
@@ -102,49 +100,74 @@ struct CalendarView: View {
 
 struct DayView: View {
     var date = Date()
-    var day: Int
-    var tasks: [String]
-
-    var body: some View {
-        VStack {
-            // show date
-            Text("\(day)")
-                .font(.system(size: 15))
-                .font(.headline)
-                .padding(4)
-                .background(Color.gray.opacity(0.2))
-                .clipShape(RoundedRectangle(cornerRadius: 5))
-                .frame(maxWidth: .infinity)
-
-            // show task
-//            ForEach(tasks, id: \.self) { task in
-//                TaskView(task: task)
-//            }
-            
-            ForEach(Array(tasks.enumerated()), id: \.offset) { index, task in
-                
-                    TaskView(task: task)
-                
+    @Query var projects: [Project]
+    private var allTasks: [Task] {
+        projects.flatMap { $0.tasks }
+    }
+    private var tasksToday: [Task] {
+        allTasks.filter { task in
+            if task.startDate > Date() {
+                // Task starts after today, therefore we're not interested
+                return false
             }
             
-            Spacer() // same height of dayView
+            let componentsOfDate = Calendar.current.dateComponents([.day, .month, .year], from: date)
+            let componentsOfTask = Calendar.current.dateComponents([.day, .month, .year], from: task.startDate)
+            if componentsOfDate == componentsOfTask {
+                // If the task starts today, then it is okay
+                return true
+            }
+            
+            var weekdayOfDate = (Calendar.current.dateComponents([.weekday], from: date).weekday! + 6) % 7
+            if weekdayOfDate == 0 { weekdayOfDate = 7 }
+            let weekday = DayOfWeek(rawValue: weekdayOfDate)!
+            if task.repeatDays.contains(weekday) {
+                // The task repeats today, so it's okay
+                return true
+            }
+            
+            // The task doesn't repeat today, don't use it
+            return false
         }
-        .frame(height: 80) // fixed height
-        .padding(4)
-        .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
-        .overlay(
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
-        )
+    }
+
+    var body: some View {
+        let tasksOfToday = tasksToday
+        NavigationLink(destination: TaskDetailView(date: date, exerciseItems: tasksOfToday)) {
+            VStack {
+                // show date
+                Text("\(Calendar.current.dateComponents([.day], from: date).day!)")
+                    .font(.system(size: 15))
+                    .font(.headline)
+                    .padding(4)
+                    .background(Color.gray.opacity(0.2))
+                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                    .frame(maxWidth: .infinity)
+                
+                if !tasksOfToday.isEmpty {
+                    TaskView(text: "0/\(tasksOfToday.count)")
+                }
+                
+                Spacer() // same height of dayView
+            }
+            .frame(height: 80) // fixed height
+            .padding(4)
+            .background(Color.white)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+            )
+        }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 
 struct TaskView: View {
-    var task: String
+    var text: String
 
     var body: some View {
-        Text(task)
+        Text(text)
             .font(.caption)
             .padding(3)
             .frame(maxWidth: .infinity)

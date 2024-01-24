@@ -15,37 +15,47 @@ struct ExerciseItem {
 }
 
 struct TaskDetailView: View {
-    var date: String // date
-    var exerciseItems: [ExerciseItem] // items
+    var date: Date // date
+    var exerciseItems: [Task] // items
 
     var body: some View {
+        let dateFormatter = { () -> DateFormatter in
+            let df = DateFormatter()
+            df.dateStyle = .medium
+            return df
+        }()
+        
         VStack(alignment: .leading, spacing: 10) {
-            Text("Date: \(date)")
-                .font(.headline)
-                .padding()
-
             ForEach(exerciseItems.indices, id: \.self) { index in
                 exerciseItemView(exerciseItems[index])
+            }
+            
+            if exerciseItems.isEmpty {
+                Spacer()
+                
+                Text("No tasks for this day")
+                    .font(.title)
+                    .multilineTextAlignment(.center)
             }
 
             Spacer()
         }
-        .navigationBarTitle("task detail", displayMode: .inline)
+        .navigationBarTitle(dateFormatter.string(from: date), displayMode: .inline)
         .padding()
     }
 
-    private func exerciseItemView(_ item: ExerciseItem) -> some View {
+    private func exerciseItemView(_ item: Task) -> some View {
         NavigationLink(destination: Stopwatch(taskId: UUID())) {
             HStack {
                 VStack(alignment: .leading) {
                     Text(item.name)
                         .font(.headline)
-                    Text("times: \(item.repetitions)")
-                        .font(.subheadline)
+//                    Text("times: \(item.repetitions)")
+//                        .font(.subheadline)
                 }
                 Spacer()
-                Image(systemName: item.isCompleted ? "checkmark.circle.fill" : "circle")
-                    .foregroundColor(item.isCompleted ? .green : .gray)
+                Image(systemName: item.checked ? "checkmark.circle.fill" : "circle")
+                    .foregroundColor(item.checked ? .green : .gray)
             }
             .padding()
             .background(Color.gray.opacity(0.1))
@@ -56,9 +66,5 @@ struct TaskDetailView: View {
 
 
 #Preview {
-    TaskDetailView(date: "2024/01/12", exerciseItems: [
-        ExerciseItem(name: "First", repetitions: 10, isCompleted: true),
-        ExerciseItem(name: "Second", repetitions: 20, isCompleted: false),
-        ExerciseItem(name: "Third", repetitions: 30, isCompleted: false),
-    ])
+    TaskDetailView(date: Date(), exerciseItems: [])
 }
