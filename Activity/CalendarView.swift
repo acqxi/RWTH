@@ -12,7 +12,7 @@ struct CalendarView: View {
     private let calendar = Calendar.current
 
     // title
-    private let daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    private let daysOfWeek = DayOfWeek.all
 
     var body: some View {
         NavigationView {
@@ -34,8 +34,8 @@ struct CalendarView: View {
                 
                 // show week's title
                 HStack {
-                    ForEach(daysOfWeek, id: \.self) { day in
-                        Text(day)
+                    ForEach(daysOfWeek) { day in
+                        Text(day.shortString)
                             .frame(maxWidth: .infinity)
                     }
                 }
@@ -88,8 +88,15 @@ struct CalendarView: View {
     // calc how many days in first week before first day in the months
     func numberOfEmptyCells(at date: Date) -> Int {
         let firstDayOfMonth = calendar.date(from: Calendar.current.dateComponents([.year, .month], from: date))!
+        // Sunday is 1, Monday is 2, Tuesday is 3
         let weekday = calendar.component(.weekday, from: firstDayOfMonth)
-        return (weekday - 1) % 7 // cnt rest day in week
+        // Add 5: Sunday is 6, Monday is 7, Tuesday is 8
+        // Mod 7: Sunday is 6, Monday is 0, Tuesday is 1
+        // If the first day of the month is Monday, we need 0 empty cells
+        // If the first day of the month is Tuedsay, we need 1 empty cell
+        // ...
+        // If the first day of the month is Sunday, we need 6 empty cells
+        return (weekday + 5) % 7 // cnt rest day in week
     }
 }
 
