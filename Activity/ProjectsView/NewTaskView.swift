@@ -78,7 +78,7 @@ struct NewTaskView: View {
                 dismiss()
             },
             trailing: Button("Save") {
-                let newTask = Task(name: name, tags: tags, startDate: .now, priority: 2, selectedDays: selectedDays)
+                let newTask = Task(name: name, tags: tags, startDate: startDate, priority: 2, selectedDays: selectedDays)
                 exercise.tasks.append(newTask)
                 try! context.save()
                 dismiss()
