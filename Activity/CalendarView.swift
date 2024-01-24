@@ -108,7 +108,7 @@ struct DayView: View {
     private var tasksToday: [Task] {
         let componentsOfDate = Calendar.current.dateComponents([.day, .month, .year], from: date)
         return allTasks.filter { task in
-            if task.startDate > Date() {
+            if task.startDate > date {
                 // Task starts after today, therefore we're not interested
                 return false
             }
