@@ -6,20 +6,30 @@
 //
 
 import SwiftUI
+import SwiftData
 import Charts
 
 struct ActivityListView: View {
+    @Query var tasks: [Task]
+    @Query var stopwatchData: [StopwatchData]
+    var stopwatchDataPerTask: [(UUID, TimeInterval)] {
+        var result: [UUID: TimeInterval] = [:]
+        
+        for datum in stopwatchData {
+            result[datum.taskId] = (result[datum.taskId] ?? 0) + datum.totalInterval
+        }
+        
+        return Array(result.keys.lazy.map { ($0, result[$0]!) }.filter { $0.1 > 0 })
+    }
+    
     var body: some View {
         
         NavigationStack{
             VStack{
                 Chart{
-                    ForEach(MockData.RevenueStreams) {
-                        stream in SectorMark(angle: .value("Stream", stream.value), angularInset: 3)
-                        
-                        
-                            .foregroundStyle(by: .value("name", stream.name))
-                        
+                    ForEach(stopwatchDataPerTask, id: \.0) { (taskId, interval) in
+                        SectorMark(angle: .value("Stream", interval), angularInset: 3)
+                            .foregroundStyle(by: .value("name", tasks.first(where: { $0.id == taskId })?.name ?? "Unknown"))
                             .cornerRadius(7)
                     }
                 }

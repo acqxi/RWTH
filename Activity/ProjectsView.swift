@@ -164,16 +164,16 @@ struct ProjectContentView: View {
         NavigationStack {
             List {
                 ForEach(exercise.tasks.indices, id: \.self) { index in
-                    if isEditing {
-                        // Edit mode - show detail view for editing
-                        NavigationLink(destination: EditTaskView(task: exercise.tasks[index])) {
-                            Text(exercise.tasks[index].name)
-                        }
-                    }
-                    else {
+//                    if isEditing {
+//                        // Edit mode - show detail view for editing
+//                        NavigationLink(destination: EditTaskView(task: exercise.tasks[index])) {
+//                            Text(exercise.tasks[index].name)
+//                        }
+//                    }
+//                    else {
                         NavigationLink(destination: ProjectTaskDetailView(task: exercise.tasks[index])) {
                             HStack {
-                                Image(systemName: exercise.tasks[index].checked ? "checkmark.circle.fill" : "circle")
+                                Image(systemName: true ? "checkmark.circle.fill" : "circle")
                                     .onTapGesture {
                                         // Toggle the checked state
                                         // Implement logic to update the model accordingly
@@ -181,7 +181,7 @@ struct ProjectContentView: View {
                                 Spacer()
                                 Text(exercise.tasks[index].name)
                             }
-                        }
+//                        }
                     }
                 }
                 .onDelete(perform: deleteTasks)
@@ -405,7 +405,7 @@ struct CheckView: View {
         name: "Sample Exercise",
         tasks: [
             Task(name: "Task 1", tags: ["Legs"], startDate: .now, priority: 2),
-            Task(name: "Task 2", checked: true, tags: [], startDate: .now),
+            Task(name: "Task 2", tags: [], startDate: .now),
             Task(name: "Task 3", tags: [], startDate: .now)
         ], startDate: Date()
     ))

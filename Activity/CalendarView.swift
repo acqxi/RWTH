@@ -99,19 +99,20 @@ struct CalendarView: View {
 }
 
 struct DayView: View {
-    var date = Date()
+    var date: Date
     @Query var projects: [Project]
+    @Query var stopwatchData: [StopwatchData]
     private var allTasks: [Task] {
         projects.flatMap { $0.tasks }
     }
     private var tasksToday: [Task] {
-        allTasks.filter { task in
+        let componentsOfDate = Calendar.current.dateComponents([.day, .month, .year], from: date)
+        return allTasks.filter { task in
             if task.startDate > Date() {
                 // Task starts after today, therefore we're not interested
                 return false
             }
             
-            let componentsOfDate = Calendar.current.dateComponents([.day, .month, .year], from: date)
             let componentsOfTask = Calendar.current.dateComponents([.day, .month, .year], from: task.startDate)
             if componentsOfDate == componentsOfTask {
                 // If the task starts today, then it is okay
@@ -130,9 +131,23 @@ struct DayView: View {
             return false
         }
     }
+    private var stopwatchDataToday: [StopwatchData] {
+        let componentsOfDate = Calendar.current.dateComponents([.day, .month, .year], from: date)
+        return stopwatchData.filter { data in
+            let componentsOfStopwatch = Calendar.current.dateComponents(
+                [.day, .month, .year],
+                from: data.completionDate
+            )
+            return componentsOfDate == componentsOfStopwatch
+        }
+    }
 
     var body: some View {
         let tasksOfToday = tasksToday
+        let stopwatchOfToday = stopwatchDataToday
+        let tasksDoneToday = tasksOfToday.filter { task in
+            stopwatchOfToday.contains { $0.taskId == task.id }
+        }
         NavigationLink(destination: TaskDetailView(date: date, exerciseItems: tasksOfToday)) {
             VStack {
                 // show date
@@ -145,7 +160,10 @@ struct DayView: View {
                     .frame(maxWidth: .infinity)
                 
                 if !tasksOfToday.isEmpty {
-                    TaskView(text: "0/\(tasksOfToday.count)")
+                    TaskView(
+                        text: "\(tasksDoneToday.count)/\(tasksOfToday.count)",
+                        complete: tasksDoneToday.count == tasksOfToday.count
+                    )
                 }
                 
                 Spacer() // same height of dayView
@@ -165,13 +183,14 @@ struct DayView: View {
 
 struct TaskView: View {
     var text: String
+    var complete: Bool
 
     var body: some View {
         Text(text)
             .font(.caption)
             .padding(3)
             .frame(maxWidth: .infinity)
-            .background(Color.blue.opacity(0.3))
+            .background(complete ? Color.green.opacity(0.3) : Color.blue.opacity(0.3))
             .cornerRadius(5)
     }
 }
