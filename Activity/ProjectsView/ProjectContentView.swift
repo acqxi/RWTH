@@ -10,6 +10,7 @@ import SwiftData
 
 struct ProjectContentView: View {
     @Environment(\.modelContext) var modelContext
+    
     var exercise: Project
     @State private var isEditing = false
     @Environment(\.editMode) var editMode
@@ -47,10 +48,20 @@ struct ProjectContentView: View {
                 }
             }
         }
-         .environment(\.editMode, editMode)
+        .environment(\.editMode, editMode)
     }
     
     func deleteTasks(at offsets: IndexSet) {
+        for offset in offsets {
+            let task = exercise.tasks[offset]
+            if let dataForTask = try? modelContext.fetch(FetchDescriptor<StopwatchData>()) {
+                let filtered = dataForTask.filter { $0.taskId == task.id }
+                for data in filtered {
+                    modelContext.delete(data)
+                }
+            }
+            modelContext.delete(task)
+        }
         exercise.tasks.remove(atOffsets: offsets)
     }
 }

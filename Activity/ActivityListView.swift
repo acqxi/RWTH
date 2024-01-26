@@ -9,13 +9,34 @@ import SwiftUI
 import SwiftData
 import Charts
 
+enum Timeframe {
+    case daily, monthly, allTime
+}
+
 struct ActivityListView: View {
     @Query var tasks: [Task]
     @Query var stopwatchData: [StopwatchData]
+    @State private var selectedTimeframe: Timeframe = .allTime
+    @State private var selectedDate = Date()
+    
+    var filteredStopwatchData: [StopwatchData] {
+        let calendar = Calendar.current
+        return stopwatchData.filter{ data in
+            switch selectedTimeframe {
+            case .daily:
+                return calendar.isDate(data.completionDate, equalTo: selectedDate, toGranularity: .day)
+            case .monthly:
+                return calendar.isDate(data.completionDate, equalTo: selectedDate, toGranularity: .month)
+            case .allTime:
+                return true
+            }
+        }
+    }
+
     var stopwatchDataPerTask: [(UUID, TimeInterval)] {
         var result: [UUID: TimeInterval] = [:]
         
-        for datum in stopwatchData {
+        for datum in filteredStopwatchData {
             result[datum.taskId] = (result[datum.taskId] ?? 0) + datum.totalInterval
         }
         
@@ -23,17 +44,14 @@ struct ActivityListView: View {
             result
                 .keys
                 .lazy
-                // Store both id and time
                 .map { key in (key, result[key]!) }
-                // Only keep time intervals greater than 0
                 .filter { (_, value) in value > 0 }
         )
     }
     
     var body: some View {
-        
-        NavigationStack{
-            VStack{
+        NavigationStack {
+            VStack {
                 Chart{
                     ForEach(stopwatchDataPerTask, id: \.0) { (taskId, interval) in
                         let taskName = tasks.first { $0.id == taskId }?.name ?? "Unknown"
@@ -63,14 +81,70 @@ struct ActivityListView: View {
                             }
                     }
                 }
-                //
+                
+                switch selectedTimeframe {
+                case .daily:
+                    DatePicker(
+                        "Day to view",
+                        selection: $selectedDate,
+                        displayedComponents: .date
+                    )
+                case .monthly:
+                    Picker("Month to view", selection: $selectedDate) {
+                        let availableMonths = Set(stopwatchData
+                            .lazy
+                            .map { $0.completionDate }
+                            .map { Calendar.current.dateComponents([.month, .year], from: $0) })
+                            .map { MonthAndYear(month: $0.month!, year: $0.year!) }
+                        let sortedMonths = Array(availableMonths.sorted())
+                            
+                        ForEach(sortedMonths) { monthAndYear in
+                            Text(monthAndYear.longString).tag(monthAndYear.date)
+                        }
+                    }
+                    .pickerStyle(MenuPickerStyle())
+                default:
+                    EmptyView()
+                }
+                
+                Picker("Select Timeframe", selection: $selectedTimeframe) {
+                    Text("Daily").tag(Timeframe.daily)
+                    Text("Monthly").tag(Timeframe.monthly)
+                    Text("All Time").tag(Timeframe.allTime)
+                }
+                .pickerStyle(SegmentedPickerStyle())
             }
             .navigationTitle("Training Summary 🏋️")
         }
+    }
+}
 
+struct MonthAndYear: Codable, Identifiable, Comparable {
+    static func < (lhs: MonthAndYear, rhs: MonthAndYear) -> Bool {
+        if lhs.year != rhs.year {
+            return lhs.year < rhs.year
+        }
+        return lhs.month < rhs.month
     }
     
+    var month: Int
+    var year: Int
     
+    var id: Int64 { Int64(month) + Int64(year) * 12 }
+    
+    var date: Date {
+        Calendar.current.date(from: DateComponents(
+            year: year,
+            month: month
+        ))!
+    }
+    
+    var longString: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = .none
+        dateFormatter.setLocalizedDateFormatFromTemplate("MMMM yyyy")
+        return dateFormatter.string(from: self.date)
+    }
 }
 
 #Preview {
