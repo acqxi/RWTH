@@ -33,26 +33,26 @@ struct ProjectsView: View {
                 .padding()
                                 
             }
-//            .toolbar {
-//                ToolbarItemGroup {
-//                    
-//                    Menu("Sort", systemImage: "arrow.up.arrow.down") {
-//                        Picker("Sort", selection: $sortOrder) {
-//                            Text("Name")
-//                                .tag(SortDescriptor(\Project.name))
-//
-//                            Text("Priority")
-//                                .tag(SortDescriptor(\Project.priority, order: .reverse))
-//
-//                            Text("Date")
-//                                .tag(SortDescriptor(\Project.startDate))
-//                        }
-//                        .pickerStyle(.inline)
-//                    }
-//                    
-//                }
+            .toolbar {
+                ToolbarItemGroup {
+                    
+                    Menu("Sort", systemImage: "arrow.up.arrow.down") {
+                        Picker("Sort", selection: $sortOrder) {
+                            Text("Name")
+                                .tag(SortDescriptor(\Project.name))
+
+                            Text("Priority")
+                                .tag(SortDescriptor(\Project.priority, order: .reverse))
+
+                            Text("Date")
+                                .tag(SortDescriptor(\Project.startDate))
+                        }
+                        .pickerStyle(.inline)
+                    }
+                    
+                }
                 
-//            }
+            }
             .navigationTitle("Projects")
             .navigationBarItems(
                 trailing:

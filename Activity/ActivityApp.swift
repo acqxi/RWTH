@@ -17,7 +17,7 @@ struct ActivityApp: App {
             Settings.self,
             StopwatchData.self
         ])
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let config = ModelConfiguration()
         let container = try! ModelContainer(for: schema, configurations: config)
         return container
     }()

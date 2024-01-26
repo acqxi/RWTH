@@ -9,12 +9,16 @@ import SwiftUI
 import SwiftData
 
 struct Stopwatch: View {
-    @StateObject private var viewModel: StopwatchViewModel
+    var date: Date
+    @State var taskId: UUID
+    @State var modelInserted = false
+    @StateObject private var viewModel = StopwatchViewModel()
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.modelContext) var context
     
-    init(taskId: UUID) {
-        _viewModel = StateObject(wrappedValue: StopwatchViewModel(taskId: taskId))
+    init(taskId: UUID, date: Date) {
+        self._taskId = State(initialValue: taskId)
+        self.date = date
     }
     
     var body: some View {
@@ -58,7 +62,9 @@ struct Stopwatch: View {
                                 .cornerRadius(10)
                         }
                     } else {
-                        Button(action: viewModel.start) {
+                        Button(action: {
+                            viewModel.start()
+                        }) {
                             Text("Start")
                                 .padding()
                                 .background(Color.green)
@@ -70,9 +76,16 @@ struct Stopwatch: View {
                     if viewModel.hasStarted {
                         Button(action:{
                             viewModel.stop()
-                            context.insert(viewModel.stopwatchData)
-                        } ) {
-                            Text("End")
+                            let stopwatchData = StopwatchData(
+                                completionDate: date,
+                                taskId: taskId,
+                                times: viewModel.stopwatchData.map { (start, end) in
+                                    Time(start: start, end: end)
+                                }
+                            )
+                            context.insert(stopwatchData)
+                        }) {
+                            Text("Finish")
                                 .padding()
                                 .background(Color.red)
                                 .foregroundColor(.white)
@@ -103,14 +116,14 @@ class StopwatchViewModel: ObservableObject {
     @Published var previousElapsedTime: TimeInterval = 0
     @Published var currentElapsedTime: TimeInterval = 0
     @Published var period: TimeInterval = 60
-    @Published var stopwatchData: StopwatchData
+    @Published var stopwatchData: [(Date, Date)]
     var elapsedPeriods: Double {totalElapsedTime / period}
     var totalElapsedTime: TimeInterval {previousElapsedTime + currentElapsedTime}
     private var timer: Timer?
     private var startTime: Date?
 
-    init (taskId: UUID){
-        stopwatchData = StopwatchData(taskId: taskId, times: [])
+    init (){
+        stopwatchData = []
     }
     
     func start() {
@@ -135,11 +148,9 @@ class StopwatchViewModel: ObservableObject {
             let sinceStart = currentTime.timeIntervalSince(startTime)
             currentElapsedTime = 0
             previousElapsedTime += sinceStart
-            stopwatchData.times.append(Time(start: startTime, end: currentTime))
+            stopwatchData.append((startTime, currentTime))
+            self.startTime = nil
         }
-        
-        
-        
     }
 
     func reset() {
@@ -158,9 +169,10 @@ class StopwatchViewModel: ObservableObject {
 }
 
 
+
 #Preview {
     
-    return Stopwatch(taskId: UUID())
+    return Stopwatch(taskId: UUID(), date: Date())
     
 }
 

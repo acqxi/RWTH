@@ -10,10 +10,12 @@ import SwiftData
 
 @Model
 class StopwatchData {
+    var completionDate: Date
     var times: [Time]
     var taskId: UUID
 
-    init(taskId: UUID, times: [Time]) {
+    init(completionDate: Date, taskId: UUID, times: [Time]) {
+        self.completionDate = completionDate
         self.taskId = taskId
         self.times = times
     }

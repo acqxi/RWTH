@@ -19,14 +19,39 @@ struct NewTaskView: View {
     @State private var newTag: String = ""
     @State private var tags: [String] = []
     @State private var showNewTagPopup = false
-    @State private var selectedDays:[Int] = []
+    @State private var repeatDays = Set<DayOfWeek>()
     
     var body: some View {
         NavigationStack {
             Form {
-                Section(header: Text("Task Name")) {
-                    TextField("", text: $name)
+                Section(header: Text("Task")) {
+                    TextField("Name", text: $name)
                     DatePicker("Start Date", selection: $startDate)
+                    NavigationLink {
+                        RepeatDaysChoice(repeatDays: $repeatDays)
+                    } label: {
+                        HStack(alignment: .lastTextBaseline) {
+                            Text("Repeat")
+                            Spacer()
+                            if repeatDays.isEmpty {
+                                Text("Never")
+                            } else if repeatDays == Set<DayOfWeek>([.monday, .tuesday, .wednesday, .thursday, .friday]) {
+                                Text("Every Weekday")
+                            } else if repeatDays == Set<DayOfWeek>([.saturday, .sunday]) {
+                                Text("Every Weekend Day")
+                            } else if repeatDays == Set(DayOfWeek.all) {
+                                Text("Every Day")
+                            } else {
+                                Text(
+                                    repeatDays
+                                        .sorted(by: { $0.rawValue < $1.rawValue })
+                                        .lazy
+                                        .map { $0.shortString }
+                                        .joined(separator: ", ")
+                                )
+                            }
+                        }
+                    }
                 }
                 
                 Section("Priority") {
@@ -48,27 +73,6 @@ struct NewTaskView: View {
                         Text("Add tag")
                     }
                 }
-                Section(header: Text("Repeat")) {
-                    List {
-                        ForEach(1..<8, id: \.self) { day in
-                            Toggle(isOn: Binding(
-                                get: {
-                                    self.selectedDays.contains(day)
-                                },
-                                set: {_ in
-                                    if self.selectedDays.contains(day) {
-                                        self.selectedDays.remove(at: day)
-                                    } else {
-                                        self.selectedDays.append(day)
-                                    }
-                                }
-                            )) {
-                                Text(self.dayName(for: day))
-                            }
-                        }
-                    }
-                    
-                }
             }
         }
         .navigationBarTitle("New Task")
@@ -78,7 +82,7 @@ struct NewTaskView: View {
                 dismiss()
             },
             trailing: Button("Save") {
-                let newTask = Task(name: name, tags: tags, startDate: startDate, priority: 2, selectedDays: selectedDays)
+                let newTask = Task(name: name, tags: tags, startDate: startDate, priority: 2, repeatDays: repeatDays)
                 exercise.tasks.append(newTask)
                 try! context.save()
                 dismiss()
@@ -91,24 +95,4 @@ struct NewTaskView: View {
             })
         }
     }
-    private func toggleDaySelection(_ day: Int) {
-            if let index = selectedDays.firstIndex(of: day) {
-                selectedDays.remove(at: index)
-            } else {
-                selectedDays.append(day)
-            }
-        print(selectedDays)
-        }
-    private func dayName(for day: Int) -> String {
-            switch day {
-            case 1: return "Monday"
-            case 2: return "Tuesday"
-            case 3: return "Wednesday"
-            case 4: return "Thursday"
-            case 5: return "Friday"
-            case 6: return "Saturday"
-            case 7: return "Sunday"
-            default: return ""
-            }
-        }
 }

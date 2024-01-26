@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ExerciseItem {
     let id = UUID()
@@ -15,37 +16,65 @@ struct ExerciseItem {
 }
 
 struct TaskDetailView: View {
-    var date: String // date
-    var exerciseItems: [ExerciseItem] // items
+    var date: Date // date
+    var exerciseItems: [Task] // items
+    @Query(FetchDescriptor<StopwatchData>()) var stopwatchDatum: [StopwatchData]
+    
+    init(date: Date, exerciseItems: [Task]) {
+        self.date = date
+        self.exerciseItems = exerciseItems
+        let taskIds = exerciseItems.map { $0.id }
+        let viewDateComponents = Calendar.current.dateComponents(
+            [.day, .month, .year],
+            from: date
+        )
+        let minViewDate = Calendar.current.date(from: viewDateComponents)!
+        let maxViewDate = Calendar.current.date(byAdding: .day, value: 1, to: minViewDate)!
+        self._stopwatchDatum = Query(filter: #Predicate { stopwatchData in
+            return minViewDate <= stopwatchData.completionDate && stopwatchData.completionDate < maxViewDate && taskIds.contains(stopwatchData.taskId)
+        })
+    }
 
     var body: some View {
+        let dateFormatter = { () -> DateFormatter in
+            let df = DateFormatter()
+            df.dateStyle = .medium
+            return df
+        }()
+        
         VStack(alignment: .leading, spacing: 10) {
-            Text("Date: \(date)")
-                .font(.headline)
-                .padding()
-
             ForEach(exerciseItems.indices, id: \.self) { index in
                 exerciseItemView(exerciseItems[index])
+            }
+            
+            if exerciseItems.isEmpty {
+                Spacer()
+                
+                Text("No tasks for this day")
+                    .font(.title)
+                    .multilineTextAlignment(.center)
             }
 
             Spacer()
         }
-        .navigationBarTitle("task detail", displayMode: .inline)
+        .navigationBarTitle(dateFormatter.string(from: date), displayMode: .inline)
         .padding()
     }
 
-    private func exerciseItemView(_ item: ExerciseItem) -> some View {
-        NavigationLink(destination: Stopwatch(taskId: UUID())) {
+    private func exerciseItemView(_ item: Task) -> some View {
+        let stopwatchData = stopwatchDatum.filter { $0.taskId == item.id }.first
+        
+        return NavigationLink(destination: Stopwatch(taskId: item.id, date: date)) {
             HStack {
                 VStack(alignment: .leading) {
                     Text(item.name)
                         .font(.headline)
-                    Text("times: \(item.repetitions)")
-                        .font(.subheadline)
+//                    Text("times: \(item.repetitions)")
+//                        .font(.subheadline)
                 }
                 Spacer()
-                Image(systemName: item.isCompleted ? "checkmark.circle.fill" : "circle")
-                    .foregroundColor(item.isCompleted ? .green : .gray)
+                Image(systemName: stopwatchData != nil ? "checkmark.circle.fill" : "circle")
+                    .foregroundColor(stopwatchData != nil ? .green : .gray)
             }
             .padding()
             .background(Color.gray.opacity(0.1))
@@ -56,9 +85,5 @@ struct TaskDetailView: View {
 
 
 #Preview {
-    TaskDetailView(date: "2024/01/12", exerciseItems: [
-        ExerciseItem(name: "First", repetitions: 10, isCompleted: true),
-        ExerciseItem(name: "Second", repetitions: 20, isCompleted: false),
-        ExerciseItem(name: "Third", repetitions: 30, isCompleted: false),
-    ])
+    TaskDetailView(date: Date(), exerciseItems: [])
 }

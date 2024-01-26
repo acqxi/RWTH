@@ -30,19 +30,17 @@ class Task: Identifiable {
     var id: UUID  // Unique identifier for Identifiable protocol
     
     var name: String
-    var checked: Bool
     var tags: [String]
     var startDate: Date  // Date type
     var priority: Int
-    var selectedDays:[Int]
+    var repeatDays: Set<DayOfWeek>
     
-    init(id: UUID = UUID(), name: String, checked: Bool = false, tags: [String] = [], startDate: Date, priority: Int = 2,selectedDays:[Int] = []) {
+    init(id: UUID = UUID(), name: String, tags: [String] = [], startDate: Date, priority: Int = 2, repeatDays: Set<DayOfWeek> = Set()) {
         self.id = id
         self.name = name
-        self.checked = checked
         self.tags = tags
         self.startDate = startDate
         self.priority = priority
-        self.selectedDays = selectedDays
+        self.repeatDays = repeatDays
     }
 }

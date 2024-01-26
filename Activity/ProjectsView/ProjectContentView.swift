@@ -34,6 +34,7 @@ struct ProjectContentView: View {
                 }
                 .onDelete(perform: deleteTasks)
             }
+            .font(.title)
         }
         .navigationTitle(exercise.name)
         .toolbar {

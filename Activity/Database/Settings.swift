@@ -10,8 +10,13 @@ import SwiftData
 
 @Model
 class Settings {
+    var firstName: String?
+    var lastName: String?
+    var email: String?
+    var birthday: Date?
     var accentColor: AccentColor
     var availableTags: [Tag]
+    var notificationTime: HourAndMinute?
     
     init() {
         self.accentColor = .red
@@ -27,10 +32,17 @@ class Tag {
     }
 }
 
+struct HourAndMinute: Codable {
+    var hour: Int
+    var minute: Int
+}
+
 enum AccentColor: Codable {
     case red
     case green
     case blue
+    case yellow
+    case purple
 }
 
 extension AccentColor {
@@ -42,6 +54,10 @@ extension AccentColor {
             return "Green"
         case .blue:
             return "Blue"
+        case .yellow:
+            return "Yellow"
+        case .purple:
+            return "Purple"
         }
     }
     
@@ -53,6 +69,10 @@ extension AccentColor {
             return .green
         case .blue:
             return .blue
+        case .yellow:
+            return .yellow
+        case .purple:
+            return .purple
         }
     }
 }
