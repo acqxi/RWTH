@@ -24,8 +24,14 @@ struct TagChoice: View {
                 Form {
                     ForEach(settings?.availableTags ?? []) { tag in
                         HStack {
-                            Image(systemName: selectedTags.contains(tag.name) ? "checkmark.square.fill" :  "squareshape")
-                                .foregroundStyle(selectedTags.contains(tag.name) ? .red : .gray)
+                            if selectedTags.contains(tag.name) {
+                                Image(systemName: "checkmark.square.fill")
+                                    .foregroundStyle(Color.accentColor)
+                            } else {
+                                Image(systemName: "squareshape")
+                                    .foregroundStyle(.gray)
+                            }
+                            
                             Text(tag.name)
                         }.onTapGesture {
                             if selectedTags.contains(tag.name) {
