@@ -11,6 +11,9 @@ import SwiftData
 struct NewTaskView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var context
+    
+    @Query var settingsList: [Settings]
+    var settings: Settings? { settingsList.first }
 
     var exercise: Project
     @State private var name: String = ""
@@ -93,6 +96,7 @@ struct NewTaskView: View {
                 showNewTagPopup = false
                 tags.append(contentsOf: selectedTags)
             })
+            .accentColor(settings?.accentColor.swiftuiAccentColor ?? .yellow)
         }
     }
 }
