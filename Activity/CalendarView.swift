@@ -170,7 +170,7 @@ struct DayView: View {
             }
             .frame(height: 80) // fixed height
             .padding(4)
-            .background(Color.white)
+            .background(Color(UIColor.systemBackground))
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .overlay(
                 RoundedRectangle(cornerRadius: 10)

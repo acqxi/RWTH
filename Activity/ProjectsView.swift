@@ -68,10 +68,10 @@ struct ExerciseCell: View {
     var exercise: Project
     var body: some View {
         RoundedRectangle(cornerRadius: 10)
-            .fill(Color.white)
+            .fill(Color(UIColor.secondarySystemGroupedBackground))
             .overlay(
                 Text(exercise.name)
-                    .foregroundColor(.black)
+                    .foregroundColor(.primary)
             )
     }
 }
