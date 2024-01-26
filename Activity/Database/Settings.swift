@@ -10,8 +10,13 @@ import SwiftData
 
 @Model
 class Settings {
+    var firstName: String?
+    var lastName: String?
+    var email: String?
+    var birthday: Date?
     var accentColor: AccentColor
     var availableTags: [Tag]
+    var notificationTime: HourAndMinute?
     
     init() {
         self.accentColor = .red
@@ -25,6 +30,11 @@ class Tag {
     init(name: String){
         self.name = name
     }
+}
+
+struct HourAndMinute: Codable {
+    var hour: Int
+    var minute: Int
 }
 
 enum AccentColor: Codable {
