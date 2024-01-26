@@ -61,6 +61,15 @@ struct ProjectsView: View {
                         }
                         .onDelete { indexSet in
                             for index in indexSet {
+                                for task in projects[index].tasks {
+                                    if let dataForTask = try? context.fetch(FetchDescriptor<StopwatchData>()) {
+                                        let filtered = dataForTask.filter { $0.taskId == task.id }
+                                        for data in filtered {
+                                            context.delete(data)
+                                        }
+                                    }
+                                    context.delete(task)
+                                }
                                 context.delete(projects[index])
                             }
                         }
