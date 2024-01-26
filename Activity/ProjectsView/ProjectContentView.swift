@@ -47,7 +47,7 @@ struct ProjectContentView: View {
                 }
             }
         }
-         .environment(\.editMode, editMode)
+        .environment(\.editMode, editMode)
     }
     
     func deleteTasks(at offsets: IndexSet) {
