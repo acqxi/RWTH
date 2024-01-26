@@ -121,9 +121,10 @@ struct SettingsView: View {
                             }
                         }
                     )) {
-                        Text("Red").tag(AccentColor.red)
+                        Text("Yellow").tag(AccentColor.yellow)
                         Text("Green").tag(AccentColor.green)
                         Text("Blue").tag(AccentColor.blue)
+                        Text("Purple").tag(AccentColor.purple)
                     }
                 }
                 

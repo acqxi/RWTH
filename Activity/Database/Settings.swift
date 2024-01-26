@@ -41,6 +41,8 @@ enum AccentColor: Codable {
     case red
     case green
     case blue
+    case yellow
+    case purple
 }
 
 extension AccentColor {
@@ -52,6 +54,10 @@ extension AccentColor {
             return "Green"
         case .blue:
             return "Blue"
+        case .yellow:
+            return "Yellow"
+        case .purple:
+            return "Purple"
         }
     }
     
@@ -63,6 +69,10 @@ extension AccentColor {
             return .green
         case .blue:
             return .blue
+        case .yellow:
+            return .yellow
+        case .purple:
+            return .purple
         }
     }
 }

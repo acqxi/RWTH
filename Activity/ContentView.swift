@@ -48,7 +48,7 @@ struct ContentView: View {
             
             
         }
-        .accentColor(settings?.accentColor.swiftuiAccentColor ?? .red)
+        .accentColor(settings?.accentColor.swiftuiAccentColor ?? .yellow)
     }
 }
 
