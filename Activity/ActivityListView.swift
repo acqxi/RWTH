@@ -21,7 +21,7 @@ struct ActivityListView: View {
     @Query var stopwatchData: [StopwatchData]
     @State private var selectedTimeframe: Timeframe = .allTime
     @State private var selectedDate = Date()
-
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -31,13 +31,13 @@ struct ActivityListView: View {
             .navigationTitle("Training Summary 🏋️")
         }
     }
-
+    
     // Calculate stopwatch data based on the selected timeframe
     private func calculateStopwatchData() -> [(UUID, TimeInterval)] {
         let filteredData = filterStopwatchData()
         return aggregateStopwatchData(filteredData)
     }
-
+    
     // Filter stopwatch data based on the selected timeframe
     private func filterStopwatchData() -> [StopwatchData] {
         let calendar = Calendar.current
@@ -52,7 +52,7 @@ struct ActivityListView: View {
             }
         }
     }
-
+    
     // Aggregate stopwatch data by task
     private func aggregateStopwatchData(_ data: [StopwatchData]) -> [(UUID, TimeInterval)] {
         data.reduce(into: [:]) { result, datum in
@@ -67,7 +67,7 @@ struct ActivityListView: View {
 struct ActivityChart: View {
     var tasks: [Task]
     var data: [(UUID, TimeInterval)]
-
+    
     var body: some View {
         Chart {
             ForEach(data, id: \.0) { (taskId, interval) in
@@ -100,14 +100,14 @@ struct TimeframeSelectionView: View {
     @Binding var selectedTimeframe: Timeframe
     @Binding var selectedDate: Date
     var stopwatchData: [StopwatchData]
-
+    
     var body: some View {
         Group {
             timeframeSpecificPicker()
             generalTimeframePicker()
         }
     }
-
+    
     // Picker specific to the timeframe (daily or monthly)
     private func timeframeSpecificPicker() -> some View {
         switch selectedTimeframe {
@@ -119,7 +119,7 @@ struct TimeframeSelectionView: View {
             return EmptyView().eraseToAnyView()
         }
     }
-
+    
     // General picker for selecting timeframe
     private func generalTimeframePicker() -> some View {
         Picker("Select Timeframe", selection: $selectedTimeframe) {
@@ -140,7 +140,7 @@ extension View {
 struct MonthPickerView: View {
     @Binding var selectedDate: Date
     var stopwatchData: [StopwatchData]
-
+    
     var body: some View {
         Picker("Month to view", selection: $selectedDate) {
             ForEach(uniqueMonthAndYears(), id: \.self) { monthAndYear in
@@ -149,7 +149,7 @@ struct MonthPickerView: View {
         }
         .pickerStyle(MenuPickerStyle())
     }
-
+    
     // Calculate unique month and year combinations
     private func uniqueMonthAndYears() -> [MonthAndYear] {
         Set(stopwatchData.map { MonthAndYear(from: $0.completionDate) })

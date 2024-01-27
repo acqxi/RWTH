@@ -10,13 +10,11 @@ import SwiftUI
 import SwiftData
 
 // Constants for reuse and easy modification
-private enum Constants {
-    static let dailyNotificationId = "DAILY_NOTIFICATION"
-    static let notificationTitle = "Let's Check What You've Got For Today!"
-    static let notificationSubtitle = "Motivation is what gets you started. Habit is what keeps you going."
-    static let defaultHour = 8
-    static let defaultMinute = 0
-}
+let dailyNotificationId = "DAILY_NOTIFICATION"
+let notificationTitle = "Let's Check What You've Got For Today!"
+let notificationSubtitle = "Motivation is what gets you started. Habit is what keeps you going."
+let defaultHour = 8
+let defaultMinute = 0
 
 struct SettingsView: View {
     @Environment(\.modelContext) var modelContext
@@ -24,7 +22,7 @@ struct SettingsView: View {
     var settings: Settings? { settingsList.first }
 
     @State private var notificationPermission = UNAuthorizationStatus.notDetermined
-    @State private var dynamicFontSize: CGFloat = 14
+    @State private var dynamicFontSize: CGFloat = 17
 
     // Function to update settings, creating new settings if none exist.
     private func updateSettings(_ updateBlock: (_ settings: Settings) -> Void) {
@@ -41,7 +39,7 @@ struct SettingsView: View {
     // Function to remove daily notifications, with an option to update the database.
     private func removeDailyNotification(updatingDatabase: Bool = true) {
         UNUserNotificationCenter.current()
-            .removePendingNotificationRequests(withIdentifiers: [Constants.dailyNotificationId])
+            .removePendingNotificationRequests(withIdentifiers: [dailyNotificationId])
         if updatingDatabase {
             updateSettings { $0.notificationTime = nil }
         }
@@ -54,20 +52,20 @@ struct SettingsView: View {
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
 
         let request = UNNotificationRequest(
-            identifier: Constants.dailyNotificationId,
+            identifier: dailyNotificationId,
             content: content,
             trigger: trigger
         )
 
         UNUserNotificationCenter.current().add(request)
-        updateSettings { $0.notificationTime = HourAndMinute(hour: dateComponents.hour ?? Constants.defaultHour, minute: dateComponents.minute ?? Constants.defaultMinute) }
+        updateSettings { $0.notificationTime = HourAndMinute(hour: dateComponents.hour ?? defaultHour, minute: dateComponents.minute ?? defaultMinute) }
     }
 
     // Creating notification content to reduce complexity in scheduleDailyNotification
     private func createNotificationContent() -> UNMutableNotificationContent {
         let content = UNMutableNotificationContent()
-        content.title = Constants.notificationTitle
-        content.subtitle = Constants.notificationSubtitle
+        content.title = notificationTitle
+        content.subtitle = notificationSubtitle
         content.sound = UNNotificationSound.default
         return content
     }
@@ -75,28 +73,18 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             Form {
-                // Section for font size adjustment
-                Section(header: Text("Font Size").font(.system(size: dynamicFontSize))) {
-                    Slider(
-                        value: $dynamicFontSize,
-                        in: 12...24, // Range for font size
-                        step: 1
-                    )
-                    Text("Font size: \(Int(dynamicFontSize))").font(.system(size: dynamicFontSize))
-                }
-                
                 personalInfoSection()
                 visualSettingsSection()
                 notificationSettingsSection()
+                fontSizeSection()
             }
             .navigationTitle("Settings")
-            .dynamicTypeSize(/*@START_MENU_TOKEN@*/.xLarge/*@END_MENU_TOKEN@*/)
         }
     }
 
     // Personal Information Section
     private func personalInfoSection() -> some View {
-        Section(header: Text("Personal Information").font(.system(size: dynamicFontSize))) {
+        Section(header: Text("Personal Information")) {
             // Use the dynamic font size for TextFields and Labels
             TextField("First Name", text: textFieldBinding(for: \.firstName))
                 .font(.system(size: dynamicFontSize))
@@ -117,12 +105,12 @@ struct SettingsView: View {
         Section(header: Text("Visual Settings")) {
             Picker("Accent Color", selection: pickerBinding(for: \.accentColor, defaultValue: AccentColor.yellow)) {
                 Text("Yellow").tag(AccentColor.yellow)
-                Text("Green").tag(AccentColor.green)
                 Text("Blue").tag(AccentColor.blue)
                 Text("Purple").tag(AccentColor.purple)
+                Text("Green").tag(AccentColor.green)
             }
+            .font(.system(size: dynamicFontSize))
         }
-        .font(.system(size: dynamicFontSize))
     }
 
     // Notification Settings Section
@@ -142,6 +130,20 @@ struct SettingsView: View {
         }
     }
 
+    private func fontSizeSection() -> some View {
+        // Section for font size adjustment
+        Section(header: Text("Font Size")) {
+            HStack {
+                Slider(
+                    value: $dynamicFontSize,
+                    in: 12...24, // Range for font size
+                    step: 1
+                )
+                Text(String(Int(dynamicFontSize)))
+            }
+        }
+    }
+    
     // Extracting smaller view components
     private func dailyReminderToggle() -> some View {
         Toggle(isOn: toggleBinding(), label: { Text("Daily Reminder").font(.system(size: dynamicFontSize)) })
@@ -163,7 +165,7 @@ struct SettingsView: View {
     }
 
     private func notificationPermissionDeniedView() -> some View {
-        VStack {
+        Group {
             Text("Notification Permission Denied")
             Button("Enable in Settings") {
                 if let url = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(url) {
@@ -224,7 +226,7 @@ struct SettingsView: View {
             get: { self.settings?.notificationTime != nil },
             set: { newValue in
                 if newValue {
-                    scheduleDailyNotification(for: DateComponents(calendar: Calendar.current, hour: Constants.defaultHour, minute: Constants.defaultMinute))
+                    scheduleDailyNotification(for: DateComponents(calendar: Calendar.current, hour: defaultHour, minute: defaultMinute))
                 } else {
                     removeDailyNotification()
                 }
@@ -248,7 +250,7 @@ struct SettingsView: View {
     private func requestNotificationPermission() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, _ in
             if success {
-                scheduleDailyNotification(for: DateComponents(calendar: Calendar.current, hour: Constants.defaultHour, minute: Constants.defaultMinute))
+                scheduleDailyNotification(for: DateComponents(calendar: Calendar.current, hour: defaultHour, minute: defaultMinute))
             }
             refreshNotificationPermissionStatus()
         }

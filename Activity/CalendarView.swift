@@ -3,8 +3,6 @@
 //  GymTime
 //
 //  Created by JieTing on 2024/1/15.
-//  Start comment
-//  nofec????
 //
 
 import SwiftUI

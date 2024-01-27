@@ -24,79 +24,79 @@ struct Stopwatch: View {
     }
     
     var body: some View {
-            ZStack {
-                background
-                VStack {
-                    stopwatchCircle
-                    controlButtons
-                }
+        ZStack {
+            background
+            VStack {
+                stopwatchCircle
+                controlButtons
             }
         }
-
-        private var background: some View {
-            Color.black.opacity(0.06).edgesIgnoringSafeArea(.all)
-        }
-        
-        private var stopwatchCircle: some View {
-            ZStack {
-                Circle()
-                    .stroke(colorScheme == .light ? Color.black.opacity(0.09) : Color.white.opacity(0.09), lineWidth: 14)
-                    .frame(width: 280, height: 280)
-                if viewModel.shouldDisplayProgress {
-                    Circle()
-                        .trim(from: 0, to: min(viewModel.elapsedPeriods, 1.0))
-                        .stroke(AngularGradient(colors: [.yellow, .orange, .pink, .red], center: .center), style: StrokeStyle(lineWidth: 20, lineCap: .butt, lineJoin: .miter))
-                        .frame(width: 280, height: 280)
-                        .rotationEffect(.degrees(-90))
-                }
-                Text(viewModel.timeElapsed)
-                    .font(.largeTitle)
-            }
-            .padding()
-        }
+    }
     
-        private var controlButtons: some View {
-            HStack {
-                Button(action: viewModel.isRunning ? viewModel.stop : viewModel.start) {
-                    Text(viewModel.isRunning ? "Pause" : "Start")
-                        .styledButton(backgroundColor: viewModel.isRunning ? .orange : .green)
-                }
-                
-                if viewModel.hasStarted {
-                    finishButton
-                }
+    private var background: some View {
+        Color.black.opacity(0.06).edgesIgnoringSafeArea(.all)
+    }
+    
+    private var stopwatchCircle: some View {
+        ZStack {
+            Circle()
+                .stroke(colorScheme == .light ? Color.black.opacity(0.09) : Color.white.opacity(0.09), lineWidth: 14)
+                .frame(width: 280, height: 280)
+            if viewModel.shouldDisplayProgress {
+                Circle()
+                    .trim(from: 0, to: min(viewModel.elapsedPeriods, 1.0))
+                    .stroke(AngularGradient(colors: [.yellow, .orange, .pink, .red], center: .center), style: StrokeStyle(lineWidth: 20, lineCap: .butt, lineJoin: .miter))
+                    .frame(width: 280, height: 280)
+                    .rotationEffect(.degrees(-90))
             }
-            .padding()
+            Text(viewModel.timeElapsed)
+                .font(.largeTitle)
         }
-        
-        private var finishButton: some View {
-            Button(action: {
-                viewModel.stop()
-                saveStopwatchData()
-            }) {
-                Text("Finish").styledButton(backgroundColor: .red)
+        .padding()
+    }
+    
+    private var controlButtons: some View {
+        HStack {
+            Button(action: viewModel.isRunning ? viewModel.stop : viewModel.start) {
+                Text(viewModel.isRunning ? "Pause" : "Start")
+                    .styledButton(backgroundColor: viewModel.isRunning ? .orange : .green)
+            }
+            
+            if viewModel.hasStarted {
+                finishButton
             }
         }
-        
-        private func saveStopwatchData() {
-            let stopwatchData = StopwatchData(
-                completionDate: date,
-                taskId: taskId,
-                times: viewModel.stopwatchData.map(Time.init)
-            )
-            context.insert(stopwatchData)
+        .padding()
+    }
+    
+    private var finishButton: some View {
+        Button(action: {
+            viewModel.stop()
+            saveStopwatchData()
+        }) {
+            Text("Finish").styledButton(backgroundColor: .red)
         }
     }
+    
+    private func saveStopwatchData() {
+        let stopwatchData = StopwatchData(
+            completionDate: date,
+            taskId: taskId,
+            times: viewModel.stopwatchData.map(Time.init)
+        )
+        context.insert(stopwatchData)
+    }
+}
 
-    // Extending View for commonly used button styles
-    extension View {
-        func styledButton(backgroundColor: Color) -> some View {
-            self.padding()
-                .background(backgroundColor)
-                .foregroundColor(.white)
-                .cornerRadius(10)
-        }
+// Extending View for commonly used button styles
+extension View {
+    func styledButton(backgroundColor: Color) -> some View {
+        self.padding()
+            .background(backgroundColor)
+            .foregroundColor(.white)
+            .cornerRadius(10)
     }
+}
 
 class StopwatchViewModel: ObservableObject {
     @Published var timeElapsed: String = "00:00:00"
@@ -111,14 +111,14 @@ class StopwatchViewModel: ObservableObject {
     
     var elapsedPeriods: Double { (previousElapsedTime + currentElapsedTime) / period }
     var shouldDisplayProgress: Bool { elapsedPeriods < 1 || (previousElapsedTime + currentElapsedTime).truncatingRemainder(dividingBy: 1) > 0.3 }
-
+    
     func start() {
         isRunning = true
         hasStarted = true
         startTime = Date()
         startTimer()
     }
-
+    
     func stop() {
         isRunning = false
         timer?.invalidate()
@@ -127,20 +127,20 @@ class StopwatchViewModel: ObservableObject {
             self.startTime = nil
         }
     }
-
+    
     private func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { [weak self] _ in
             self?.updateTimeElapsed()
         }
     }
-
+    
     private func updateStopwatchData(start: Date, end: Date) {
         let sinceStart = end.timeIntervalSince(start)
         currentElapsedTime = 0
         previousElapsedTime += sinceStart
         stopwatchData.append((start, end))
     }
-
+    
     private func updateTimeElapsed() {
         guard let startTime = startTime else { return }
         let elapsedTime = Date().timeIntervalSince(startTime) + previousElapsedTime
