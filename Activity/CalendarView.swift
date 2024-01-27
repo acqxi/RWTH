@@ -12,13 +12,14 @@ struct CalendarView: View {
     @State private var currentMonth = Date()
     private let calendar = Calendar.current
 
-    // title
+    // Titles for days of the week.
     private let daysOfWeek = DayOfWeek.all
 
     var body: some View {
-        NavigationView {
+        // Main navigation view for the calendar.
+        NavigationStack {
             VStack {
-                // Month change controler
+                // Controls for changing the current month.
                 HStack {
                     Button(action: { self.changeMonth(by: -1) }) {
                         Image(systemName: "chevron.left")
@@ -33,7 +34,7 @@ struct CalendarView: View {
                 }
                 .padding()
                 
-                // show week's title
+                // Displaying days of the week.
                 HStack {
                     ForEach(daysOfWeek) { day in
                         Text(day.shortString)
@@ -42,7 +43,7 @@ struct CalendarView: View {
                 }
                 
                 ScrollView{
-                    // month calendar
+                    // Displaying month calendar.
                     LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7)) {
                         // show empty day
                         let nofec = Int(numberOfEmptyCells(at: currentMonth))
@@ -70,20 +71,21 @@ struct CalendarView: View {
         }
     }
 
-    // change month
+    // Function to change the current month.
     func changeMonth(by amount: Int) {
+        // Logic to change the current month.
         if let newMonth = Calendar.current.date(byAdding: .month, value: amount, to: currentMonth) {
             currentMonth = newMonth
         }
     }
 
-    // calc how many days in a month
+    // Function to calculate how many days in a month.
     func daysInMonth(date: Date) -> Int {
         let range = Calendar.current.range(of: .day, in: .month, for: date)
         return range?.count ?? 30
     }
     
-    // calc how many days in first week before first day in the months
+    // Function to calculate how many days in first week before first day in the months.
     func numberOfEmptyCells(at date: Date) -> Int {
         let firstDayOfMonth = calendar.date(from: Calendar.current.dateComponents([.year, .month], from: date))!
         // Sunday is 1, Monday is 2, Tuesday is 3
@@ -94,7 +96,7 @@ struct CalendarView: View {
         // If the first day of the month is Tuedsay, we need 1 empty cell
         // ...
         // If the first day of the month is Sunday, we need 6 empty cells
-        return (weekday + 5) % 7 // cnt rest day in week
+        return (weekday + 5) % 7 // Count rest days in a week.
     }
 }
 
@@ -109,13 +111,13 @@ struct DayView: View {
         let componentsOfDate = Calendar.current.dateComponents([.day, .month, .year], from: date)
         return allTasks.filter { task in
             if task.startDate > Calendar.current.date(byAdding: .day, value: 1, to: date)! {
-                // Task starts after today, therefore we're not interested
+                // Task starts after today, therefore we're not interested.
                 return false
             }
             
             let componentsOfTask = Calendar.current.dateComponents([.day, .month, .year], from: task.startDate)
             if componentsOfDate == componentsOfTask {
-                // If the task starts today, then it is okay
+                // If the task starts today, then it is okay.
                 return true
             }
             
@@ -123,11 +125,11 @@ struct DayView: View {
             if weekdayOfDate == 0 { weekdayOfDate = 7 }
             let weekday = DayOfWeek(rawValue: weekdayOfDate)!
             if task.repeatDays.contains(weekday) {
-                // The task repeats today, so it's okay
+                // The task repeats today, so it's okay.
                 return true
             }
             
-            // The task doesn't repeat today, don't use it
+            // The task doesn't repeat today, don't use it.
             return false
         }
     }
@@ -195,16 +197,15 @@ struct TaskView: View {
     }
 }
 
-struct CalendarView_Previews: PreviewProvider {
-    static var previews: some View {
-        CalendarView()
-    }
-}
-
+// Extension to provide a custom date formatter for the month and year.
 extension DateFormatter {
     static let monthAndYear: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM yyyy"
         return formatter
     }()
+}
+
+#Preview{
+    CalendarView()
 }
