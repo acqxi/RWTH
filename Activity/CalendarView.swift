@@ -67,7 +67,7 @@ struct controlPanelView: View {
             
             ZStack(alignment: .topLeading) {
                 RoundedRectangle(cornerRadius: 8)
-                    .fill(Color(red: 0.8, green: 0.8, blue: 0.8) )
+                    .fill(Color.accentColor.opacity(0.8))
                     .frame(width: rects[styleIdx].size.width, height: rects[styleIdx].size.height)
                     .overlay(RoundedRectangle(cornerRadius: 8)
                         .stroke(lineWidth: 5.0).foregroundColor(.accentColor)
@@ -82,7 +82,7 @@ struct controlPanelView: View {
                 }
                 
             }
-            .background(Color(red: 0.9, green: 0.9, blue: 0.9))
+            .background(Color(UIColor.secondarySystemBackground))
             .cornerRadius(8)
             .coordinateSpace(name: "controlPanelZStack")
             .onTapGesture { styleIdx = (styleIdx + 1) % 2 }
