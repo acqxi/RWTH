@@ -116,39 +116,6 @@ struct CalendarView: View {
     @State private var styleIdx: Int = 0
     
     @Query var projects: [Project]
-    
-    @State private var isSearching = false
-    @State private var searchTerm = ""
-    private var searchResults: [SearchResult] {
-        var result: [Project: SearchResult] = [:]
-        
-        let lowercaseSearchTerm = searchTerm.localizedLowercase
-        
-        for project in projects {
-            if project.name.localizedLowercase.contains(lowercaseSearchTerm) {
-                result[project] = SearchResult(project: project, tasks: [], tags: [], findReasons: [.project])
-            }
-            for task in project.tasks {
-                if task.name.localizedLowercase.contains(lowercaseSearchTerm) {
-                    var sr = result[project] ?? SearchResult(project: project, tasks: [], tags: [], findReasons: [])
-                    sr.tasks.insert(task)
-                    sr.findReasons.insert(.task(task.id))
-                    result[project] = sr
-                }
-                for tag in task.tags {
-                    if tag.localizedLowercase.contains(lowercaseSearchTerm) {
-                        var sr = result[project] ?? SearchResult(project: project, tasks: [], tags: [], findReasons: [])
-                        sr.tasks.insert(task)
-                        sr.tags.insert(tag)
-                        sr.findReasons.insert(.tag(tag))
-                        result[project] = sr
-                    }
-                }
-            }
-        }
-        
-        return Array(result.values)
-    }
 
     // Titles for days of the week.
     private let daysOfWeek = DayOfWeek.all
@@ -161,34 +128,7 @@ struct CalendarView: View {
                 controlPanelView(styleIdx: $styleIdx, currentMonth: $currentMonth)
                 
                 if styleIdx == 1 {
-                    VStack{
-                        TextField("Typing to search...", text: $searchTerm)
-                            .padding(7)
-                            .background(Color(.systemGray6))
-                            .cornerRadius(8)
-                            .padding(.horizontal, 10)
-                        
-                        Spacer()
-                        
-                        Group {
-                            if searchTerm.isEmpty {
-                                ListView(currentMonth: currentMonth)
-                            } else if !searchResults.isEmpty {
-                                List(searchResults) { result in
-                                    NavigationLink {
-                                        ProjectContentView(exercise: result.project)
-                                    } label: {
-                                        ProjectSearchResultView(result: result)
-                                    }
-                                }
-                                .listStyle(InsetListStyle())
-                                .background(Color.white)
-                            }
-                            else {
-                                Text("Nothing match !!")
-                            }
-                        }
-                    }
+                    ListView(currentMonth: currentMonth)
                 }
                 else{
                     
@@ -255,6 +195,39 @@ func daysInMonth(date: Date) -> Int {
 struct ListView: View {
     var currentMonth: Date
     @Query var projects: [Project]
+    
+    @State private var isSearching = false
+    @State private var searchTerm = ""
+    private var searchResults: [SearchResult] {
+        var result: [Project: SearchResult] = [:]
+        
+        let lowercaseSearchTerm = searchTerm.localizedLowercase
+        
+        for project in projects {
+            if project.name.localizedLowercase.contains(lowercaseSearchTerm) {
+                result[project] = SearchResult(project: project, tasks: [], tags: [], findReasons: [.project])
+            }
+            for task in project.tasks {
+                if task.name.localizedLowercase.contains(lowercaseSearchTerm) {
+                    var sr = result[project] ?? SearchResult(project: project, tasks: [], tags: [], findReasons: [])
+                    sr.tasks.insert(task)
+                    sr.findReasons.insert(.task(task.id))
+                    result[project] = sr
+                }
+                for tag in task.tags {
+                    if tag.localizedLowercase.contains(lowercaseSearchTerm) {
+                        var sr = result[project] ?? SearchResult(project: project, tasks: [], tags: [], findReasons: [])
+                        sr.tasks.insert(task)
+                        sr.tags.insert(tag)
+                        sr.findReasons.insert(.tag(tag))
+                        result[project] = sr
+                    }
+                }
+            }
+        }
+        
+        return Array(result.values)
+    }
 
     private var allTasks: [Task] {
         projects.flatMap { $0.tasks }
@@ -297,13 +270,42 @@ struct ListView: View {
     var taskInMonth: [(Date, [Task])] {dayInMonth.compactMap { ($0, tasksInDay(date: $0))}.filter { !$0.1.isEmpty}}
     
     var body: some View {
-        ScrollView{
-            VStack{
-                ForEach(taskInMonth, id: \.0.self) { date, tasks in
-                    ListDayView(date: date, tasks: tasks)
+        VStack(){
+            HStack{
+                TextField("Typing to search...", text: $searchTerm)
+                    .padding(7)
+                    .background(Color(.systemGray6))
+                    .cornerRadius(8)
+                    .padding(.horizontal, 10)
+            }
+            .padding([.bottom])
+            
+            Group {
+                if searchTerm.isEmpty {
+                    ScrollView{
+                        VStack{
+                            ForEach(taskInMonth, id: \.0.self) { date, tasks in
+                                ListDayView(date: date, tasks: tasks)
+                            }
+                        }
+                    }
+                } else if !searchResults.isEmpty {
+                    List(searchResults) { result in
+                        NavigationLink {
+                            ProjectContentView(exercise: result.project)
+                        } label: {
+                            ProjectSearchResultView(result: result)
+                        }
+                    }
+                    .listStyle(InsetListStyle())
+                    .background(Color.white)
+                }
+                else {
+                    Text("Nothing match !!")
                 }
             }
         }
+        
     }
 }
 
