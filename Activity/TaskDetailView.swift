@@ -15,6 +15,28 @@ struct ExerciseItem {
     var isCompleted: Bool
 }
 
+struct TaskDetailPage: View {
+    var date: Date
+    
+    var body: some View {
+        let dateFormatter = { () -> DateFormatter in
+            let df = DateFormatter()
+            df.dateStyle = .medium
+            return df
+        }()
+        
+        TaskDetailView(date: date)
+            .navigationBarTitle(dateFormatter.string(from: date), displayMode: .inline)
+            .navigationBarItems(
+                trailing:
+                    NavigationLink(destination: NewExerciseView()) {
+                        Image(systemName: "plus")
+                    }
+            )
+            .padding()
+    }
+}
+
 struct TaskDetailView: View {
     var date: Date
     var maxViewDayCnt = 1 // use for count maxViewDate
@@ -73,12 +95,6 @@ struct TaskDetailView: View {
     }
 
     var body: some View {
-        let dateFormatter = { () -> DateFormatter in
-            let df = DateFormatter()
-            df.dateStyle = .medium
-            return df
-        }()
-        
         VStack(alignment: .leading, spacing: 10) {
             ForEach(tasksToday.indices, id: \.self) { index in
                 exerciseItemView(tasksToday[index])
@@ -91,17 +107,9 @@ struct TaskDetailView: View {
                     .font(.title)
                     .multilineTextAlignment(.center)
             }
-
+            
             Spacer()
         }
-        .navigationBarTitle(dateFormatter.string(from: date), displayMode: .inline)
-        .navigationBarItems(
-            trailing:
-                NavigationLink(destination: NewExerciseView()) {
-                    Image(systemName: "plus")
-                }
-        )
-        .padding()
     }
 
     private func exerciseItemView(_ item: Task) -> some View {

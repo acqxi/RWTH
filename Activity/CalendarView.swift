@@ -400,7 +400,7 @@ struct DayView: View {
         let tasksDoneToday = tasksOfToday.filter { task in
             stopwatchOfToday.contains { $0.taskId == task.id }
         }
-        NavigationLink(destination: TaskDetailView(date: date)) {
+        NavigationLink(destination: TaskDetailPage(date: date)) {
             VStack {
                 // show date
                 Text("\(Calendar.current.dateComponents([.day], from: date).day!)")

@@ -10,7 +10,9 @@ import SwiftUI
 struct HomeView: View {
     var body: some View {
         NavigationStack{
-            TaskDetailView(date:Date())
+            VStack {
+                TaskDetailView(date:Date())
+            }.navigationTitle("Welcome")
         }
     }
 }
