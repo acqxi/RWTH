@@ -11,15 +11,19 @@ import SwiftData
 struct NewExerciseView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var context
-
+    @Query() var existingProjects: [Project]
+    
     @State private var name: String = ""
     
     var body: some View {
         NavigationStack {
             Form {
-               Section(header: Text("Project Name")) {
-                  TextField("", text: $name)
-               }
+                Section(header: Text("Project Name")) {
+                    TextField("", text: $name)
+                    if existingProjects.contains(where: { $0.name == name }) {
+                        Text("A project with the same name already exists").foregroundStyle(.red)
+                    }
+                }
             }
         }
         .navigationBarTitle("New Project")
@@ -37,6 +41,7 @@ struct NewExerciseView: View {
                     try! context.save()
                     dismiss()
                 }
+                .disabled(name.isEmpty || existingProjects.contains(where: { $0.name == name }))
             }
         }
     }

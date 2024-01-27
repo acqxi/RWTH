@@ -76,11 +76,11 @@
 				56247C792B641BC400D16D8E /* ProjectsView.swift */,
 				1626F2662B613BE3008D4713 /* ExerciseCell.swift */,
 				1626F2682B613C19008D4713 /* NewExerciseView.swift */,
+				1626F2722B613D3D008D4713 /* NewTaskView.swift */,
 				1626F26A2B613C3C008D4713 /* ProjectContentView.swift */,
 				1626F26C2B613C78008D4713 /* ProjectTaskDetailView.swift */,
 				1626F26E2B613CC5008D4713 /* EditTaskView.swift */,
 				1626F2702B613CFD008D4713 /* TagChoice.swift */,
-				1626F2722B613D3D008D4713 /* NewTaskView.swift */,
 				56247C7B2B641BD100D16D8E /* RepeatDaysChoice.swift */,
 			);
 			path = ProjectsView;
