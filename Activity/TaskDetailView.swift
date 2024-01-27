@@ -64,21 +64,29 @@ struct TaskDetailView: View {
     private func exerciseItemView(_ item: Task) -> some View {
         let stopwatchData = stopwatchDatum.filter { $0.taskId == item.id }.first
         
-        return NavigationLink(destination: Stopwatch(taskId: item.id, date: date)) {
-            HStack {
-                VStack(alignment: .leading) {
-                    Text(item.name)
-                        .font(.headline)
+        // TODO: "Do you want to do more work or delete and try again?"
+        let label = HStack {
+            VStack(alignment: .leading) {
+                Text(item.name)
+                    .font(.headline)
 //                    Text("times: \(item.repetitions)")
 //                        .font(.subheadline)
-                }
-                Spacer()
-                Image(systemName: stopwatchData != nil ? "checkmark.circle.fill" : "circle")
-                    .foregroundColor(stopwatchData != nil ? .green : .gray)
             }
-            .padding()
-            .background(Color.gray.opacity(0.1))
-            .cornerRadius(10)
+            Spacer()
+            Image(systemName: stopwatchData != nil ? "checkmark.circle.fill" : "circle")
+                .foregroundColor(stopwatchData != nil ? .green : .gray)
+        }
+        .padding()
+        .background(Color.gray.opacity(0.1))
+        .cornerRadius(10)
+        
+        if stopwatchData == nil {
+            return AnyView(NavigationLink(destination: Stopwatch(taskId: item.id, date: date)) {
+                label
+            })
+        }
+        else {
+            return AnyView(label)
         }
     }
 }
