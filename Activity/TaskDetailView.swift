@@ -8,13 +8,6 @@
 import SwiftUI
 import SwiftData
 
-struct ExerciseItem {
-    let id = UUID()
-    var name: String
-    var repetitions: Int
-    var isCompleted: Bool
-}
-
 struct TaskDetailPage: View {
     var date: Date
     
@@ -40,7 +33,6 @@ struct TaskDetailPage: View {
 struct TaskDetailView: View {
     var date: Date
     var maxViewDayCnt = 1 // use for count maxViewDate
-    @Query(FetchDescriptor<StopwatchData>()) var stopwatchDatum: [StopwatchData]
     
     @Environment(\.modelContext) var context
     
@@ -48,7 +40,7 @@ struct TaskDetailView: View {
     @State var navigatingToStopwatch = false
     @State var continuingStopwatchDatum: StopwatchData?
     
-    @Query(FetchDescriptor<StopwatchData>()) var stopwatchData: [StopwatchData]
+    @Query var stopwatchData: [StopwatchData]
     @Query var projects: [Project]
     private var allTasks: [Task] {
         projects.flatMap { $0.tasks }
@@ -89,9 +81,6 @@ struct TaskDetailView: View {
         )
         let minViewDate = Calendar.current.date(from: viewDateComponents)!
         let maxViewDate = Calendar.current.date(byAdding: .day, value: 1, to: minViewDate)!
-        self._stopwatchData = Query(filter: #Predicate { stopwatchDatum in
-            return minViewDate <= stopwatchDatum.completionDate && stopwatchDatum.completionDate < maxViewDate && taskIds.contains(stopwatchDatum.taskId)
-        })
     }
 
     var body: some View {
@@ -113,15 +102,12 @@ struct TaskDetailView: View {
     }
 
     private func exerciseItemView(_ item: Task) -> some View {
-        let stopwatchDatum = stopwatchData.filter { $0.taskId == item.id }.first
+        let stopwatchDatum = stopwatchData.filter { $0.taskId == item.id && Calendar.current.isDate($0.completionDate, inSameDayAs: date) }.first
         
-        // TODO: "Do you want to do more work or delete and try again?"
         let label = HStack {
             VStack(alignment: .leading) {
                 Text(item.name)
                     .font(.headline)
-//                    Text("times: \(item.repetitions)")
-//                        .font(.subheadline)
             }
             Spacer()
             Image(systemName: stopwatchDatum != nil ? "checkmark.circle.fill" : "circle")
