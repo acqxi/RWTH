@@ -332,7 +332,7 @@ struct ListDayView: View {
             }
             
             ForEach(tasks, id: \.self) { task in
-                let stopwatchData = stopwatchData.filter { $0.taskId == task.id }.first
+                let stopwatchData = stopwatchData.filter { $0.taskId == task.id && Calendar.current.isDate($0.completionDate, inSameDayAs: date) }.first
                 NavigationLink(destination: Stopwatch(taskId: task.id, date: date)) {
                     HStack {
                         VStack(alignment: .leading) {
