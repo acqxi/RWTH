@@ -51,6 +51,7 @@ struct ContentView: View {
                 }
         }
         .accentColor(settings?.accentColor.swiftuiAccentColor ?? .yellow)
+        .font(.system(size: settings?.dynamicFontSize ?? 17))
     }
 }
 
