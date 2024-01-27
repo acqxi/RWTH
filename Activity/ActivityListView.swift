@@ -196,8 +196,6 @@ extension Date {
         let components = DateComponents(year: year, month: month, day: day)
         return Calendar.current.date(from: components)!
     }
-    
-    
 }
 
 #Preview {

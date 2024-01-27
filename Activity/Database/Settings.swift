@@ -17,10 +17,12 @@ class Settings {
     var accentColor: AccentColor
     var availableTags: [Tag]
     var notificationTime: HourAndMinute?
+    var dynamicFontSize: CGFloat?
     
     init() {
         self.accentColor = .red
         self.availableTags = []
+        self.dynamicFontSize = 14
     }
 }
 

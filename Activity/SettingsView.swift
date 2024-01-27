@@ -24,7 +24,6 @@ struct SettingsView: View {
     var settings: Settings? { settingsList.first }
 
     @State private var notificationPermission = UNAuthorizationStatus.notDetermined
-    @State private var dynamicFontSize: CGFloat = 14
 
     // Function to update settings, creating new settings if none exist.
     private func updateSettings(_ updateBlock: (_ settings: Settings) -> Void) {
@@ -76,13 +75,20 @@ struct SettingsView: View {
         NavigationStack {
             Form {
                 // Section for font size adjustment
-                Section(header: Text("Font Size").font(.system(size: dynamicFontSize))) {
+                Section(header: Text("Font Size")) {
                     Slider(
-                        value: $dynamicFontSize,
+                        value: Binding(
+                            get: { self.settings?.dynamicFontSize ?? 14 },
+                            set: { newValue in
+                                if var settings = self.settings {
+                                    settings.dynamicFontSize = newValue
+                                }
+                            }
+                        ),
                         in: 12...24, // Range for font size
                         step: 1
                     )
-                    Text("Font size: \(Int(dynamicFontSize))").font(.system(size: dynamicFontSize))
+                    Text("Font size: \(Int(settings?.dynamicFontSize ?? 14))")
                 }
                 
                 personalInfoSection()
@@ -90,26 +96,23 @@ struct SettingsView: View {
                 notificationSettingsSection()
             }
             .navigationTitle("Settings")
-            .dynamicTypeSize(/*@START_MENU_TOKEN@*/.xLarge/*@END_MENU_TOKEN@*/)
+            .font(.system(size: settings?.dynamicFontSize ?? 14))
         }
     }
 
     // Personal Information Section
     private func personalInfoSection() -> some View {
-        Section(header: Text("Personal Information").font(.system(size: dynamicFontSize))) {
+        Section(header: Text("Personal Information")) {
             // Use the dynamic font size for TextFields and Labels
             TextField("First Name", text: textFieldBinding(for: \.firstName))
-                .font(.system(size: dynamicFontSize))
             TextField("Last Name", text: textFieldBinding(for: \.lastName))
-                .font(.system(size: dynamicFontSize))
             TextField("Email", text: textFieldBinding(for: \.email))
                 .keyboardType(.emailAddress)
                 .autocapitalization(.none)
                 .autocorrectionDisabled(true)
-                .font(.system(size: dynamicFontSize))
             DatePicker("Birthday", selection: datePickerBinding(for: \.birthday), displayedComponents: .date)
-                .font(.system(size: dynamicFontSize))
         }
+        .font(.system(size: settings?.dynamicFontSize ?? 14))
     }
 
     // Visual Settings Section
@@ -122,7 +125,6 @@ struct SettingsView: View {
                 Text("Purple").tag(AccentColor.purple)
             }
         }
-        .font(.system(size: dynamicFontSize))
     }
 
     // Notification Settings Section
@@ -140,11 +142,13 @@ struct SettingsView: View {
                 Text("Notification Permission Unknown")
             }
         }
+        .font(.system(size: settings?.dynamicFontSize ?? 14))
     }
 
     // Extracting smaller view components
     private func dailyReminderToggle() -> some View {
-        Toggle(isOn: toggleBinding(), label: { Text("Daily Reminder").font(.system(size: dynamicFontSize)) })
+        Toggle(isOn: toggleBinding(), label: { Text("Daily Reminder")})
+            .font(.system(size: settings?.dynamicFontSize ?? 14))
     }
 
     private func notificationTimePicker() -> some View {
@@ -198,6 +202,18 @@ struct SettingsView: View {
     private func datePickerBinding(for keyPath: WritableKeyPath<Settings, Date?>) -> Binding<Date> {
         Binding(
             get: { self.settings?[keyPath: keyPath] ?? Date() }, // Default to current date if nil
+            set: { newValue in
+                self.updateSettings { settings in
+                    var mutableSettings = settings
+                    mutableSettings[keyPath: keyPath] = newValue
+                }
+            }
+        )
+    }
+    
+    private func fontSizeBinding(for keyPath: WritableKeyPath<Settings, CGFloat?>) -> Binding<CGFloat> {
+        Binding(
+            get: { self.settings?[keyPath: keyPath] ?? 14 },
             set: { newValue in
                 self.updateSettings { settings in
                     var mutableSettings = settings
