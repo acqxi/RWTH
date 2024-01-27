@@ -10,6 +10,7 @@ import SwiftData
 
 struct Stopwatch: View {
     var date: Date
+    var stopwatchDataToUpdate: StopwatchData?
     @State var taskId: UUID
     @State var modelInserted = false
     @StateObject private var viewModel = StopwatchViewModel()
@@ -17,9 +18,17 @@ struct Stopwatch: View {
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
     
-    init(taskId: UUID, date: Date) {
+    init(taskId: UUID, date: Date, updating stopwatchDataToUpdate: StopwatchData? = nil) {
         self._taskId = State(initialValue: taskId)
         self.date = date
+        self.stopwatchDataToUpdate = stopwatchDataToUpdate
+        if let stopwatchDataToUpdate = stopwatchDataToUpdate {
+            self._viewModel = StateObject(wrappedValue: StopwatchViewModel(
+                stopwatchData: stopwatchDataToUpdate.times.map { time in
+                    (time.start, time.end)
+                }
+            ))
+        }
     }
     
     var body: some View {
@@ -77,14 +86,20 @@ struct Stopwatch: View {
                     if viewModel.hasStarted {
                         Button(action:{
                             viewModel.stop()
-                            let stopwatchData = StopwatchData(
-                                completionDate: date,
-                                taskId: taskId,
-                                times: viewModel.stopwatchData.map { (start, end) in
+                            if var stopwatchData = stopwatchDataToUpdate {
+                                stopwatchData.times = viewModel.stopwatchData.map { (start, end) in
                                     Time(start: start, end: end)
                                 }
-                            )
-                            context.insert(stopwatchData)
+                            } else {
+                                let stopwatchData = StopwatchData(
+                                    completionDate: date,
+                                    taskId: taskId,
+                                    times: viewModel.stopwatchData.map { (start, end) in
+                                        Time(start: start, end: end)
+                                    }
+                                )
+                                context.insert(stopwatchData)
+                            }
                             dismiss()
                         }) {
                             Text("Finish")
@@ -124,8 +139,13 @@ class StopwatchViewModel: ObservableObject {
     private var timer: Timer?
     private var startTime: Date?
 
-    init (){
-        stopwatchData = []
+    init (stopwatchData: [(Date, Date)] = []){
+        self.stopwatchData = stopwatchData
+        self.previousElapsedTime = stopwatchData.reduce(0) { result, tuple in
+            let (start, end) = tuple
+            return result + start.distance(to: end)
+        }
+        self.updateTimeElapsed(previousElapsedTime)
     }
     
     func start() {

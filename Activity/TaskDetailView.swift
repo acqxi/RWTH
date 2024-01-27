@@ -18,7 +18,13 @@ struct ExerciseItem {
 struct TaskDetailView: View {
     var date: Date // date
     var exerciseItems: [Task] // items
-    @Query(FetchDescriptor<StopwatchData>()) var stopwatchDatum: [StopwatchData]
+    @Query(FetchDescriptor<StopwatchData>()) var stopwatchData: [StopwatchData]
+    
+    @Environment(\.modelContext) var context
+    
+    @State var showRestartStopwatchConfirmation = false
+    @State var navigatingToStopwatch = false
+    @State var continuingStopwatchDatum: StopwatchData?
     
     init(date: Date, exerciseItems: [Task]) {
         self.date = date
@@ -30,8 +36,8 @@ struct TaskDetailView: View {
         )
         let minViewDate = Calendar.current.date(from: viewDateComponents)!
         let maxViewDate = Calendar.current.date(byAdding: .day, value: 1, to: minViewDate)!
-        self._stopwatchDatum = Query(filter: #Predicate { stopwatchData in
-            return minViewDate <= stopwatchData.completionDate && stopwatchData.completionDate < maxViewDate && taskIds.contains(stopwatchData.taskId)
+        self._stopwatchData = Query(filter: #Predicate { stopwatchDatum in
+            return minViewDate <= stopwatchDatum.completionDate && stopwatchDatum.completionDate < maxViewDate && taskIds.contains(stopwatchDatum.taskId)
         })
     }
 
@@ -62,7 +68,7 @@ struct TaskDetailView: View {
     }
 
     private func exerciseItemView(_ item: Task) -> some View {
-        let stopwatchData = stopwatchDatum.filter { $0.taskId == item.id }.first
+        let stopwatchDatum = stopwatchData.filter { $0.taskId == item.id }.first
         
         // TODO: "Do you want to do more work or delete and try again?"
         let label = HStack {
@@ -73,21 +79,58 @@ struct TaskDetailView: View {
 //                        .font(.subheadline)
             }
             Spacer()
-            Image(systemName: stopwatchData != nil ? "checkmark.circle.fill" : "circle")
-                .foregroundColor(stopwatchData != nil ? .green : .gray)
+            Image(systemName: stopwatchDatum != nil ? "checkmark.circle.fill" : "circle")
+                .foregroundColor(stopwatchDatum != nil ? .green : .gray)
         }
         .padding()
         .background(Color.gray.opacity(0.1))
         .cornerRadius(10)
         
-        if stopwatchData == nil {
-            return AnyView(NavigationLink(destination: Stopwatch(taskId: item.id, date: date)) {
-                label
-            })
+        if stopwatchDatum == nil {
+            return AnyView(
+                NavigationLink(destination: Stopwatch(taskId: item.id, date: date)) {
+                    label
+                }
+            )
         }
         else {
-            return AnyView(label)
+            return AnyView(
+                Button {
+                    showRestartStopwatchConfirmation = true
+                } label: {
+                    label
+                        .confirmationDialog(
+                            "Do you want to restart or continue the tracking?",
+                            isPresented: $showRestartStopwatchConfirmation,
+                            titleVisibility: .visible) {
+                                Button(role: .destructive) {
+                                    discardStopwatchData(for: item)
+                                    navigateToStopwatch()
+                                } label: {
+                                    Text("Discard data and restart")
+                                }
+                                Button {
+                                    navigateToStopwatch(continuingWith: stopwatchDatum)
+                                } label: {
+                                    Text("Continue tracking")
+                                }
+                            }
+                }.navigationDestination(isPresented: $navigatingToStopwatch) {
+                    Stopwatch(taskId: item.id, date: date, updating: continuingStopwatchDatum)
+                }
+            )
         }
+    }
+    
+    private func discardStopwatchData(for task: Task) {
+        let stopwatchDataForTask = stopwatchData.filter { $0.taskId == task.id }
+        for datum in stopwatchDataForTask {
+            context.delete(datum)
+        }
+    }
+    private func navigateToStopwatch(continuingWith stopwatchData: StopwatchData? = nil) {
+        continuingStopwatchDatum = stopwatchData
+        navigatingToStopwatch = true
     }
 }
 
