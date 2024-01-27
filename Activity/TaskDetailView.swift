@@ -59,6 +59,12 @@ struct TaskDetailView: View {
             Spacer()
         }
         .navigationBarTitle(dateFormatter.string(from: date), displayMode: .inline)
+        .navigationBarItems(
+            trailing:
+                NavigationLink(destination: NewExerciseView()) {
+                    Image(systemName: "plus")
+                }
+        )
         .padding()
     }
 
