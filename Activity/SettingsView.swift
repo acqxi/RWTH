@@ -24,6 +24,7 @@ struct SettingsView: View {
     var settings: Settings? { settingsList.first }
 
     @State private var notificationPermission = UNAuthorizationStatus.notDetermined
+    @State private var dynamicFontSize: CGFloat = 14
 
     // Function to update settings, creating new settings if none exist.
     private func updateSettings(_ updateBlock: (_ settings: Settings) -> Void) {
@@ -74,25 +75,40 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             Form {
+                // Section for font size adjustment
+                Section(header: Text("Font Size").font(.system(size: dynamicFontSize))) {
+                    Slider(
+                        value: $dynamicFontSize,
+                        in: 12...24, // Range for font size
+                        step: 1
+                    )
+                    Text("Font size: \(Int(dynamicFontSize))").font(.system(size: dynamicFontSize))
+                }
+                
                 personalInfoSection()
                 visualSettingsSection()
                 notificationSettingsSection()
             }
             .navigationTitle("Settings")
+            .dynamicTypeSize(/*@START_MENU_TOKEN@*/.xLarge/*@END_MENU_TOKEN@*/)
         }
     }
 
     // Personal Information Section
     private func personalInfoSection() -> some View {
-        Section(header: Text("Personal Information")) {
-            // Refactor each TextField into a separate function if needed
+        Section(header: Text("Personal Information").font(.system(size: dynamicFontSize))) {
+            // Use the dynamic font size for TextFields and Labels
             TextField("First Name", text: textFieldBinding(for: \.firstName))
+                .font(.system(size: dynamicFontSize))
             TextField("Last Name", text: textFieldBinding(for: \.lastName))
+                .font(.system(size: dynamicFontSize))
             TextField("Email", text: textFieldBinding(for: \.email))
                 .keyboardType(.emailAddress)
                 .autocapitalization(.none)
                 .autocorrectionDisabled(true)
+                .font(.system(size: dynamicFontSize))
             DatePicker("Birthday", selection: datePickerBinding(for: \.birthday), displayedComponents: .date)
+                .font(.system(size: dynamicFontSize))
         }
     }
 
@@ -106,6 +122,7 @@ struct SettingsView: View {
                 Text("Purple").tag(AccentColor.purple)
             }
         }
+        .font(.system(size: dynamicFontSize))
     }
 
     // Notification Settings Section
@@ -127,7 +144,7 @@ struct SettingsView: View {
 
     // Extracting smaller view components
     private func dailyReminderToggle() -> some View {
-        Toggle(isOn: toggleBinding(), label: { Text("Daily Reminder") })
+        Toggle(isOn: toggleBinding(), label: { Text("Daily Reminder").font(.system(size: dynamicFontSize)) })
     }
 
     private func notificationTimePicker() -> some View {
