@@ -20,7 +20,7 @@ class Settings {
     var dynamicFontSize: CGFloat?
     
     init() {
-        self.accentColor = .red
+        self.accentColor = .yellow
         self.availableTags = []
         self.dynamicFontSize = 14
     }
