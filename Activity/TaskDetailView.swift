@@ -17,6 +17,8 @@ struct ExerciseItem {
 
 struct TaskDetailView: View {
     var date: Date
+    var maxViewDayCnt = 1 // use for count maxViewDate
+    @Query(FetchDescriptor<StopwatchData>()) var stopwatchDatum: [StopwatchData]
     
     @Environment(\.modelContext) var context
     
@@ -93,6 +95,12 @@ struct TaskDetailView: View {
             Spacer()
         }
         .navigationBarTitle(dateFormatter.string(from: date), displayMode: .inline)
+        .navigationBarItems(
+            trailing:
+                NavigationLink(destination: NewExerciseView()) {
+                    Image(systemName: "plus")
+                }
+        )
         .padding()
     }
 
