@@ -13,39 +13,55 @@ struct ProjectContentView: View {
     
     var exercise: Project
     @State private var isEditing = false
+    @State private var selection = Set<UUID>()
+    
+    @State private var deleteDialogVisible = false
+    
     @Environment(\.editMode) var editMode
     
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(exercise.tasks.indices, id: \.self) { index in
-                    if isEditing {
-                        // Edit mode - show detail view for editing
-                        NavigationLink(destination: EditTaskView(task: exercise.tasks[index])) {
-                            Text(exercise.tasks[index].name)
-                        }
-                    }
-                    else {
-                        NavigationLink(destination: ProjectTaskDetailView(project:exercise,task: exercise.tasks[index])) {
-                                Text(exercise.tasks[index].name)
-                        }
-                    }
+            List(exercise.tasks, selection: $selection) { task in
+                NavigationLink(destination: ProjectTaskDetailView(project:exercise, task: task)) {
+                    Text(task.name)
                 }
-                .onDelete(perform: deleteTasks)
             }
+            
         }
         .navigationTitle(exercise.name)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 HStack {
-                    NavigationLink(destination: NewTaskView(exercise: exercise)) {
-                        Image(systemName: "plus")
+                    if editMode!.wrappedValue == .inactive {
+                        NavigationLink(destination: NewTaskView(exercise: exercise)) {
+                            Image(systemName: "plus")
+                        }
+                    } else {
+                        Button {
+                            deleteDialogVisible = true
+                        } label: {
+                            Image(systemName: "trash")
+                        }
+                        .disabled(selection.isEmpty)
+                        .confirmationDialog(
+                            "Are you sure you want to delete \(selection.count) tasks?",
+                            isPresented: $deleteDialogVisible,
+                            titleVisibility: .visible
+                        ) {
+                            Button("Delete", role: .destructive) {
+                                let tasksToDelete = exercise.tasks.filter { selection.contains($0.id) }
+                                exercise.tasks.removeAll { selection.contains($0.id) }
+                                for task in tasksToDelete {
+                                    modelContext.delete(task)
+                                }
+                                selection.removeAll()
+                            }
+                        }
                     }
                     EditButton()
                 }
             }
         }
-        .environment(\.editMode, editMode)
     }
     
     func deleteTasks(at offsets: IndexSet) {
