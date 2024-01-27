@@ -75,7 +75,7 @@ struct SettingsView: View {
                 personalInfoSection()
                 visualSettingsSection()
                 notificationSettingsSection()
-                fontSizeSection()
+//                fontSizeSection()
             }
             .navigationTitle("Settings")
         }
