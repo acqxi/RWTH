@@ -9,11 +9,8 @@ import SwiftUI
 
 struct HomeView: View {
     var body: some View {
-        // Navigation stack for the Home screen, providing navigation capabilities.
-        NavigationStack {
-            // Displaying the main text for the Home screen.
-            Text("Home")
-                .navigationTitle("Home")
+        NavigationStack{
+            TaskDetailView(date:Date())
         }
     }
 }

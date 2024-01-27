@@ -16,9 +16,7 @@ struct ExerciseItem {
 }
 
 struct TaskDetailView: View {
-    var date: Date // date
-    var exerciseItems: [Task] // items
-    @Query(FetchDescriptor<StopwatchData>()) var stopwatchData: [StopwatchData]
+    var date: Date
     
     @Environment(\.modelContext) var context
     
@@ -26,10 +24,41 @@ struct TaskDetailView: View {
     @State var navigatingToStopwatch = false
     @State var continuingStopwatchDatum: StopwatchData?
     
-    init(date: Date, exerciseItems: [Task]) {
+    @Query(FetchDescriptor<StopwatchData>()) var stopwatchData: [StopwatchData]
+    @Query var projects: [Project]
+    private var allTasks: [Task] {
+        projects.flatMap { $0.tasks }
+    }
+    private var tasksToday: [Task] {
+        let componentsOfDate = Calendar.current.dateComponents([.day, .month, .year], from: date)
+        return allTasks.filter { task in
+            if task.startDate > Calendar.current.date(byAdding: .day, value: 1, to: date)! {
+                // Task starts after today, therefore we're not interested
+                return false
+            }
+            
+            let componentsOfTask = Calendar.current.dateComponents([.day, .month, .year], from: task.startDate)
+            if componentsOfDate == componentsOfTask {
+                // If the task starts today, then it is okay
+                return true
+            }
+            
+            var weekdayOfDate = (Calendar.current.dateComponents([.weekday], from: date).weekday! + 6) % 7
+            if weekdayOfDate == 0 { weekdayOfDate = 7 }
+            let weekday = DayOfWeek(rawValue: weekdayOfDate)!
+            if task.repeatDays.contains(weekday) {
+                // The task repeats today, so it's okay
+                return true
+            }
+            
+            // The task doesn't repeat today, don't use it
+            return false
+        }
+    }
+    
+    init(date: Date) {
         self.date = date
-        self.exerciseItems = exerciseItems
-        let taskIds = exerciseItems.map { $0.id }
+        let taskIds = tasksToday.map { $0.id }
         let viewDateComponents = Calendar.current.dateComponents(
             [.day, .month, .year],
             from: date
@@ -49,11 +78,11 @@ struct TaskDetailView: View {
         }()
         
         VStack(alignment: .leading, spacing: 10) {
-            ForEach(exerciseItems.indices, id: \.self) { index in
-                exerciseItemView(exerciseItems[index])
+            ForEach(tasksToday.indices, id: \.self) { index in
+                exerciseItemView(tasksToday[index])
             }
             
-            if exerciseItems.isEmpty {
+            if tasksToday.isEmpty {
                 Spacer()
                 
                 Text("No tasks for this day")
@@ -134,7 +163,3 @@ struct TaskDetailView: View {
     }
 }
 
-
-#Preview {
-    TaskDetailView(date: Date(), exerciseItems: [])
-}
