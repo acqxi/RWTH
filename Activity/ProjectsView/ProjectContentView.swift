@@ -11,11 +11,15 @@ import SwiftData
 struct ProjectContentView: View {
     @Environment(\.modelContext) var modelContext
     
+    @Query var settingsList: [Settings]
+    var settings: Settings? { settingsList.first }
+    
     var exercise: Project
     @State private var isEditing = false
     @State private var selection = Set<UUID>()
     
     @State private var deleteDialogVisible = false
+    @State private var moveDialogVisible = false
     
     @Environment(\.editMode) var editMode
     
@@ -57,6 +61,25 @@ struct ProjectContentView: View {
                                 selection.removeAll()
                             }
                         }
+                        
+                        Button {
+                            moveDialogVisible = true
+                        } label: {
+                            Text("Move")
+                        }
+                        .disabled(selection.isEmpty)
+                        .sheet(
+                            isPresented: $moveDialogVisible
+                        ) {
+                            ChooseProjectView(title: "Choose Project") { newProject in
+                                guard let newProject = newProject else { return }
+                                let tasksToMove = exercise.tasks.filter { selection.contains($0.id) }
+                                exercise.tasks.removeAll { selection.contains($0.id) }
+                                newProject.tasks.append(contentsOf: tasksToMove)
+                                selection.removeAll()
+                            }
+                            .accentColor(settings?.accentColor.swiftuiAccentColor ?? .yellow)
+                        }
                     }
                     EditButton()
                 }
@@ -76,5 +99,28 @@ struct ProjectContentView: View {
             modelContext.delete(task)
         }
         exercise.tasks.remove(atOffsets: offsets)
+    }
+}
+
+struct ChooseProjectView: View {
+    var title: String
+    var onProjectChosen: (Project?) -> ()
+    
+    @Query var projects: [Project]
+    @Environment(\.dismiss) var dismiss
+    
+    var body: some View {
+        Text(title)
+            .font(.title)
+            .padding()
+        
+        List(projects) { project in
+            Button {
+                dismiss()
+                onProjectChosen(project)
+            } label: {
+                Text(project.name)
+            }
+        }
     }
 }
