@@ -13,46 +13,46 @@ struct ContentView: View {
     var settings: Settings? { settingsList.first }
     
     var body: some View {
-        
-        TabView {
+            // Main content view of the app, organized as a TabView for navigation between different sections.
+            TabView {
+                // Home tab
+                HomeView()
+                    .tabItem {
+                        Image(systemName: "house")
+                        Text("Home")
+                    }
+                
+                // Calendar tab
+                CalendarView()
+                    .tabItem {
+                        Image(systemName: "calendar")
+                        Text("Calendar")
+                    }
+
+                // Projects tab
+                ProjectsView()
+                    .tabItem {
+                        Image(systemName: "book.fill")
+                        Text("Projects")
+                    }
+
+                // Summary tab
+                ActivityListView()
+                    .tabItem {
+                        Image(systemName: "figure.highintensity.intervaltraining")
+                        Text("Summary")
+                    }
             
-            HomeView()
-                .tabItem {
-                    Image(systemName: "house")
-                    Text("Home")
-                }
-            
-            CalendarView()
-                .tabItem {
-                    Image(systemName: "calendar")
-                    Text("Calendar")
-                }
-			
-			ProjectsView()
-                .tabItem {
-                    Image(systemName: "book.fill")
-                    Text("Projects")
-                }
-            
-                        ActivityListView()
-              .tabItem {
-                  Image(systemName: "figure.highintensity.intervaltraining")
-                  Text("Summary")
-              }
-            
-            SettingsView()
-                .tabItem {
-                    Image(systemName: "gear")
-                    Text("Settings")
-                }
-            
-            
+                // Setting tab
+                SettingsView()
+                    .tabItem {
+                        Image(systemName: "gear")
+                        Text("Settings")
+                    }
         }
         .accentColor(settings?.accentColor.swiftuiAccentColor ?? .yellow)
     }
 }
-
-
 
 #Preview {
     ContentView()

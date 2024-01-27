@@ -9,13 +9,14 @@ import SwiftUI
 import SwiftData
 
 struct Stopwatch: View {
-    var date: Date
-    @State var taskId: UUID
-    @State var modelInserted = false
-    @StateObject private var viewModel = StopwatchViewModel()
-    @Environment(\.colorScheme) var colorScheme
-    @Environment(\.modelContext) var context
+    var date: Date // The date associated with the stopwatch.
+    @State var taskId: UUID // Identifier for the task related to this stopwatch.
+    @State var modelInserted = false // Flag to track if the model has been inserted.
+    @StateObject private var viewModel = StopwatchViewModel() // ViewModel for the stopwatch.
+    @Environment(\.colorScheme) var colorScheme // Current color scheme of the device.
+    @Environment(\.modelContext) var context// The model context for data handling.
     
+    // Initializing the stopwatch with a task ID and date.
     init(taskId: UUID, date: Date) {
         self._taskId = State(initialValue: taskId)
         self.date = date
@@ -23,9 +24,11 @@ struct Stopwatch: View {
     
     var body: some View {
         ZStack {
+            // Background for the stopwatch view.
             Color.black.opacity(0.06).edgesIgnoringSafeArea(.all)
             VStack {
                 ZStack {
+                    // Stopwatch circular progress UI.
                     Circle()
                         .trim(from: 0, to: 1)
                         .stroke(colorScheme == .light ? Color.black.opacity(0.09) : Color.white.opacity(0.09), style: StrokeStyle(lineWidth: 14, lineCap: .round))
