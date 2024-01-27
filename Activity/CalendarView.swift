@@ -3,6 +3,8 @@
 //  GymTime
 //
 //  Created by JieTing on 2024/1/15.
+//  Start comment
+//  nofec????
 //
 
 import SwiftUI
@@ -192,7 +194,7 @@ struct TaskView: View {
             .font(.caption)
             .padding(3)
             .frame(maxWidth: .infinity)
-            .background(complete ? Color.green.opacity(0.3) : Color.blue.opacity(0.3))
+            .background(complete ? Color.green.opacity(0.2) : Color.accentColor.opacity(0.2))
             .cornerRadius(5)
     }
 }
