@@ -26,12 +26,12 @@ struct controlPanelRectKey: PreferenceKey {
 struct ctrlPanelBtnView: View {
     @Binding var activeBtn: Int
     let idx: Int
-    let viewStyle = ["Cal.", "List"]
+    let viewStyle = ["Cal.", "List."]
     
     var body: some View {
         Text("\(viewStyle[idx])")
             .padding(3)
-            .background(ctrlPanelBtnSetrView(idx: idx)).onTapGesture { self.activeBtn = self.idx }
+            .background(ctrlPanelBtnSetrView(idx: idx))
     }
 }
 
@@ -87,6 +87,7 @@ struct controlPanelView: View {
             .background(Color(red: 0.9, green: 0.9, blue: 0.9))
             .cornerRadius(8)
             .coordinateSpace(name: "controlPanelZStack")
+            .onTapGesture { styleIdx = (styleIdx + 1) % 2 }
             
             Spacer()
             Button(action: { self.changeMonth(by: 1) }) {
@@ -409,7 +410,8 @@ struct DayView: View {
                     .font(.system(size: 15))
                     .font(.headline)
                     .padding(4)
-                    .background(Color.gray.opacity(0.2))
+                    .background(
+                        Calendar.current.isDate(date, inSameDayAs: Date.now) ? .accentColor.opacity(0.2) : Color.gray.opacity(0.3))
                     .clipShape(RoundedRectangle(cornerRadius: 5))
                     .frame(maxWidth: .infinity)
                 
