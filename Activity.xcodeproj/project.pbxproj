@@ -20,8 +20,8 @@
 		5660A4A22B5C6F3B005B8BCE /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5660A4A12B5C6F3B005B8BCE /* Project.swift */; };
 		56A3D9802B55B21B00135F90 /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A3D97F2B55B21B00135F90 /* Stopwatch.swift */; };
 		56EDD9DB2B5EF5E30030555D /* StopwatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EDD9DA2B5EF5E30030555D /* StopwatchData.swift */; };
+		B0A724E62B65319E0038D4FB /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C883FED02B4E98CA006B716A /* CalendarView.swift */; };
 		B0BC28F42B5562A30087B309 /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BC28F32B5562A30087B309 /* TaskDetailView.swift */; };
-		C883FED12B4E98CA006B716A /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C883FED02B4E98CA006B716A /* CalendarView.swift */; };
 		C8CE74A72B611F9300B23670 /* DayOfWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CE74A62B611F9300B23670 /* DayOfWeek.swift */; };
 		C8D03AAB2B38654500C9B57D /* ActivityApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D03AAA2B38654500C9B57D /* ActivityApp.swift */; };
 		C8D03AAD2B38654500C9B57D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D03AAC2B38654500C9B57D /* ContentView.swift */; };
@@ -217,8 +217,8 @@
 				1626F26F2B613CC5008D4713 /* EditTaskView.swift in Sources */,
 				1626F2672B613BE3008D4713 /* ExerciseCell.swift in Sources */,
 				1626F26B2B613C3C008D4713 /* ProjectContentView.swift in Sources */,
-				C883FED12B4E98CA006B716A /* CalendarView.swift in Sources */,
 				C8D03AAD2B38654500C9B57D /* ContentView.swift in Sources */,
+				B0A724E62B65319E0038D4FB /* CalendarView.swift in Sources */,
 				C8D200682B38930200E06148 /* HomeView.swift in Sources */,
 				56247C7A2B641BC400D16D8E /* ProjectsView.swift in Sources */,
 				5660A4A22B5C6F3B005B8BCE /* Project.swift in Sources */,

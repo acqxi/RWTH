@@ -18,6 +18,7 @@ struct ExerciseItem {
 struct TaskDetailView: View {
     var date: Date // date
     var exerciseItems: [Task] // items
+    var maxViewDayCnt = 1 // use for count maxViewDate
     @Query(FetchDescriptor<StopwatchData>()) var stopwatchDatum: [StopwatchData]
     
     init(date: Date, exerciseItems: [Task]) {

@@ -10,9 +10,145 @@
 import SwiftUI
 import SwiftData
 
+struct controlPanelRect: Equatable {
+    let viewIdx: Int
+    let rect: CGRect
+}
+
+struct controlPanelRectKey: PreferenceKey {
+    typealias Value = [controlPanelRect]
+    static var defaultValue: [controlPanelRect] = []
+    static func reduce(value: inout [controlPanelRect], nextValue: () -> [controlPanelRect]) {
+        value.append(contentsOf: nextValue())
+    }
+}
+
+struct ctrlPanelBtnView: View {
+    @Binding var activeBtn: Int
+    let idx: Int
+    let viewStyle = ["Cal.", "List"]
+    
+    var body: some View {
+        Text("\(viewStyle[idx])")
+            .padding(3)
+            .background(ctrlPanelBtnSetrView(idx: idx)).onTapGesture { self.activeBtn = self.idx }
+    }
+}
+
+struct ctrlPanelBtnSetrView: View {
+    let idx: Int
+    
+    var body: some View {
+        GeometryReader { geometry in
+            Rectangle()
+                .fill(Color.clear)
+                .preference(key: controlPanelRectKey.self,
+                            value: [controlPanelRect(viewIdx: self.idx, rect: geometry.frame(in: .named("controlPanelZStack")))])
+        }
+    }
+}
+
+struct controlPanelView: View {
+    
+    @Binding var styleIdx: Int
+    @Binding var currentMonth: Date
+    
+    @State private var rects: [CGRect] = Array<CGRect>(repeating: CGRect(), count: 12)
+        
+    var body: some View {
+        // Controls for changing the current month.
+        HStack {
+            Button(action: { self.changeMonth(by: -1) }) {
+                Image(systemName: "chevron.left")
+            }
+            Spacer()
+            
+            Text("\(currentMonth, formatter: DateFormatter.monthAndYear)")
+                .font(.headline)
+            Spacer()
+            
+            ZStack(alignment: .topLeading) {
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Color(red: 0.8, green: 0.8, blue: 0.8) )
+                    .frame(width: rects[styleIdx].size.width, height: rects[styleIdx].size.height)
+                    .overlay(RoundedRectangle(cornerRadius: 8)
+                        .stroke(lineWidth: 5.0).foregroundColor(.accentColor)
+                    )
+                    .offset(x: rects[styleIdx].minX, y: rects[styleIdx].minY)
+                    .animation(.easeInOut(duration: 0.35), value: styleIdx)
+                
+                HStack{
+                    ForEach(0...1, id: \.self) { col in
+                        ctrlPanelBtnView(activeBtn: $styleIdx, idx: col)
+                    }
+                }
+                
+            }
+            .background(Color(red: 0.9, green: 0.9, blue: 0.9))
+            .cornerRadius(8)
+            .coordinateSpace(name: "controlPanelZStack")
+            
+            Spacer()
+            Button(action: { self.changeMonth(by: 1) }) {
+                Image(systemName: "chevron.right")
+            }
+        }
+        .padding()
+        .onPreferenceChange(controlPanelRectKey.self) { preferences in
+            for p in preferences {
+                self.rects[p.viewIdx] = p.rect
+            }
+        }
+    }
+    
+    // Function to change the current month.
+    func changeMonth(by amount: Int) {
+        // Logic to change the current month.
+        if let newMonth = Calendar.current.date(byAdding: .month, value: amount, to: currentMonth) {
+            currentMonth = newMonth
+        }
+    }
+}
+
 struct CalendarView: View {
     @State private var currentMonth = Date()
     private let calendar = Calendar.current
+    @State private var styleIdx: Int = 0
+    
+    @Query var projects: [Project]
+    
+    @State private var isSearching = false
+    @State private var searchTerm = ""
+    private var searchResults: [SearchResult] {
+        var result: [Project: SearchResult] = [:]
+        
+        let lowercaseSearchTerm = searchTerm.localizedLowercase
+        
+        for project in projects {
+            if project.name.localizedLowercase.contains(lowercaseSearchTerm) {
+                result[project] = SearchResult(project: project, tasks: [], tags: [], findReasons: [.project])
+            }
+            for task in project.tasks {
+                if task.name.localizedLowercase.contains(lowercaseSearchTerm) {
+                    var sr = result[project] ?? SearchResult(project: project, tasks: [], tags: [], findReasons: [])
+                    sr.tasks.insert(task)
+                    sr.findReasons.insert(.task(task.id))
+                    result[project] = sr
+                }
+                for tag in task.tags {
+                    if tag.localizedLowercase.contains(lowercaseSearchTerm) {
+                        var sr = result[project] ?? SearchResult(project: project, tasks: [], tags: [], findReasons: [])
+                        sr.tasks.insert(task)
+                        sr.tags.insert(tag)
+                        sr.findReasons.insert(.tag(tag))
+                        result[project] = sr
+                    }
+                }
+            }
+        }
+        
+        return Array(result.values)
+    }
 
     // Titles for days of the week.
     private let daysOfWeek = DayOfWeek.all
@@ -21,49 +157,70 @@ struct CalendarView: View {
         // Main navigation view for the calendar.
         NavigationStack {
             VStack {
-                // Controls for changing the current month.
-                HStack {
-                    Button(action: { self.changeMonth(by: -1) }) {
-                        Image(systemName: "chevron.left")
-                    }
-                    Spacer()
-                    Text("\(currentMonth, formatter: DateFormatter.monthAndYear)")
-                        .font(.headline)
-                    Spacer()
-                    Button(action: { self.changeMonth(by: 1) }) {
-                        Image(systemName: "chevron.right")
-                    }
-                }
-                .padding()
+                // Control
+                controlPanelView(styleIdx: $styleIdx, currentMonth: $currentMonth)
                 
-                // Displaying days of the week.
-                HStack {
-                    ForEach(daysOfWeek) { day in
-                        Text(day.shortString)
-                            .frame(maxWidth: .infinity)
-                    }
-                }
-                
-                ScrollView{
-                    // Displaying month calendar.
-                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7)) {
-                        // show empty day
-                        let nofec = Int(numberOfEmptyCells(at: currentMonth))
-                        ForEach(100..<100+nofec, id: \.self) { i in
-                            VStack{
-                                Text("")
+                if styleIdx == 1 {
+                    VStack{
+                        TextField("Typing to search...", text: $searchTerm)
+                            .padding(7)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+                            .padding(.horizontal, 10)
+                        
+                        Spacer()
+                        
+                        Group {
+                            if searchTerm.isEmpty {
+                                ListView(currentMonth: currentMonth)
+                            } else if !searchResults.isEmpty {
+                                List(searchResults) { result in
+                                    NavigationLink {
+                                        ProjectContentView(exercise: result.project)
+                                    } label: {
+                                        ProjectSearchResultView(result: result)
+                                    }
+                                }
+                                .listStyle(InsetListStyle())
+                                .background(Color.white)
+                            }
+                            else {
+                                Text("Nothing match !!")
                             }
                         }
-                        
-                        // show date
-                        ForEach(1...daysInMonth(date: currentMonth), id: \.self) { day in
-                            let dateInDay = Date.from(
-                                year: Calendar.current.dateComponents([.year], from: currentMonth).year!,
-                                month: Calendar.current.dateComponents([.month], from: currentMonth).month!,
-                                day: day
-                            )
-                            DayView(date: dateInDay)
-
+                    }
+                }
+                else{
+                    
+                    // Displaying days of the week.
+                    HStack {
+                        ForEach(daysOfWeek) { day in
+                            Text(day.shortString)
+                                .frame(maxWidth: .infinity)
+                        }
+                    }
+                    
+                    ScrollView{
+                        // Displaying month calendar.
+                        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7)) {
+                            // show empty day
+                            let nofec = Int(numberOfEmptyCells(at: currentMonth))
+                            ForEach(100..<100+nofec, id: \.self) { i in
+                                VStack{
+                                    Text("")
+                                }
+                            }
+                            
+                            // show date
+                            ForEach(1...daysInMonth(date: currentMonth), id: \.self) { day in
+                                let dateInDay = Date.from(
+                                    year: Calendar.current.dateComponents([.year], from: currentMonth).year!,
+                                    month: Calendar.current.dateComponents([.month], from: currentMonth).month!,
+                                    day: day
+                                )
+                                DayView(date: dateInDay)
+                                
+                            }
                         }
                     }
                 }
@@ -73,19 +230,6 @@ struct CalendarView: View {
         }
     }
 
-    // Function to change the current month.
-    func changeMonth(by amount: Int) {
-        // Logic to change the current month.
-        if let newMonth = Calendar.current.date(byAdding: .month, value: amount, to: currentMonth) {
-            currentMonth = newMonth
-        }
-    }
-
-    // Function to calculate how many days in a month.
-    func daysInMonth(date: Date) -> Int {
-        let range = Calendar.current.range(of: .day, in: .month, for: date)
-        return range?.count ?? 30
-    }
     
     // Function to calculate how many days in first week before first day in the months.
     func numberOfEmptyCells(at date: Date) -> Int {
@@ -102,10 +246,114 @@ struct CalendarView: View {
     }
 }
 
+// Function to calculate how many days in a month.
+func daysInMonth(date: Date) -> Int {
+    let range = Calendar.current.range(of: .day, in: .month, for: date)
+    return range?.count ?? 30
+}
+
+struct ListView: View {
+    var currentMonth: Date
+    @Query var projects: [Project]
+
+    private var allTasks: [Task] {
+        projects.flatMap { $0.tasks }
+    }
+    
+    func tasksInDay(date: Date) -> [Task] {
+        let componentsOfDate = Calendar.current.dateComponents([.day, .month, .year], from: date)
+        return allTasks.filter { task in
+            if task.startDate > Calendar.current.date(byAdding: .day, value: 1, to: date)! {
+                // Task starts after today, therefore we're not interested.
+                return false
+            }
+            
+            let componentsOfTask = Calendar.current.dateComponents([.day, .month, .year], from: task.startDate)
+            if componentsOfDate == componentsOfTask {
+                // If the task starts today, then it is okay.
+                return true
+            }
+            
+            var weekdayOfDate = (Calendar.current.dateComponents([.weekday], from: date).weekday! + 6) % 7
+            if weekdayOfDate == 0 { weekdayOfDate = 7 }
+            let weekday = DayOfWeek(rawValue: weekdayOfDate)!
+            if task.repeatDays.contains(weekday) {
+                // The task repeats today, so it's okay.
+                return true
+            }
+            
+            // The task doesn't repeat today, don't use it.
+            return false
+        }
+    }
+    
+    var dayInMonth: [Date] {(1...daysInMonth(date: currentMonth)).compactMap {
+        Date.from(
+            year: Calendar.current.dateComponents([.year], from: currentMonth).year!,
+            month: Calendar.current.dateComponents([.month], from: currentMonth).month!,
+            day: $0
+        )}}
+    
+    var taskInMonth: [(Date, [Task])] {dayInMonth.compactMap { ($0, tasksInDay(date: $0))}.filter { !$0.1.isEmpty}}
+    
+    var body: some View {
+        ScrollView{
+            VStack{
+                ForEach(taskInMonth, id: \.0.self) { date, tasks in
+                    ListDayView(date: date, tasks: tasks)
+                }
+            }
+        }
+    }
+}
+
+struct ListDayView: View {
+    var date: Date
+    var tasks: [Task]
+    
+    @Query var stopwatchData: [StopwatchData]
+    
+    var body: some View {
+        VStack {
+            let dateFormatter = { () -> DateFormatter in
+                let df = DateFormatter()
+                df.dateStyle = .medium
+                return df
+            }()
+            
+            HStack{
+                Text("\(dateFormatter.string(from: date))")
+                    .font(.system(size: 15))
+                    .font(.headline)
+                Spacer()
+            }
+            
+            ForEach(tasks, id: \.self) { task in
+                let stopwatchData = stopwatchData.filter { $0.taskId == task.id }.first
+                NavigationLink(destination: Stopwatch(taskId: task.id, date: date)) {
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(task.name)
+                                .font(.headline)
+                        }
+                        Spacer()
+                        Image(systemName: stopwatchData != nil ? "checkmark.circle.fill" : "circle")
+                            .foregroundColor(stopwatchData != nil ? .green : .gray)
+                    }
+                    .padding()
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(10)
+                }
+            }
+        }
+    }
+}
+
 struct DayView: View {
     var date: Date
     @Query var projects: [Project]
     @Query var stopwatchData: [StopwatchData]
+
     private var allTasks: [Task] {
         projects.flatMap { $0.tasks }
     }
@@ -165,12 +413,13 @@ struct DayView: View {
                 
                 if !tasksOfToday.isEmpty {
                     TaskView(
-                        text: "\(tasksDoneToday.count)/\(tasksOfToday.count)",
+                        text: "\(tasksDoneToday.count) / \(tasksOfToday.count)",
                         complete: tasksDoneToday.count == tasksOfToday.count
                     )
                 }
                 
                 Spacer() // same height of dayView
+                //                    }
             }
             .frame(height: 80) // fixed height
             .padding(4)
