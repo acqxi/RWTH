@@ -73,6 +73,9 @@ struct NewTaskView: View {
                     ForEach(0..<tags.count, id: \.self) { index in
                         Text(tags[index])
                     }
+                    .onDelete { indexSet in
+                        tags.remove(atOffsets: indexSet)
+                    }
                     Button(action: {
                         showNewTagPopup.toggle()
                     }) {
@@ -95,8 +98,9 @@ struct NewTaskView: View {
             }.disabled(name.isEmpty || exercise.tasks.contains { $0.name.localizedLowercase == name.localizedLowercase })
         )
         .sheet(isPresented: $showNewTagPopup) {
-            TagChoice(onTagsSelected: { selectedTags in
+            TagChoice(initial: tags, onTagsSelected: { selectedTags in
                 showNewTagPopup = false
+                tags.removeAll()
                 tags.append(contentsOf: selectedTags)
             })
             .accentColor(settings?.accentColor.swiftuiAccentColor ?? .yellow)

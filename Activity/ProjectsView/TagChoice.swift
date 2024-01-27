@@ -18,6 +18,11 @@ struct TagChoice: View {
     @State var selectedTags: [String] = []
     @State var newTagName: String = ""
     
+    init(initial selectedTags: [String] = [], onTagsSelected: @escaping ([String]) -> ()) {
+        self.onTagsSelected = onTagsSelected
+        self.selectedTags = selectedTags
+    }
+    
     var body: some View {
         NavigationStack {
             VStack {

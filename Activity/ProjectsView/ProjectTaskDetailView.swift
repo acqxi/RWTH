@@ -40,7 +40,7 @@ struct ProjectTaskDetailView: View {
         .navigationBarTitle(task.name)
         .navigationBarItems(
             trailing:
-                NavigationLink(destination: EditTaskDetailView(exercise: project, name:task.name, startDate: task.startDate,priority: task.priority,repeatDays:task.repeatDays,tags: task.tags)) {
+                NavigationLink(destination: EditTaskDetailView(exercise: project, task: task)) {
                     Text("Edit")
                 }
         )

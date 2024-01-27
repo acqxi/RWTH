@@ -16,39 +16,34 @@ struct EditTaskDetailView: View {
     var settings: Settings? { settingsList.first }
 
     var exercise: Project
-    @State private var name: String
-    @State private var oldname: String
-    @State private var startDate: Date
-    @State private var priority: Int
-    @State private var newTag: String
-    @State private var tags: [String]
-    @State private var showNewTagPopup = false
-    @State private var repeatDays = Set<DayOfWeek>()
+    @State var task: Task
     
-    init(exercise: Project, name: String="", startDate: Date = .now,priority: Int = 2,newTag: String = "",repeatDays:Set<DayOfWeek> = Set<DayOfWeek>(), tags: [String] = []) {
+    @State var showNewTagPopup = false
+    
+    init(exercise: Project, task: Task) {
         self.exercise = exercise
-        _oldname = State(initialValue: name)
-        _name = State(initialValue: name)
-        _startDate = State(initialValue: startDate)
-        _priority = State(initialValue: priority)
-        _newTag = State(initialValue: newTag)
-        _repeatDays = State(initialValue: repeatDays)
-        _tags = State(initialValue: tags)
+        self._task = State(wrappedValue: task)
+    }
+    
+    private func taskBinding<T>(for keyPath: WritableKeyPath<Task, T>) -> Binding<T> {
+        Binding(
+            get: { self.task[keyPath: keyPath] },
+            set: { newValue in
+                self.task[keyPath: keyPath] = newValue
+            }
+        )
     }
  
     var body: some View {
-
-        let index :Int? = exercise.tasks.firstIndex(where: { $0.name == oldname })
-
         NavigationStack {
             Form {
                 Section(header: Text("Task")) {
-                    TextField("Name", text: $name)
-                    DatePicker("Start Date", selection: $startDate)
+                    TextField("Name", text: taskBinding(for: \.name))
+                    DatePicker("Start Date", selection: taskBinding(for: \.startDate))
                 }
                 
                 Section("Priority") {
-                    Picker("Priority", selection: $priority) {
+                    Picker("Priority", selection: taskBinding(for: \.priority)) {
                         Text("Meh").tag(1)
                         Text("Maybe").tag(2)
                         Text("Must").tag(3)
@@ -58,22 +53,22 @@ struct EditTaskDetailView: View {
                 
                 Section(header: Text("Repeat")){
                     NavigationLink {
-                        RepeatDaysChoice(repeatDays: $repeatDays)
+                        RepeatDaysChoice(repeatDays: taskBinding(for: \.repeatDays))
                     } label: {
                         HStack(alignment: .lastTextBaseline) {
                             Text("Repeat")
                             Spacer()
-                            if repeatDays.isEmpty {
+                            if task.repeatDays.isEmpty {
                                 Text("Never")
-                            } else if repeatDays == Set<DayOfWeek>([.monday, .tuesday, .wednesday, .thursday, .friday]) {
+                            } else if task.repeatDays == Set<DayOfWeek>([.monday, .tuesday, .wednesday, .thursday, .friday]) {
                                 Text("Every Weekday")
-                            } else if repeatDays == Set<DayOfWeek>([.saturday, .sunday]) {
+                            } else if task.repeatDays == Set<DayOfWeek>([.saturday, .sunday]) {
                                 Text("Every Weekend Day")
-                            } else if repeatDays == Set(DayOfWeek.all) {
+                            } else if task.repeatDays == Set(DayOfWeek.all) {
                                 Text("Every Day")
                             } else {
                                 Text(
-                                    repeatDays
+                                    task.repeatDays
                                         .sorted(by: { $0.rawValue < $1.rawValue })
                                         .lazy
                                         .map { $0.shortString }
@@ -85,9 +80,13 @@ struct EditTaskDetailView: View {
                 }
                 
                 Section(header: Text("Tags")) {
-                    ForEach(0..<tags.count, id: \.self) { index in
-                        Text(tags[index])
+                    ForEach(0..<task.tags.count, id: \.self) { index in
+                        Text(task.tags[index])
                     }
+                    .onDelete { indexSet in
+                        task.tags.remove(atOffsets: indexSet)
+                    }
+                    
                     Button(action: {
                         showNewTagPopup.toggle()
                     }) {
@@ -96,26 +95,12 @@ struct EditTaskDetailView: View {
                 }
             }
         }
-        .navigationBarTitle(name)
-        .navigationBarBackButtonHidden(true)
-        .navigationBarItems(
-            leading: Button("Cancel") {
-                dismiss()
-            },
-            trailing: Button("Save") {
-                dismiss()
-                if let index{
-                    let oldTaskchange = Task(name: name, tags: tags, startDate: startDate, priority: 2, repeatDays: repeatDays)
-                    exercise.tasks[index] = oldTaskchange
-                    try! context.save()
-                }else{
-                }
-             }
-        )
+        .navigationBarTitle("Edit Task")
         .sheet(isPresented: $showNewTagPopup) {
-            TagChoice(onTagsSelected: { selectedTags in
+            TagChoice(initial: task.tags, onTagsSelected: { selectedTags in
                 showNewTagPopup = false
-                tags.append(contentsOf: selectedTags)
+                task.tags.removeAll()
+                task.tags.append(contentsOf: selectedTags)
             })
             .accentColor(settings?.accentColor.swiftuiAccentColor ?? .yellow)
         }
