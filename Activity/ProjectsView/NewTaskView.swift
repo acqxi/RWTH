@@ -14,7 +14,7 @@ struct NewTaskView: View {
     
     @Query var settingsList: [Settings]
     var settings: Settings? { settingsList.first }
-
+    
     var exercise: Project
     @State private var name: String = ""
     @State private var startDate: Date = .now
@@ -29,6 +29,9 @@ struct NewTaskView: View {
             Form {
                 Section(header: Text("Task")) {
                     TextField("Name", text: $name)
+                    if exercise.tasks.contains(where: { $0.name.localizedLowercase == name.localizedLowercase }) {
+                        Text("A task with the same name already exists").foregroundStyle(.red)
+                    }
                     DatePicker("Start Date", selection: $startDate)
                     NavigationLink {
                         RepeatDaysChoice(repeatDays: $repeatDays)
@@ -89,7 +92,7 @@ struct NewTaskView: View {
                 exercise.tasks.append(newTask)
                 try! context.save()
                 dismiss()
-             }
+            }.disabled(name.isEmpty || exercise.tasks.contains { $0.name.localizedLowercase == name.localizedLowercase })
         )
         .sheet(isPresented: $showNewTagPopup) {
             TagChoice(onTagsSelected: { selectedTags in

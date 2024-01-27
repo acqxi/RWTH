@@ -20,7 +20,7 @@ struct NewExerciseView: View {
             Form {
                 Section(header: Text("Project Name")) {
                     TextField("", text: $name)
-                    if existingProjects.contains(where: { $0.name == name }) {
+                    if existingProjects.contains(where: { $0.name.localizedLowercase == name.localizedLowercase }) {
                         Text("A project with the same name already exists").foregroundStyle(.red)
                     }
                 }
@@ -41,7 +41,7 @@ struct NewExerciseView: View {
                     try! context.save()
                     dismiss()
                 }
-                .disabled(name.isEmpty || existingProjects.contains(where: { $0.name == name }))
+                .disabled(name.isEmpty || existingProjects.contains(where: { $0.name.localizedLowercase == name.localizedLowercase }))
             }
         }
     }
