@@ -26,16 +26,13 @@ struct ProjectContentView: View {
                         }
                     }
                     else {
-                        NavigationLink(destination: ProjectTaskDetailView(task: exercise.tasks[index])) {
-                            HStack {
+                        NavigationLink(destination: ProjectTaskDetailView(project:exercise,task: exercise.tasks[index])) {
                                 Text(exercise.tasks[index].name)
-                            }
                         }
                     }
                 }
                 .onDelete(perform: deleteTasks)
             }
-            .font(.title)
         }
         .navigationTitle(exercise.name)
         .toolbar {

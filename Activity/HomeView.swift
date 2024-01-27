@@ -11,9 +11,7 @@ struct HomeView: View {
     var body: some View {
         
         NavigationStack{
-          Text("Home")
-            .navigationTitle("Home")
-            
+                TaskDetailView(date:Date())
         }
     }
 }

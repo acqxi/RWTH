@@ -16,8 +16,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "245"
             endingLineNumber = "245"
-            landmarkName = "NewTaskView"
-            landmarkType = "14">
+            landmarkName = "body"
+            landmarkType = "24">
             <Locations>
                <Location
                   uuid = "64FFE2FA-3A3D-4D1B-AA73-29F9265D2240 - 969e56550f15732e"
@@ -48,6 +48,129 @@
                   startingLineNumber = "237"
                   endingLineNumber = "237"
                   offsetFromSymbolStart = "532">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "338925DA-74CA-4143-800D-3860ECEE9796"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Activity/ProjectsView/ProjectContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
+            landmarkName = "body"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "338925DA-74CA-4143-800D-3860ECEE9796 - e5a7e81e4bdd2fb0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Int) -&gt; SwiftUI.NavigationLink&lt;SwiftUI.Text, Activity.EditTaskView&gt; in closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.DynamicViewContent.onDelete(perform: Swift.Optional&lt;(Foundation.IndexSet) -&gt; ()&gt;) -&gt; some&gt;&gt;.0 in closure #1 () -&gt; SwiftUI.List&lt;Swift.Never, &lt;&lt;opaque return type of SwiftUI.DynamicViewContent.onDelete(perform: Swift.Optional&lt;(Foundation.IndexSet) -&gt; ()&gt;) -&gt; some&gt;&gt;.0&gt; in Activity.ProjectContentView.body.getter : some"
+                  moduleName = "Activity"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vivianwang/Desktop/ExchangeStudent/Courses/iOS/workout-tracking-app-ios/Activity/ProjectsView/ProjectContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "35"
+                  endingLineNumber = "35"
+                  offsetFromSymbolStart = "596">
+               </Location>
+               <Location
+                  uuid = "338925DA-74CA-4143-800D-3860ECEE9796 - 517f5b8ddb9d35a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Int) -&gt; SwiftUI._ConditionalContent&lt;SwiftUI.NavigationLink&lt;SwiftUI.Text, Activity.EditTaskView&gt;, SwiftUI.NavigationLink&lt;SwiftUI.HStack&lt;SwiftUI.Text&gt;, Activity.ProjectTaskDetailView&gt;&gt; in closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.DynamicViewContent.onDelete(perform: Swift.Optional&lt;(Foundation.IndexSet) -&gt; ()&gt;) -&gt; some&gt;&gt;.0 in closure #1 () -&gt; SwiftUI.List&lt;Swift.Never, &lt;&lt;opaque return type of SwiftUI.DynamicViewContent.onDelete(perform: Swift.Optional&lt;(Foundation.IndexSet) -&gt; ()&gt;) -&gt; some&gt;&gt;.0&gt; in Activity.ProjectContentView.body.getter : some"
+                  moduleName = "Activity"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vivianwang/Desktop/ExchangeStudent/Courses/iOS/workout-tracking-app-ios/Activity/ProjectsView/ProjectContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "1436">
+               </Location>
+               <Location
+                  uuid = "338925DA-74CA-4143-800D-3860ECEE9796 - a76af56f50d832af"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 () -&gt; SwiftUI.HStack&lt;SwiftUI.Text&gt; in closure #1 (Swift.Int) -&gt; SwiftUI._ConditionalContent&lt;SwiftUI.NavigationLink&lt;SwiftUI.Text, Activity.EditTaskView&gt;, SwiftUI.NavigationLink&lt;SwiftUI.HStack&lt;SwiftUI.Text&gt;, Activity.ProjectTaskDetailView&gt;&gt; in closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.DynamicViewContent.onDelete(perform: Swift.Optional&lt;(Foundation.IndexSet) -&gt; ()&gt;) -&gt; some&gt;&gt;.0 in closure #1 () -&gt; SwiftUI.List&lt;Swift.Never, &lt;&lt;opaque return type of SwiftUI.DynamicViewContent.onDelete(perform: Swift.Optional&lt;(Foundation.IndexSet) -&gt; ()&gt;) -&gt; some&gt;&gt;.0&gt; in Activity.ProjectContentView.body.getter : some"
+                  moduleName = "Activity"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vivianwang/Desktop/ExchangeStudent/Courses/iOS/workout-tracking-app-ios/Activity/ProjectsView/ProjectContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "30"
+                  endingLineNumber = "30"
+                  offsetFromSymbolStart = "136">
+               </Location>
+               <Location
+                  uuid = "338925DA-74CA-4143-800D-3860ECEE9796 - 70f869a406a48d82"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Int) -&gt; SwiftUI._ConditionalContent&lt;SwiftUI.NavigationLink&lt;SwiftUI.Text, Activity.EditTaskView&gt;, SwiftUI.NavigationLink&lt;SwiftUI.Text, Activity.ProjectTaskDetailView&gt;&gt; in closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.DynamicViewContent.onDelete(perform: Swift.Optional&lt;(Foundation.IndexSet) -&gt; ()&gt;) -&gt; some&gt;&gt;.0 in closure #1 () -&gt; SwiftUI.List&lt;Swift.Never, &lt;&lt;opaque return type of SwiftUI.DynamicViewContent.onDelete(perform: Swift.Optional&lt;(Foundation.IndexSet) -&gt; ()&gt;) -&gt; some&gt;&gt;.0&gt; in Activity.ProjectContentView.body.getter : some"
+                  moduleName = "Activity"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vivianwang/Desktop/ExchangeStudent/Courses/iOS/workout-tracking-app-ios/Activity/ProjectsView/ProjectContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "1436">
+               </Location>
+               <Location
+                  uuid = "338925DA-74CA-4143-800D-3860ECEE9796 - d0ae0e9ca8957e94"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 () -&gt; SwiftUI.Text in closure #1 (Swift.Int) -&gt; SwiftUI._ConditionalContent&lt;SwiftUI.NavigationLink&lt;SwiftUI.Text, Activity.EditTaskView&gt;, SwiftUI.NavigationLink&lt;SwiftUI.Text, Activity.ProjectTaskDetailView&gt;&gt; in closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.DynamicViewContent.onDelete(perform: Swift.Optional&lt;(Foundation.IndexSet) -&gt; ()&gt;) -&gt; some&gt;&gt;.0 in closure #1 () -&gt; SwiftUI.List&lt;Swift.Never, &lt;&lt;opaque return type of SwiftUI.DynamicViewContent.onDelete(perform: Swift.Optional&lt;(Foundation.IndexSet) -&gt; ()&gt;) -&gt; some&gt;&gt;.0&gt; in Activity.ProjectContentView.body.getter : some"
+                  moduleName = "Activity"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vivianwang/Desktop/ExchangeStudent/Courses/iOS/workout-tracking-app-ios/Activity/ProjectsView/ProjectContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "30"
+                  endingLineNumber = "30"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  uuid = "338925DA-74CA-4143-800D-3860ECEE9796 - 59d698c3d13c5bd6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Int) -&gt; SwiftUI._ConditionalContent&lt;SwiftUI.NavigationLink&lt;SwiftUI.Text, Activity.EditTaskView&gt;, SwiftUI.NavigationLink&lt;SwiftUI.HStack&lt;SwiftUI.Text&gt;, Activity.ProjectTaskDetailView&gt;&gt; in closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.DynamicViewContent.onDelete(perform: Swift.Optional&lt;(Foundation.IndexSet) -&gt; ()&gt;) -&gt; some&gt;&gt;.0 in closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.View.font(Swift.Optional&lt;SwiftUI.Font&gt;) -&gt; some&gt;&gt;.0 in Activity.ProjectContentView.body.getter : some"
+                  moduleName = "Activity"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vivianwang/Desktop/ExchangeStudent/Courses/iOS/workout-tracking-app-ios/Activity/ProjectsView/ProjectContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "1340">
+               </Location>
+               <Location
+                  uuid = "338925DA-74CA-4143-800D-3860ECEE9796 - f29708da0540a38e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 () -&gt; SwiftUI.HStack&lt;SwiftUI.Text&gt; in closure #1 (Swift.Int) -&gt; SwiftUI._ConditionalContent&lt;SwiftUI.NavigationLink&lt;SwiftUI.Text, Activity.EditTaskView&gt;, SwiftUI.NavigationLink&lt;SwiftUI.HStack&lt;SwiftUI.Text&gt;, Activity.ProjectTaskDetailView&gt;&gt; in closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.DynamicViewContent.onDelete(perform: Swift.Optional&lt;(Foundation.IndexSet) -&gt; ()&gt;) -&gt; some&gt;&gt;.0 in closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.View.font(Swift.Optional&lt;SwiftUI.Font&gt;) -&gt; some&gt;&gt;.0 in Activity.ProjectContentView.body.getter : some"
+                  moduleName = "Activity"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vivianwang/Desktop/ExchangeStudent/Courses/iOS/workout-tracking-app-ios/Activity/ProjectsView/ProjectContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "30"
+                  endingLineNumber = "30"
+                  offsetFromSymbolStart = "136">
                </Location>
             </Locations>
          </BreakpointContent>
