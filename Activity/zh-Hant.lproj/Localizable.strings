@@ -10,7 +10,7 @@
 // Home
 "Home" = "首頁";
 "Welcome" = "您好";
-"WelcomeWithName" = "Welcome, %@";
+"WelcomeWithName" = "您好, %@";
 "Hint" = "小提示";
 "Consider going to the Settings tab to customize the application, set your name or enable notifications" = "請到“設定”介面自訂您的姓名或啟用通知";
 
@@ -62,6 +62,7 @@
 "Finish" = "完成";
 
 // Summary
+"Summary" = "總結";
 "Training Summary 🏋️" = "追蹤總結 🏋️";
 "Unknown" = "未知";
 "Day to view" = "每日回顧";

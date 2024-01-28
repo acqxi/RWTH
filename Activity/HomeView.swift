@@ -40,7 +40,8 @@ struct HomeView: View {
             
             VStack {
                 TaskDetailView(date:Date())
-            }.navigationTitle(title)
+            }
+            .navigationTitle(title)
         }
     }
 }
