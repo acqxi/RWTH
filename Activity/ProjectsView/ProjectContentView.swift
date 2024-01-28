@@ -65,13 +65,13 @@ struct ProjectContentView: View {
                         Button {
                             moveDialogVisible = true
                         } label: {
-                            Text("Move")
+                            Text("Move".localized)
                         }
                         .disabled(selection.isEmpty)
                         .sheet(
                             isPresented: $moveDialogVisible
                         ) {
-                            ChooseProjectView(title: "Choose Project") { newProject in
+                            ChooseProjectView(title: "Choose Project".localized) { newProject in
                                 guard let newProject = newProject else { return }
                                 let tasksToMove = exercise.tasks.filter { selection.contains($0.id) }
                                 exercise.tasks.removeAll { selection.contains($0.id) }

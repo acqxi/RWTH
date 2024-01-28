@@ -35,19 +35,19 @@ extension DayOfWeek {
     var string : String {
         switch (self) {
         case .monday:
-            return "Monday"
+            return "Monday".localized
         case .tuesday:
-            return "Tuesday"
+            return "Tuesday".localized
         case .wednesday:
-            return "Wednesday"
+            return "Wednesday".localized
         case .thursday:
-            return "Thursday"
+            return "Thursday".localized
         case .friday:
-            return "Friday"
+            return "Friday".localized
         case .saturday:
-            return "Saturday"
+            return "Saturday".localized
         case .sunday:
-            return "Sunday"
+            return "Sunday".localized
         }
     }
     var shortString : String {

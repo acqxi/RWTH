@@ -18,10 +18,10 @@ struct NewExerciseView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section(header: Text("Project Name")) {
+                Section(header: Text("Project Name".localized)) {
                     TextField("", text: $name)
                     if existingProjects.contains(where: { $0.name.localizedLowercase == name.localizedLowercase }) {
-                        Text("A project with the same name already exists").foregroundStyle(.red)
+                        Text("A project with the same name already exists".localized).foregroundStyle(.red)
                     }
                 }
             }
@@ -30,12 +30,12 @@ struct NewExerciseView: View {
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Button("Cancel") {
+                Button("Cancel".localized) {
                     dismiss()
                 }
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Save") {
+                Button("Save".localized) {
                     let exercise = Project(name: name, startDate: .now, priority: 2)
                     context.insert(exercise)
                     try! context.save()

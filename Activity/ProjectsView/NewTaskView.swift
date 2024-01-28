@@ -27,26 +27,26 @@ struct NewTaskView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section(header: Text("Task")) {
-                    TextField("Name", text: $name)
+                Section(header: Text("Task".localized)) {
+                    TextField("Name".localized, text: $name)
                     if exercise.tasks.contains(where: { $0.name.localizedLowercase == name.localizedLowercase }) {
-                        Text("A task with the same name already exists").foregroundStyle(.red)
+                        Text("A task with the same name already exists".localized).foregroundStyle(.red)
                     }
-                    DatePicker("Start Date", selection: $startDate)
+                    DatePicker("Start Date".localized, selection: $startDate)
                     NavigationLink {
                         RepeatDaysChoice(repeatDays: $repeatDays)
                     } label: {
                         HStack(alignment: .lastTextBaseline) {
-                            Text("Repeat")
+                            Text("Repeat".localized)
                             Spacer()
                             if repeatDays.isEmpty {
-                                Text("Never")
+                                Text("Never".localized)
                             } else if repeatDays == Set<DayOfWeek>([.monday, .tuesday, .wednesday, .thursday, .friday]) {
-                                Text("Every Weekday")
+                                Text("Every Weekday".localized)
                             } else if repeatDays == Set<DayOfWeek>([.saturday, .sunday]) {
-                                Text("Every Weekend Day")
+                                Text("Every Weekend Day".localized)
                             } else if repeatDays == Set(DayOfWeek.all) {
-                                Text("Every Day")
+                                Text("Every Day".localized)
                             } else {
                                 Text(
                                     repeatDays
@@ -60,16 +60,16 @@ struct NewTaskView: View {
                     }
                 }
                 
-                Section("Priority") {
-                    Picker("Priority", selection: $priority) {
-                        Text("Meh").tag(1)
-                        Text("Maybe").tag(2)
-                        Text("Must").tag(3)
+                Section("Priority".localized) {
+                    Picker("Priority".localized, selection: $priority) {
+                        Text("Meh".localized).tag(1)
+                        Text("Maybe".localized).tag(2)
+                        Text("Must".localized).tag(3)
                     }
                     .pickerStyle(.segmented)
                 }
                 
-                Section(header: Text("Tags")) {
+                Section(header: Text("Tags".localized)) {
                     ForEach(0..<tags.count, id: \.self) { index in
                         Text(tags[index])
                     }
@@ -79,18 +79,18 @@ struct NewTaskView: View {
                     Button(action: {
                         showNewTagPopup.toggle()
                     }) {
-                        Text("Add tag")
+                        Text("Add tag".localized)
                     }
                 }
             }
         }
-        .navigationBarTitle("New Task")
+        .navigationBarTitle("New Task".localized)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(
-            leading: Button("Cancel") {
+            leading: Button("Cancel".localized) {
                 dismiss()
             },
-            trailing: Button("Save") {
+            trailing: Button("Save".localized) {
                 let newTask = Task(name: name, tags: tags, startDate: startDate, priority: 2, repeatDays: repeatDays)
                 exercise.tasks.append(newTask)
                 try! context.save()

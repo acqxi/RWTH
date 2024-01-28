@@ -37,35 +37,35 @@ struct EditTaskDetailView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section(header: Text("Task")) {
-                    TextField("Name", text: taskBinding(for: \.name))
-                    DatePicker("Start Date", selection: taskBinding(for: \.startDate))
+                Section(header: Text("Task".localized)) {
+                    TextField("Name".localized, text: taskBinding(for: \.name))
+                    DatePicker("Start Date".localized, selection: taskBinding(for: \.startDate))
                 }
                 
-                Section("Priority") {
-                    Picker("Priority", selection: taskBinding(for: \.priority)) {
-                        Text("Meh").tag(1)
-                        Text("Maybe").tag(2)
-                        Text("Must").tag(3)
+                Section("Priority".localized) {
+                    Picker("Priority".localized, selection: taskBinding(for: \.priority)) {
+                        Text("Meh".localized).tag(1)
+                        Text("Maybe".localized).tag(2)
+                        Text("Must".localized).tag(3)
                     }
                     .pickerStyle(.segmented)
                 }
                 
-                Section(header: Text("Repeat")){
+                Section(header: Text("Repeat".localized)){
                     NavigationLink {
                         RepeatDaysChoice(repeatDays: taskBinding(for: \.repeatDays))
                     } label: {
                         HStack(alignment: .lastTextBaseline) {
-                            Text("Repeat")
+                            Text("Repeat".localized)
                             Spacer()
                             if task.repeatDays.isEmpty {
-                                Text("Never")
+                                Text("Never".localized)
                             } else if task.repeatDays == Set<DayOfWeek>([.monday, .tuesday, .wednesday, .thursday, .friday]) {
-                                Text("Every Weekday")
+                                Text("Every Weekday".localized)
                             } else if task.repeatDays == Set<DayOfWeek>([.saturday, .sunday]) {
-                                Text("Every Weekend Day")
+                                Text("Every Weekend Day".localized)
                             } else if task.repeatDays == Set(DayOfWeek.all) {
-                                Text("Every Day")
+                                Text("Every Day".localized)
                             } else {
                                 Text(
                                     task.repeatDays
@@ -79,7 +79,7 @@ struct EditTaskDetailView: View {
                     }
                 }
                 
-                Section(header: Text("Tags")) {
+                Section(header: Text("Tags".localized)) {
                     ForEach(0..<task.tags.count, id: \.self) { index in
                         Text(task.tags[index])
                     }
@@ -90,7 +90,7 @@ struct EditTaskDetailView: View {
                     Button(action: {
                         showNewTagPopup.toggle()
                     }) {
-                        Text("Add tag")
+                        Text("Add tag".localized)
                     }
                 }
             }

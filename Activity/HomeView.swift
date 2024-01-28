@@ -13,7 +13,7 @@ struct HomeView: View {
     var settings: Settings? { settingsList.first }
     
     var body: some View {
-        let title = settings?.firstName == nil ? "Welcome" : "Welcome, \(settings!.firstName!)"
+        let title = settings?.firstName.map { String(format: NSLocalizedString("WelcomeWithName", comment: ""), $0) } ?? NSLocalizedString("Welcome", comment: "")
         
         NavigationStack{
             if settings == nil {
@@ -21,10 +21,10 @@ struct HomeView: View {
                     HStack {
                         Image(systemName: "info.circle.fill")
                         VStack(alignment: .leading) {
-                            Text("Hint")
+                            Text("Hint".localized)
                                 .multilineTextAlignment(.leading)
                                 .font(.title2)
-                            Text("Consider going to the Settings tab to customize the application, set your name or enable notifications")
+                            Text("Consider going to the Settings tab to customize the application, set your name or enable notifications".localized)
                         }
                     }.padding()
                 }

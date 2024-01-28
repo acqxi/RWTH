@@ -28,7 +28,7 @@ struct ActivityListView: View {
                 ActivityChart(tasks: tasks, data: calculateStopwatchData())
                 TimeframeSelectionView(selectedTimeframe: $selectedTimeframe, selectedDate: $selectedDate, stopwatchData: stopwatchData)
             }
-            .navigationTitle("Training Summary 🏋️")
+            .navigationTitle("Training Summary 🏋️".localized)
         }
     }
     
@@ -71,7 +71,7 @@ struct ActivityChart: View {
     var body: some View {
         Chart {
             ForEach(data, id: \.0) { (taskId, interval) in
-                let taskName = tasks.first { $0.id == taskId }?.name ?? "Unknown"
+                let taskName = tasks.first { $0.id == taskId }?.name ?? "Unknown".localized
                 SectorMark(angle: .value("Stream", interval), angularInset: 3)
                     .foregroundStyle(by: .value("name", taskName))
                     .cornerRadius(7)
@@ -112,7 +112,7 @@ struct TimeframeSelectionView: View {
     private func timeframeSpecificPicker() -> some View {
         switch selectedTimeframe {
         case .daily:
-            return DatePicker("Day to view", selection: $selectedDate, displayedComponents: .date).eraseToAnyView()
+            return DatePicker("Day to view".localized, selection: $selectedDate, displayedComponents: .date).eraseToAnyView()
         case .monthly:
             return MonthPickerView(selectedDate: $selectedDate, stopwatchData: stopwatchData).eraseToAnyView()
         default:
@@ -122,10 +122,10 @@ struct TimeframeSelectionView: View {
     
     // General picker for selecting timeframe
     private func generalTimeframePicker() -> some View {
-        Picker("Select Timeframe", selection: $selectedTimeframe) {
-            Text("Daily").tag(Timeframe.daily)
-            Text("Monthly").tag(Timeframe.monthly)
-            Text("All Time").tag(Timeframe.allTime)
+        Picker("Select Timeframe".localized, selection: $selectedTimeframe) {
+            Text("Daily".localized).tag(Timeframe.daily)
+            Text("Monthly".localized).tag(Timeframe.monthly)
+            Text("All Time".localized).tag(Timeframe.allTime)
         }
         .pickerStyle(SegmentedPickerStyle())
     }
@@ -142,7 +142,7 @@ struct MonthPickerView: View {
     var stopwatchData: [StopwatchData]
     
     var body: some View {
-        Picker("Month to view", selection: $selectedDate) {
+        Picker("Month to view".localized, selection: $selectedDate) {
             ForEach(uniqueMonthAndYears(), id: \.self) { monthAndYear in
                 Text(monthAndYear.longString).tag(monthAndYear.date)
             }

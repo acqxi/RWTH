@@ -77,7 +77,7 @@ struct ProjectsView: View {
                         
                     }
                 } else if searchTerm.isEmpty {
-                    Text("Start typing to search")
+                    Text("Start typing to search".localized)
                 } else {
                     List(searchResults) { result in
                         NavigationLink {
@@ -94,13 +94,13 @@ struct ProjectsView: View {
                     
                     Menu("Sort", systemImage: "arrow.up.arrow.down") {
                         Picker("Sort", selection: $sortOrder) {
-                            Text("Name")
+                            Text("Name".localized)
                                 .tag(SortDescriptor(\Project.name))
 
-                            Text("Priority")
+                            Text("Priority".localized)
                                 .tag(SortDescriptor(\Project.priority, order: .reverse))
 
-                            Text("Date")
+                            Text("Date".localized)
                                 .tag(SortDescriptor(\Project.startDate))
                         }
                         .pickerStyle(.inline)
@@ -146,7 +146,7 @@ struct ProjectSearchResultView: View {
                     let foundTags = task.tags.filter { result.tags.contains($0) }
                     if !foundTags.isEmpty {
                         Group {
-                            Text("Tags: ") + Text(foundTags.joined(separator: ", ")).foregroundStyle(Color.accentColor)
+                            Text("Tags: ".localized) + Text(foundTags.joined(separator: ", ")).foregroundStyle(Color.accentColor)
                         }
                         .padding([.leading])
                     }

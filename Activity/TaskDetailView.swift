@@ -92,7 +92,7 @@ struct TaskDetailView: View {
             if tasksToday.isEmpty {
                 Spacer()
                 
-                Text("No tasks for this day")
+                Text("No tasks for this day".localized)
                     .font(.title)
                     .multilineTextAlignment(.center)
             }
@@ -131,19 +131,19 @@ struct TaskDetailView: View {
                 } label: {
                     label
                         .confirmationDialog(
-                            "Do you want to restart or continue the tracking?",
+                            "Do you want to restart or continue the tracking?".localized,
                             isPresented: $showRestartStopwatchConfirmation,
                             titleVisibility: .visible) {
                                 Button(role: .destructive) {
                                     discardStopwatchData(for: item)
                                     navigateToStopwatch()
                                 } label: {
-                                    Text("Discard data and restart")
+                                    Text("Discard data and restart".localized)
                                 }
                                 Button {
                                     navigateToStopwatch(continuingWith: stopwatchDatum)
                                 } label: {
-                                    Text("Continue tracking")
+                                    Text("Continue tracking".localized)
                                 }
                             }
                 }.navigationDestination(isPresented: $navigatingToStopwatch) {

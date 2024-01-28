@@ -77,33 +77,33 @@ struct SettingsView: View {
                 notificationSettingsSection()
                 fontSizeSection()
             }
-            .navigationTitle("Settings")
+            .navigationTitle(Text("Settings"))
         }
     }
 
     // Personal Information Section
     private func personalInfoSection() -> some View {
-        Section(header: Text("Personal Information")) {
+        Section(header: Text("Personal Information".localized)) {
             // Use the dynamic font size for TextFields and Labels
-            TextField("First Name", text: textFieldBinding(for: \.firstName))
-            TextField("Last Name", text: textFieldBinding(for: \.lastName))
-            TextField("Email", text: textFieldBinding(for: \.email))
+            TextField("First Name".localized, text: textFieldBinding(for: \.firstName))
+            TextField("Last Name".localized, text: textFieldBinding(for: \.lastName))
+            TextField("Email".localized, text: textFieldBinding(for: \.email))
                 .keyboardType(.emailAddress)
                 .autocapitalization(.none)
                 .autocorrectionDisabled(true)
-            DatePicker("Birthday", selection: datePickerBinding(for: \.birthday), displayedComponents: .date)
+            DatePicker("Birthday".localized, selection: datePickerBinding(for: \.birthday), displayedComponents: .date)
         }
         .font(.system(size: settings?.dynamicFontSize ?? 17))
     }
 
     // Visual Settings Section
     private func visualSettingsSection() -> some View {
-        Section(header: Text("Visual Settings")) {
-            Picker("Accent Color", selection: pickerBinding(for: \.accentColor, defaultValue: AccentColor.yellow)) {
-                Text("Yellow").tag(AccentColor.yellow)
-                Text("Blue").tag(AccentColor.blue)
-                Text("Purple").tag(AccentColor.purple)
-                Text("Green").tag(AccentColor.green)
+        Section(header: Text("Visual Settings".localized)) {
+            Picker("Accent Color".localized, selection: pickerBinding(for: \.accentColor, defaultValue: AccentColor.yellow)) {
+                Text("Yellow".localized).tag(AccentColor.yellow)
+                Text("Blue".localized).tag(AccentColor.blue)
+                Text("Purple".localized).tag(AccentColor.purple)
+                Text("Green".localized).tag(AccentColor.green)
             }
             .font(.system(size: settings?.dynamicFontSize ?? 17))
         }
@@ -111,7 +111,7 @@ struct SettingsView: View {
 
     // Notification Settings Section
     private func notificationSettingsSection() -> some View {
-        Section(header: Text("Notification Settings")) {
+        Section(header: Text("Notification Settings".localized)) {
             switch notificationPermission {
             case .authorized, .provisional, .ephemeral:
                 dailyReminderToggle()
@@ -121,7 +121,7 @@ struct SettingsView: View {
             case .notDetermined:
                 enableRemindersButton()
             @unknown default:
-                Text("Notification Permission Unknown")
+                Text("Notification Permission Unknown".localized)
             }
         }
         .font(.system(size: settings?.dynamicFontSize ?? 17))
@@ -129,19 +129,20 @@ struct SettingsView: View {
 
     private func fontSizeSection() -> some View {
         // Section for font size adjustment
-        Section(header: Text("Font Size")) {
+        Section(header: Text("Font Size".localized)) {
             Slider(
                 value: fontSizeBinding(for: \.dynamicFontSize),
                 in: 12...24, // Range for font size
                 step: 1
             )
-            Text("Font size: \(Int(settings?.dynamicFontSize ?? 17))")
+            Text(String(format: "FontSizeFormat".localized, Int(settings?.dynamicFontSize ?? 17)))
+
         }
     }
     
     // Extracting smaller view components
     private func dailyReminderToggle() -> some View {
-        Toggle(isOn: toggleBinding(), label: { Text("Daily Reminder")})
+        Toggle(isOn: toggleBinding(), label: { Text("Daily Reminder".localized)})
             .font(.system(size: settings?.dynamicFontSize ?? 17))
     }
 
@@ -152,7 +153,7 @@ struct SettingsView: View {
                     selection: datePickerBinding(forNotificationTime: notificationTime),
                     displayedComponents: .hourAndMinute
                 ) {
-                    Text("Notification Time")
+                    Text("Notification Time".localized)
                 }
             } else {
                 EmptyView()
@@ -162,8 +163,8 @@ struct SettingsView: View {
 
     private func notificationPermissionDeniedView() -> some View {
         Group {
-            Text("Notification Permission Denied")
-            Button("Enable in Settings") {
+            Text("Notification Permission Denied".localized)
+            Button("Enable in Settings".localized) {
                 if let url = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(url) {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }
@@ -172,7 +173,7 @@ struct SettingsView: View {
     }
 
     private func enableRemindersButton() -> some View {
-        Button("Enable Reminders") {
+        Button("Enable Reminders".localized) {
             requestNotificationPermission()
         }
         .onAppear {
@@ -275,6 +276,12 @@ struct SettingsView: View {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             notificationPermission = settings.authorizationStatus
         }
+    }
+}
+
+extension String {
+    var localized: String {
+        NSLocalizedString(self, comment: "")
     }
 }
     

@@ -270,7 +270,7 @@ struct ListView: View {
     var body: some View {
         VStack(){
             HStack{
-                TextField("Type to search...", text: $searchTerm)
+                TextField("Type to search...".localized, text: $searchTerm)
                     .padding(7)
                     .background(Color(.systemGray6))
                     .cornerRadius(8)
@@ -299,7 +299,7 @@ struct ListView: View {
                     .background(Color.white)
                 }
                 else {
-                    Text("Nothing match !!")
+                    Text("Nothing match !!".localized)
                 }
             }
         }

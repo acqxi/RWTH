@@ -14,13 +14,13 @@ struct EditTaskView: View {
 
     var body: some View {
         Form {
-            Section(header: Text("Task Name")) {
+            Section(header: Text("Task Name".localized)) {
                 Text(task.name)
                 Text(task.startDate, style: .date)
                 Text("Priority:  \(task.priority)")
             }
             
-            Section(header: Text("Tags")) {
+            Section(header: Text("Tags".localized)) {
                 ForEach(task.tags, id: \.self) { tag in
                     Text(tag)
                 }

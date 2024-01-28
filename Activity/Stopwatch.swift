@@ -65,7 +65,7 @@ struct Stopwatch: View {
                 HStack {
                     if viewModel.isRunning {
                         Button(action: viewModel.stop) {
-                            Text("Pause")
+                            Text("Pause".localized)
                                 .padding()
                                 .background(Color.orange)
                                 .foregroundColor(.white)
@@ -75,7 +75,7 @@ struct Stopwatch: View {
                         Button(action: {
                             viewModel.start()
                         }) {
-                            Text("Start")
+                            Text("Start".localized)
                                 .padding()
                                 .background(Color.green)
                                 .foregroundColor(.white)
@@ -86,7 +86,7 @@ struct Stopwatch: View {
                     if viewModel.hasStarted {
                         Button(action:{
                             viewModel.stop()
-                            if var stopwatchData = stopwatchDataToUpdate {
+                            if let stopwatchData = stopwatchDataToUpdate {
                                 stopwatchData.times = viewModel.stopwatchData.map { (start, end) in
                                     Time(start: start, end: end)
                                 }
@@ -102,7 +102,7 @@ struct Stopwatch: View {
                             }
                             dismiss()
                         }) {
-                            Text("Finish")
+                            Text("Finish".localized)
                                 .padding()
                                 .background(Color.red)
                                 .foregroundColor(.white)

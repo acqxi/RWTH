@@ -49,7 +49,7 @@ struct TagChoice: View {
                 }
                 Spacer()
                 HStack {
-                    TextField("New tag", text: $newTagName)
+                    TextField("New tag".localized, text: $newTagName)
                     Button(action: {
                         if let settings = settings {
                             settings.availableTags.append(Tag(name: newTagName))
@@ -64,12 +64,12 @@ struct TagChoice: View {
                     }.disabled(newTagName.isEmpty)
                 }.padding()
             }
-            .navigationTitle("Choose Tags")
+            .navigationTitle("Choose Tags".localized)
             .navigationBarItems(
-                leading: Button("Cancel") {
+                leading: Button("Cancel".localized) {
                     onTagsSelected([])
                 },
-                trailing: Button("Save") {
+                trailing: Button("Save".localized) {
                     onTagsSelected(selectedTags)
                 }.disabled(selectedTags.isEmpty)
             )
