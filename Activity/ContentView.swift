@@ -39,7 +39,7 @@ struct ContentView: View {
             // Summary tab
             ActivityListView()
                 .tabItem {
-                    Image(systemName: "figure.highintensity.intervaltraining")
+                    Image(systemName: "chart.bar")
                     Text("Summary")
                 }
             
