@@ -18,9 +18,14 @@ struct Stopwatch: View {
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
     
+    @State var manualStartDate: Date
+    @State var manualEndDate: Date
+    
     init(taskId: UUID, date: Date, updating stopwatchDataToUpdate: StopwatchData? = nil) {
         self._taskId = State(initialValue: taskId)
         self.date = date
+        self._manualStartDate = State(wrappedValue: date)
+        self._manualEndDate = State(wrappedValue: date)
         self.stopwatchDataToUpdate = stopwatchDataToUpdate
         if let stopwatchDataToUpdate = stopwatchDataToUpdate {
             self._viewModel = StateObject(wrappedValue: StopwatchViewModel(
@@ -35,6 +40,8 @@ struct Stopwatch: View {
         ZStack {
             Color.black.opacity(0.06).edgesIgnoringSafeArea(.all)
             VStack {
+                Spacer()
+                
                 ZStack {
                     Circle()
                         .trim(from: 0, to: 1)
@@ -49,19 +56,19 @@ struct Stopwatch: View {
                             .rotationEffect(.degrees(-90))
                             .padding()
                     }
-//                    ForEach(1..<Int(viewModel.elapsedPeriods + 1), id: \.self) { idx in
-//                        Circle()
-//                            .trim(from: 0, to: (viewModel.elapsedTime.truncatingRemainder(dividingBy: 60)) / 60.0)
-//                            .stroke(Color.red, style: StrokeStyle(lineWidth: 14, lineCap: .round))
-//                            .frame(width: 280, height: 280)
-//                            .rotationEffect(.degrees(-90))
-//                            .padding()
-//                    }
+                    //                    ForEach(1..<Int(viewModel.elapsedPeriods + 1), id: \.self) { idx in
+                    //                        Circle()
+                    //                            .trim(from: 0, to: (viewModel.elapsedTime.truncatingRemainder(dividingBy: 60)) / 60.0)
+                    //                            .stroke(Color.red, style: StrokeStyle(lineWidth: 14, lineCap: .round))
+                    //                            .frame(width: 280, height: 280)
+                    //                            .rotationEffect(.degrees(-90))
+                    //                            .padding()
+                    //                    }
                     Text(viewModel.timeElapsed)
                         .font(.largeTitle)
                         .padding()
                 }
-
+                
                 HStack {
                     if viewModel.isRunning {
                         Button(action: viewModel.stop) {
@@ -110,20 +117,53 @@ struct Stopwatch: View {
                         }
                     }
                 }
-//                List{
-//                    ForEach(times) { time in
-//
-//                            Text(time)
-//                        }
-//                        // TODO: Use .sheet()
-//                    }
-
-                    .padding()
-                                    
+                
+                Spacer()
+                
+                if !viewModel.hasStarted && stopwatchDataToUpdate == nil {
+                    VStack {
+                        Spacer()
+                        
+                        Text("Did you complete the workout already?")
+                        
+                        Form {
+                            DatePicker("Start Time", selection: $manualStartDate, displayedComponents: .hourAndMinute)
+                            DatePicker("End Time", selection: $manualEndDate, displayedComponents: .hourAndMinute)
+                        }
+                        
+                        Button("Add manually") {
+                            let startDate = manualStartDate.withoutSeconds()
+                            let endDate = manualEndDate.withoutSeconds()
+                            
+                            let stopwatchData = StopwatchData(
+                                completionDate: date,
+                                taskId: taskId,
+                                times: [
+                                    Time(
+                                        start: startDate,
+                                        end: endDate
+                                    )
+                                ]
+                            )
+                            context.insert(stopwatchData)
+                            dismiss()
+                        }
+                        .disabled(manualStartDate.withoutSeconds() == manualEndDate.withoutSeconds())
+                    }
+                    .padding([.vertical])
                 }
             }
         }
-    
+    }
+}
+
+extension Date {
+    func withoutSeconds() -> Date {
+        var components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: self)
+        components.second = 0
+        let date = Calendar.current.date(from: components)!
+        return date
+    }
 }
 
 class StopwatchViewModel: ObservableObject {
