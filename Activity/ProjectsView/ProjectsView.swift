@@ -3,11 +3,13 @@
 //  Activity
 //
 //  Created by TimurSmoev on 1/10/24.
+// Commented by Yu-Ting
 //
 
 import SwiftUI
 import SwiftData
 
+/// Displays a list of projects, supports searching, and allows navigation to project details.
 struct ProjectsView: View {
     @Environment(\.modelContext) var context
     @Environment(\.editMode) var editMode
@@ -99,26 +101,6 @@ struct ProjectsView: View {
                     }
                 }
             }
-            .toolbar {
-                ToolbarItemGroup {
-                    
-//                    Menu("Sort", systemImage: "arrow.up.arrow.down") {
-//                        Picker("Sort", selection: $sortOrder) {
-//                            Text("Name")
-//                                .tag(SortDescriptor(\Project.name))
-//
-//                            Text("Priority")
-//                                .tag(SortDescriptor(\Project.priority, order: .reverse))
-//
-//                            Text("Date")
-//                                .tag(SortDescriptor(\Project.startDate))
-//                        }
-//                        .pickerStyle(.inline)
-//                    }
-                    
-                }
-                
-            }
             .navigationTitle("Projects")
             .navigationBarItems(
                 trailing:
@@ -131,6 +113,7 @@ struct ProjectsView: View {
     }
 }
 
+/// Represents a view for displaying a single search result.
 struct ProjectSearchResultView: View {
     var result: SearchResult
     
