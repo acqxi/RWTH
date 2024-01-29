@@ -47,6 +47,10 @@
 "Must" = "აუცილებელი";
 "Time" = "დრო";
 "EveryDayFormat" = "ყოველი %@";
+"There are no projects." = "პროექტები არ არის";
+"Add new project" = "დაამატეთ ახალი პროექტი";
+"There are no tasks." = "დავალებები არ არის.";
+"Add new task" = "დაამატე ახალი დავალება";
 
 // Calendar
 "Calendar" = "კალენდარი";
