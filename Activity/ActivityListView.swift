@@ -46,7 +46,7 @@ struct ActivityListView: View {
             case .daily:
                 return calendar.isDate(data.completionDate, equalTo: selectedDate, toGranularity: .day)
             case .weekly:
-                return calendar.isDate(data.completionDate, equalTo: selectedDate, toGranularity: .weekOfYear)
+                return calendar.isDate(data.completionDate, equalTo: selectedDate, toGranularity: .weekOfMonth)
                 
             case .monthly:
                 return calendar.isDate(data.completionDate, equalTo: selectedDate, toGranularity: .month)
@@ -161,9 +161,9 @@ struct WeekPickerView: View {
     private func uniqueYearAndWeeks() -> [YearAndWeek] {
         let calendar = Calendar.current
         let yearAndWeeks = stopwatchData.compactMap { stopwatchData -> YearAndWeek? in
-            let components = calendar.dateComponents([.weekOfYear, .yearForWeekOfYear], from: stopwatchData.completionDate)
-            guard let weekOfYear = components.weekOfYear, let year = components.yearForWeekOfYear else { return nil }
-            return YearAndWeek(weekOfYear: weekOfYear, year: year)
+            let components = calendar.dateComponents([.weekOfYear, .month, .yearForWeekOfYear], from: stopwatchData.completionDate)
+            guard let weekOfYear = components.weekOfYear, let month = components.month, let year = components.yearForWeekOfYear else { return nil }
+            return YearAndWeek(weekOfYear: weekOfYear, month: month, year: year)
         }
         return Set(yearAndWeeks).sorted()
     }
@@ -171,28 +171,40 @@ struct WeekPickerView: View {
 
 struct YearAndWeek: Hashable, Comparable {
     let weekOfYear: Int
+    let month: Int
     let year: Int
     
     // Calculate the start date of the week
     var startDate: Date {
         var components = DateComponents()
         components.weekOfYear = weekOfYear
+        components.month = month
         components.yearForWeekOfYear = year
         return Calendar.current.date(from: components) ?? Date()
     }
     
     var longString: String {
-        "\(year) - Week \(weekOfYear)"
+        "\(monthName(from: month)) - Week \(weekOfYear), \(year)"
     }
     
     static func < (lhs: YearAndWeek, rhs: YearAndWeek) -> Bool {
         if lhs.year != rhs.year {
             return lhs.year < rhs.year
+        } else if lhs.month != rhs.month {
+            return lhs.month < rhs.month
         }
         return lhs.weekOfYear < rhs.weekOfYear
     }
 }
 
+func monthName(from month: Int) -> String {
+    let dateFormatter = DateFormatter()
+    let months = dateFormatter.monthSymbols
+    guard month >= 1, month <= 12, let months = months else {
+        return "Invalid month"
+    }
+    return months[month - 1] // Array is zero-indexed, months are 1-indexed
+}
 
 // Subview for selecting month
 struct MonthPickerView: View {
