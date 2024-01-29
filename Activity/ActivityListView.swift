@@ -12,7 +12,7 @@ import Charts
 
 // Enum representing different timeframes for filtering
 enum Timeframe {
-    case daily, monthly, allTime
+    case daily, weekly, monthly, allTime
 }
 
 // View for displaying activity list
@@ -45,6 +45,9 @@ struct ActivityListView: View {
             switch selectedTimeframe {
             case .daily:
                 return calendar.isDate(data.completionDate, equalTo: selectedDate, toGranularity: .day)
+            case .weekly:
+                return calendar.isDate(data.completionDate, equalTo: selectedDate, toGranularity: .weekOfYear)
+                
             case .monthly:
                 return calendar.isDate(data.completionDate, equalTo: selectedDate, toGranularity: .month)
             case .allTime:
@@ -108,11 +111,14 @@ struct TimeframeSelectionView: View {
         }
     }
     
-    // Picker specific to the timeframe (daily or monthly)
+    // Picker specific to the timeframe (daily, weekly or monthly)
     private func timeframeSpecificPicker() -> some View {
         switch selectedTimeframe {
         case .daily:
             return DatePicker("Day to view".localized, selection: $selectedDate, displayedComponents: .date).eraseToAnyView()
+        case .weekly:
+            return WeekPickerView(selectedDate: $selectedDate, stopwatchData: stopwatchData).eraseToAnyView()
+            
         case .monthly:
             return MonthPickerView(selectedDate: $selectedDate, stopwatchData: stopwatchData).eraseToAnyView()
         default:
@@ -124,6 +130,7 @@ struct TimeframeSelectionView: View {
     private func generalTimeframePicker() -> some View {
         Picker("Select Timeframe".localized, selection: $selectedTimeframe) {
             Text("Daily".localized).tag(Timeframe.daily)
+            Text("Weekly".localized).tag(Timeframe.weekly)
             Text("Monthly".localized).tag(Timeframe.monthly)
             Text("All Time".localized).tag(Timeframe.allTime)
         }
@@ -135,6 +142,57 @@ struct TimeframeSelectionView: View {
 extension View {
     func eraseToAnyView() -> AnyView { AnyView(self) }
 }
+
+// Subview for selecting week
+struct WeekPickerView: View {
+    @Binding var selectedDate: Date
+    var stopwatchData: [StopwatchData]
+    
+    var body: some View {
+        Picker("Week to view".localized, selection: $selectedDate) {
+            ForEach(uniqueYearAndWeeks(), id: \.self) { yearAndWeek in
+                Text(yearAndWeek.longString).tag(yearAndWeek.startDate)
+            }
+        }
+        .pickerStyle(MenuPickerStyle())
+    }
+    
+    // Calculate unique year and week combinations
+    private func uniqueYearAndWeeks() -> [YearAndWeek] {
+        let calendar = Calendar.current
+        let yearAndWeeks = stopwatchData.compactMap { stopwatchData -> YearAndWeek? in
+            let components = calendar.dateComponents([.weekOfYear, .yearForWeekOfYear], from: stopwatchData.completionDate)
+            guard let weekOfYear = components.weekOfYear, let year = components.yearForWeekOfYear else { return nil }
+            return YearAndWeek(weekOfYear: weekOfYear, year: year)
+        }
+        return Set(yearAndWeeks).sorted()
+    }
+}
+
+struct YearAndWeek: Hashable, Comparable {
+    let weekOfYear: Int
+    let year: Int
+    
+    // Calculate the start date of the week
+    var startDate: Date {
+        var components = DateComponents()
+        components.weekOfYear = weekOfYear
+        components.yearForWeekOfYear = year
+        return Calendar.current.date(from: components) ?? Date()
+    }
+    
+    var longString: String {
+        "\(year) - Week \(weekOfYear)"
+    }
+    
+    static func < (lhs: YearAndWeek, rhs: YearAndWeek) -> Bool {
+        if lhs.year != rhs.year {
+            return lhs.year < rhs.year
+        }
+        return lhs.weekOfYear < rhs.weekOfYear
+    }
+}
+
 
 // Subview for selecting month
 struct MonthPickerView: View {
