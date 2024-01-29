@@ -284,7 +284,7 @@ struct ListView: View {
                     Button(action: {
                         self.isShowingPopover = true
                     }) {
-                        Text("filter")
+                        Text("Filter")
                     }
                     .padding()
                 }
@@ -295,7 +295,7 @@ struct ListView: View {
                         
                         Spacer()
                         
-                        Text("tags:")
+                        Text("Tags:")
                             .font(.headline)
                         
                         Picker(selection: $searchTerm, label: Text("choice")) {
@@ -323,7 +323,7 @@ struct ListView: View {
                         
                     }
                     .frame(maxWidth: .infinity)
-                    .background(Color.white)
+                    .background(Color(UIColor.systemBackground))
                     .cornerRadius(10)
                     .shadow(radius: 5)
                 }
