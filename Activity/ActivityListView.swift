@@ -10,12 +10,12 @@ import SwiftUI
 import SwiftData
 import Charts
 
-// Enum representing different timeframes for filtering
+/// Enum representing different timeframes for filtering
 enum Timeframe {
     case daily, weekly, monthly, allTime
 }
 
-// View for displaying activity list
+/// View for displaying activity list
 struct ActivityListView: View {
     @Query var tasks: [Task]
     @Query var stopwatchData: [StopwatchData]
@@ -32,13 +32,13 @@ struct ActivityListView: View {
         }
     }
     
-    // Calculate stopwatch data based on the selected timeframe
+    /// Calculate stopwatch data based on the selected timeframe
     private func calculateStopwatchData() -> [(UUID, TimeInterval)] {
         let filteredData = filterStopwatchData()
         return aggregateStopwatchData(filteredData)
     }
     
-    // Filter stopwatch data based on the selected timeframe
+    /// Filter stopwatch data based on the selected timeframe
     private func filterStopwatchData() -> [StopwatchData] {
         let calendar = Calendar.current
         return stopwatchData.filter { data in
@@ -56,7 +56,7 @@ struct ActivityListView: View {
         }
     }
     
-    // Aggregate stopwatch data by task
+    /// Aggregate stopwatch data by task
     private func aggregateStopwatchData(_ data: [StopwatchData]) -> [(UUID, TimeInterval)] {
         data.reduce(into: [:]) { result, datum in
             result[datum.taskId, default: 0] += datum.totalInterval
@@ -66,7 +66,7 @@ struct ActivityListView: View {
     }
 }
 
-// Subview for displaying the activity chart
+/// Subview for displaying the activity chart
 struct ActivityChart: View {
     var tasks: [Task]
     var data: [(UUID, TimeInterval)]
@@ -88,7 +88,7 @@ struct ActivityChart: View {
     }
 }
 
-// Extension for formatting TimeInterval
+/// Extension for formatting TimeInterval
 extension TimeInterval {
     func formattedTime() -> String {
         let hours = Int(self) / 3600
@@ -98,7 +98,7 @@ extension TimeInterval {
     }
 }
 
-// Subview for timeframe selection
+/// Subview for timeframe selection
 struct TimeframeSelectionView: View {
     @Binding var selectedTimeframe: Timeframe
     @Binding var selectedDate: Date
@@ -111,7 +111,7 @@ struct TimeframeSelectionView: View {
         }
     }
     
-    // Picker specific to the timeframe (daily, weekly or monthly)
+    /// Picker specific to the timeframe (daily, weekly or monthly)
     private func timeframeSpecificPicker() -> some View {
         switch selectedTimeframe {
         case .daily:
@@ -126,7 +126,7 @@ struct TimeframeSelectionView: View {
         }
     }
     
-    // General picker for selecting timeframe
+    /// General picker for selecting timeframe
     private func generalTimeframePicker() -> some View {
         Picker("Select Timeframe".localized, selection: $selectedTimeframe) {
             Text("Daily".localized).tag(Timeframe.daily)
@@ -138,12 +138,12 @@ struct TimeframeSelectionView: View {
     }
 }
 
-// Extension for converting View to AnyView
+/// Extension for converting View to AnyView
 extension View {
     func eraseToAnyView() -> AnyView { AnyView(self) }
 }
 
-// Subview for selecting week
+/// Subview for selecting week
 struct WeekPickerView: View {
     @Binding var selectedDate: Date
     var stopwatchData: [StopwatchData]
@@ -157,7 +157,7 @@ struct WeekPickerView: View {
         .pickerStyle(MenuPickerStyle())
     }
     
-    // Calculate unique year and week combinations
+    /// Calculate unique year and week combinations
     private func uniqueYearAndWeeks() -> [YearAndWeek] {
         let calendar = Calendar.current
         let yearAndWeeks = stopwatchData.compactMap { stopwatchData -> YearAndWeek? in
@@ -174,7 +174,7 @@ struct YearAndWeek: Hashable, Comparable {
     let month: Int
     let year: Int
     
-    // Calculate the start date of the week
+    /// Calculate the start date of the week
     var startDate: Date {
         var components = DateComponents()
         components.weekOfYear = weekOfYear
@@ -203,10 +203,10 @@ func monthName(from month: Int) -> String {
     guard month >= 1, month <= 12, let months = months else {
         return "Invalid month"
     }
-    return months[month - 1] // Array is zero-indexed, months are 1-indexed
+    return months[month - 1] /// Array is zero-indexed, months are 1-indexed
 }
 
-// Subview for selecting month
+/// Subview for selecting month
 struct MonthPickerView: View {
     @Binding var selectedDate: Date
     var stopwatchData: [StopwatchData]
@@ -220,7 +220,7 @@ struct MonthPickerView: View {
         .pickerStyle(MenuPickerStyle())
     }
     
-    // Calculate unique month and year combinations
+    /// Calculate unique month and year combinations
     private func uniqueMonthAndYears() -> [MonthAndYear] {
         Set(stopwatchData.map { MonthAndYear(from: $0.completionDate) })
             .sorted()

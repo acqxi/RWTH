@@ -9,7 +9,7 @@
 import SwiftUI
 import SwiftData
 
-// Constants for reuse and easy modification
+/// Constants for reuse and easy modification
 let dailyNotificationId = "DAILY_NOTIFICATION"
 let notificationTitle = "Let's Check What You've Got For Today!"
 let notificationSubtitle = "Motivation is what gets you started. Habit is what keeps you going."
@@ -23,7 +23,7 @@ struct SettingsView: View {
 
     @State private var notificationPermission = UNAuthorizationStatus.notDetermined
 
-    // Function to update settings, creating new settings if none exist.
+    /// Function to update settings, creating new settings if none exist.
     private func updateSettings(_ updateBlock: (_ settings: Settings) -> Void) {
         let currentSettings = settings ?? createNewSettings()
         updateBlock(currentSettings)
@@ -35,7 +35,7 @@ struct SettingsView: View {
         return newSettings
     }
 
-    // Function to remove daily notifications, with an option to update the database.
+    /// Function to remove daily notifications, with an option to update the database.
     private func removeDailyNotification(updatingDatabase: Bool = true) {
         UNUserNotificationCenter.current()
             .removePendingNotificationRequests(withIdentifiers: [dailyNotificationId])
@@ -44,7 +44,7 @@ struct SettingsView: View {
         }
     }
 
-    // Function to schedule daily notifications.
+    /// Function to schedule daily notifications.
     private func scheduleDailyNotification(for dateComponents: DateComponents) {
         removeDailyNotification(updatingDatabase: false)
         let content = createNotificationContent()
@@ -60,7 +60,7 @@ struct SettingsView: View {
         updateSettings { $0.notificationTime = HourAndMinute(hour: dateComponents.hour ?? defaultHour, minute: dateComponents.minute ?? defaultMinute) }
     }
 
-    // Creating notification content to reduce complexity in scheduleDailyNotification
+    /// Creating notification content to reduce complexity in scheduleDailyNotification
     private func createNotificationContent() -> UNMutableNotificationContent {
         let content = UNMutableNotificationContent()
         content.title = notificationTitle
@@ -75,13 +75,12 @@ struct SettingsView: View {
                 personalInfoSection()
                 visualSettingsSection()
                 notificationSettingsSection()
-//                fontSizeSection()
             }
             .navigationTitle(Text("Settings"))
         }
     }
 
-    // Personal Information Section
+    /// Personal Information Section
     private func personalInfoSection() -> some View {
         Section(header: Text("Personal Information".localized)) {
             // Use the dynamic font size for TextFields and Labels
@@ -96,7 +95,7 @@ struct SettingsView: View {
         .font(.system(size: settings?.dynamicFontSize ?? 17))
     }
 
-    // Visual Settings Section
+    /// Visual Settings Section
     private func visualSettingsSection() -> some View {
         Section(header: Text("Visual Settings".localized)) {
             Picker("Accent Color".localized, selection: pickerBinding(for: \.accentColor, defaultValue: AccentColor.yellow)) {
@@ -109,7 +108,7 @@ struct SettingsView: View {
         }
     }
 
-    // Notification Settings Section
+    /// Notification Settings Section
     private func notificationSettingsSection() -> some View {
         Section(header: Text("Notification Settings".localized)) {
             switch notificationPermission {
@@ -140,14 +139,14 @@ struct SettingsView: View {
         }
     }
     
-    // Extracting smaller view components
+    /// Extracting smaller view components
     private func dailyReminderToggle() -> some View {
         Toggle(isOn: toggleBinding(), label: { Text("Daily Reminder".localized)})
             .font(.system(size: settings?.dynamicFontSize ?? 17))
     }
 
     private func notificationTimePicker() -> some View {
-        Group {  // Using Group instead of AnyView for better performance and simplicity
+        Group {  /// Using Group instead of AnyView for better performance and simplicity
             if let notificationTime = settings?.notificationTime {
                 DatePicker(
                     selection: datePickerBinding(forNotificationTime: notificationTime),
@@ -181,7 +180,7 @@ struct SettingsView: View {
         }
     }
 
-    // Binding helper functions
+    /// Binding helper functions
     private func textFieldBinding(for keyPath: WritableKeyPath<Settings, String?>) -> Binding<String> {
         Binding(
             get: { self.settings?[keyPath: keyPath] ?? "" },
@@ -255,7 +254,7 @@ struct SettingsView: View {
         )
     }
 
-    // Functions for notification permission handling
+    /// Functions for notification permission handling
     private func requestNotificationPermission() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, _ in
             if success {
