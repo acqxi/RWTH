@@ -16,29 +16,31 @@ struct HomeView: View {
         let title = settings?.firstName.map { String(format: NSLocalizedString("WelcomeWithName", comment: ""), $0) } ?? NSLocalizedString("Welcome", comment: "")
         
         NavigationStack{
-            if settings == nil {
-                Group {
-                    HStack {
-                        Image(systemName: "info.circle.fill")
-                        VStack(alignment: .leading) {
-                            Text("Hint".localized)
-                                .multilineTextAlignment(.leading)
-                                .font(.title2)
-                            Text("Consider going to the Settings tab to customize the application, set your name or enable notifications".localized)
-                        }
-                    }.padding()
-                }
-                .background(Color.accentColor.opacity(0.4))
-                .cornerRadius(10)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .inset(by: 1)
-                        .stroke(Color.accentColor.opacity(0.6), lineWidth: 1)
-                )
-                .padding()
-            }
-            
             VStack {
+                if settings == nil {
+                    Group {
+                        HStack {
+                            Image(systemName: "info.circle.fill")
+                            VStack(alignment: .leading) {
+                                Text("Hint".localized)
+                                    .multilineTextAlignment(.leading)
+                                    .font(.title2)
+                                Text("Consider going to the Settings tab to customize the application, set your name or enable notifications".localized)
+                            }
+                        }.padding()
+                    }
+                    .background(Color.accentColor.opacity(0.4))
+                    .cornerRadius(10)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .inset(by: 1)
+                            .stroke(Color.accentColor.opacity(0.6), lineWidth: 1)
+                    )
+                    .padding()
+                }
+                
+                Text("Today").font(.title)
+            
                 TaskDetailView(date:Date())
             }
             .navigationTitle(title)

@@ -13,6 +13,7 @@
 "WelcomeWithName" = "Welcome, %@";
 "Hint" = "Hint";
 "Consider going to the Settings tab to customize the application, set your name or enable notifications" = "Consider going to the Settings tab to customize the application, set your name or enable notifications";
+"Today" = "Today";
 
 
 // Project
