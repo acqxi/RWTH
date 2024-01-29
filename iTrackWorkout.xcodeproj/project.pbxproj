@@ -48,6 +48,7 @@
 		56247C7B2B641BD100D16D8E /* RepeatDaysChoice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepeatDaysChoice.swift; sourceTree = "<group>"; };
 		5660A4A12B5C6F3B005B8BCE /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		569BC3E72B67B05700A96030 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/Localizable.strings; sourceTree = "<group>"; };
+		569BC3E82B67B41A00A96030 /* ka */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ka; path = ka.lproj/Localizable.strings; sourceTree = "<group>"; };
 		56A3D97F2B55B21B00135F90 /* Stopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stopwatch.swift; sourceTree = "<group>"; };
 		56EDD9DA2B5EF5E30030555D /* StopwatchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchData.swift; sourceTree = "<group>"; };
 		6FCD2D242B65BCBE0097F091 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -192,6 +193,7 @@
 				"zh-Hant",
 				Base,
 				ro,
+				ka,
 			);
 			mainGroup = C8D03A9E2B38654500C9B57D;
 			productRefGroup = C8D03AA82B38654500C9B57D /* Products */;
@@ -255,6 +257,7 @@
 				6FCD2D242B65BCBE0097F091 /* zh-Hant */,
 				6FCD2D262B65BCCB0097F091 /* en */,
 				569BC3E72B67B05700A96030 /* ro */,
+				569BC3E82B67B41A00A96030 /* ka */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
