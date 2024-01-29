@@ -32,7 +32,7 @@ struct NewTaskView: View {
                     if exercise.tasks.contains(where: { $0.name.localizedLowercase == name.localizedLowercase }) {
                         Text("A task with the same name already exists".localized).foregroundStyle(.red)
                     }
-                    DatePicker("Start Date".localized, selection: $startDate)
+                    DatePicker("Start Date".localized, selection: $startDate, displayedComponents: .date)
                     NavigationLink {
                         RepeatDaysChoice(repeatDays: $repeatDays)
                     } label: {

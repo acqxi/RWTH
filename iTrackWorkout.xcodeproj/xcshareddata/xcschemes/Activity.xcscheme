@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C8D03AA62B38654500C9B57D"
-               BuildableName = "Activity.app"
-               BlueprintName = "Activity"
-               ReferencedContainer = "container:Activity.xcodeproj">
+               BuildableName = "iTrackWorkout.app"
+               BlueprintName = "iTrackWorkout"
+               ReferencedContainer = "container:iTrackWorkout.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,7 +33,6 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      language = "zh-Hant"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -45,9 +44,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C8D03AA62B38654500C9B57D"
-            BuildableName = "Activity.app"
-            BlueprintName = "Activity"
-            ReferencedContainer = "container:Activity.xcodeproj">
+            BuildableName = "iTrackWorkout.app"
+            BlueprintName = "iTrackWorkout"
+            ReferencedContainer = "container:iTrackWorkout.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +61,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C8D03AA62B38654500C9B57D"
-            BuildableName = "Activity.app"
-            BlueprintName = "Activity"
-            ReferencedContainer = "container:Activity.xcodeproj">
+            BuildableName = "iTrackWorkout.app"
+            BlueprintName = "iTrackWorkout"
+            ReferencedContainer = "container:iTrackWorkout.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

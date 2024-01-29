@@ -54,7 +54,7 @@
 		B0BC28F32B5562A30087B309 /* TaskDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailView.swift; sourceTree = "<group>"; };
 		C883FED02B4E98CA006B716A /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		C8CE74A62B611F9300B23670 /* DayOfWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfWeek.swift; sourceTree = "<group>"; };
-		C8D03AA72B38654500C9B57D /* Activity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Activity.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8D03AA72B38654500C9B57D /* iTrackWorkout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTrackWorkout.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8D03AAA2B38654500C9B57D /* ActivityApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityApp.swift; sourceTree = "<group>"; };
 		C8D03AAC2B38654500C9B57D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C8D03AAE2B38654700C9B57D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -114,7 +114,7 @@
 		C8D03AA82B38654500C9B57D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C8D03AA72B38654500C9B57D /* Activity.app */,
+				C8D03AA72B38654500C9B57D /* iTrackWorkout.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -150,9 +150,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C8D03AA62B38654500C9B57D /* Activity */ = {
+		C8D03AA62B38654500C9B57D /* iTrackWorkout */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C8D03AB52B38654700C9B57D /* Build configuration list for PBXNativeTarget "Activity" */;
+			buildConfigurationList = C8D03AB52B38654700C9B57D /* Build configuration list for PBXNativeTarget "iTrackWorkout" */;
 			buildPhases = (
 				C8D03AA32B38654500C9B57D /* Sources */,
 				C8D03AA42B38654500C9B57D /* Frameworks */,
@@ -162,9 +162,9 @@
 			);
 			dependencies = (
 			);
-			name = Activity;
+			name = iTrackWorkout;
 			productName = Activity;
-			productReference = C8D03AA72B38654500C9B57D /* Activity.app */;
+			productReference = C8D03AA72B38654500C9B57D /* iTrackWorkout.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -182,7 +182,7 @@
 					};
 				};
 			};
-			buildConfigurationList = C8D03AA22B38654500C9B57D /* Build configuration list for PBXProject "Activity" */;
+			buildConfigurationList = C8D03AA22B38654500C9B57D /* Build configuration list for PBXProject "iTrackWorkout" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -197,7 +197,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C8D03AA62B38654500C9B57D /* Activity */,
+				C8D03AA62B38654500C9B57D /* iTrackWorkout */,
 			);
 		};
 /* End PBXProject section */
@@ -392,11 +392,12 @@
 				DEVELOPMENT_TEAM = MJJL7LL2Y3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iTrackWorkout-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -422,11 +423,12 @@
 				DEVELOPMENT_TEAM = MJJL7LL2Y3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iTrackWorkout-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -444,7 +446,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C8D03AA22B38654500C9B57D /* Build configuration list for PBXProject "Activity" */ = {
+		C8D03AA22B38654500C9B57D /* Build configuration list for PBXProject "iTrackWorkout" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C8D03AB32B38654700C9B57D /* Debug */,
@@ -453,7 +455,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C8D03AB52B38654700C9B57D /* Build configuration list for PBXNativeTarget "Activity" */ = {
+		C8D03AB52B38654700C9B57D /* Build configuration list for PBXNativeTarget "iTrackWorkout" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C8D03AB62B38654700C9B57D /* Debug */,
