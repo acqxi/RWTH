@@ -102,19 +102,19 @@ struct ProjectsView: View {
             .toolbar {
                 ToolbarItemGroup {
                     
-                    Menu("Sort", systemImage: "arrow.up.arrow.down") {
-                        Picker("Sort", selection: $sortOrder) {
-                            Text("Name".localized)
-                                .tag(SortDescriptor(\Project.name))
-
-                            Text("Priority".localized)
-                                .tag(SortDescriptor(\Project.priority, order: .reverse))
-
-                            Text("Date".localized)
-                                .tag(SortDescriptor(\Project.startDate))
-                        }
-                        .pickerStyle(.inline)
-                    }
+//                    Menu("Sort", systemImage: "arrow.up.arrow.down") {
+//                        Picker("Sort", selection: $sortOrder) {
+//                            Text("Name")
+//                                .tag(SortDescriptor(\Project.name))
+//
+//                            Text("Priority")
+//                                .tag(SortDescriptor(\Project.priority, order: .reverse))
+//
+//                            Text("Date")
+//                                .tag(SortDescriptor(\Project.startDate))
+//                        }
+//                        .pickerStyle(.inline)
+//                    }
                     
                 }
                 
