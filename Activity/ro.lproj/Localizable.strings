@@ -61,11 +61,18 @@
 "Discard data and restart" = "Șterge datele și repornește";
 "Continue tracking" = "Continuă măsurarea";
 "Time: %@" = "Timp: %@";
+"Filter" = "Filtru";
+"No tag exists" = "Nu există taguri";
+"Choose tag" = "Alege un tag";
 
 // Stopwatch
 "Pause" = "Pauză";
 "Start" = "Start";
 "Finish" = "Terminare";
+"Did you complete the workout already?" = "Ai efectuat deja task-ul?";
+"Start Time" = "Timp Pornire";
+"End Time" = "Timp Terminare";
+"Add manually" = "Adaugă manual";
 
 // Summary
 "Summary" = "Sumar";

@@ -295,14 +295,14 @@ struct ListView: View {
                         
                         Spacer()
                         
-                        Text("Tags:")
+                        Text("Tags: ")
                             .font(.headline)
                         
                         Picker(selection: $searchTerm, label: Text("choice")) {
                             if tags.isEmpty{
-                                Text("No tag exists.").tag("")
+                                Text("No tag exists").tag("")
                             }else{
-                                Text("Choice one.").tag("")
+                                Text("Choose tag").tag("")
                                 ForEach(0..<tags.count) { index in
                                     Text(tags[index].name).tag(tags[index].name)
                                 }

@@ -62,11 +62,18 @@
 "Discard data and restart" = "Discard data and restart";
 "Continue tracking" = "Continue tracking";
 "Time: %@" = "Time: %@";
+"Filter" = "Filter";
+"No tag exists" = "No tag exists";
+"Choose tag" = "Choose tag";
 
 // Stopwatch
 "Pause" = "Pause";
 "Start" = "Start";
 "Finish" = "Finish";
+"Did you complete the workout already?" = "Did you complete the task already?";
+"Start Time" = "Start Time";
+"End Time" = "End Time";
+"Add manually" = "Add manually";
 
 // Summary
 "Summary" = "Summary";
