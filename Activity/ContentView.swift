@@ -23,7 +23,7 @@ struct ContentView: View {
                 }
             
             // Calendar tab
-            CalendarView()
+            MainView()
                 .tabItem {
                     Image(systemName: "calendar")
                     Text("Calendar")

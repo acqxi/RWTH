@@ -22,7 +22,12 @@
 		56A3D9802B55B21B00135F90 /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A3D97F2B55B21B00135F90 /* Stopwatch.swift */; };
 		56EDD9DB2B5EF5E30030555D /* StopwatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EDD9DA2B5EF5E30030555D /* StopwatchData.swift */; };
 		6FCD2D232B65BCBE0097F091 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6FCD2D252B65BCBE0097F091 /* Localizable.strings */; };
-		B0A724E62B65319E0038D4FB /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C883FED02B4E98CA006B716A /* CalendarView.swift */; };
+		B023BC8D2B685A74000AD9D1 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B023BC8C2B685A74000AD9D1 /* ListView.swift */; };
+		B023BC8F2B685B35000AD9D1 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B023BC8E2B685B35000AD9D1 /* CalendarView.swift */; };
+		B023BC912B685CC8000AD9D1 /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B023BC902B685CC8000AD9D1 /* utils.swift */; };
+		B023BC932B685D6E000AD9D1 /* controlPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B023BC922B685D6E000AD9D1 /* controlPanelView.swift */; };
+		B023BC952B685F12000AD9D1 /* SearchAndFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B023BC942B685F12000AD9D1 /* SearchAndFilterView.swift */; };
+		B0A724E62B65319E0038D4FB /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C883FED02B4E98CA006B716A /* MainView.swift */; };
 		B0BC28F42B5562A30087B309 /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BC28F32B5562A30087B309 /* TaskDetailView.swift */; };
 		C8CE74A72B611F9300B23670 /* DayOfWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CE74A62B611F9300B23670 /* DayOfWeek.swift */; };
 		C8D03AAB2B38654500C9B57D /* ActivityApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D03AAA2B38654500C9B57D /* ActivityApp.swift */; };
@@ -53,8 +58,13 @@
 		56EDD9DA2B5EF5E30030555D /* StopwatchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchData.swift; sourceTree = "<group>"; };
 		6FCD2D242B65BCBE0097F091 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		6FCD2D262B65BCCB0097F091 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B023BC8C2B685A74000AD9D1 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
+		B023BC8E2B685B35000AD9D1 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		B023BC902B685CC8000AD9D1 /* utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
+		B023BC922B685D6E000AD9D1 /* controlPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = controlPanelView.swift; sourceTree = "<group>"; };
+		B023BC942B685F12000AD9D1 /* SearchAndFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAndFilterView.swift; sourceTree = "<group>"; };
 		B0BC28F32B5562A30087B309 /* TaskDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailView.swift; sourceTree = "<group>"; };
-		C883FED02B4E98CA006B716A /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		C883FED02B4E98CA006B716A /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		C8CE74A62B611F9300B23670 /* DayOfWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfWeek.swift; sourceTree = "<group>"; };
 		C8D03AA72B38654500C9B57D /* iTrackWorkout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTrackWorkout.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8D03AAA2B38654500C9B57D /* ActivityApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityApp.swift; sourceTree = "<group>"; };
@@ -105,6 +115,21 @@
 			path = Database;
 			sourceTree = "<group>";
 		};
+		B023BC8B2B685A33000AD9D1 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				C883FED02B4E98CA006B716A /* MainView.swift */,
+				B0BC28F32B5562A30087B309 /* TaskDetailView.swift */,
+				56A3D97F2B55B21B00135F90 /* Stopwatch.swift */,
+				B023BC8C2B685A74000AD9D1 /* ListView.swift */,
+				B023BC8E2B685B35000AD9D1 /* CalendarView.swift */,
+				B023BC902B685CC8000AD9D1 /* utils.swift */,
+				B023BC922B685D6E000AD9D1 /* controlPanelView.swift */,
+				B023BC942B685F12000AD9D1 /* SearchAndFilterView.swift */,
+			);
+			path = Calendar;
+			sourceTree = "<group>";
+		};
 		C8D03A9E2B38654500C9B57D = {
 			isa = PBXGroup;
 			children = (
@@ -128,9 +153,7 @@
 				C8D03AAC2B38654500C9B57D /* ContentView.swift */,
 				C8D200672B38930200E06148 /* HomeView.swift */,
 				1626F2652B613B11008D4713 /* ProjectsView */,
-				C883FED02B4E98CA006B716A /* CalendarView.swift */,
-				B0BC28F32B5562A30087B309 /* TaskDetailView.swift */,
-				56A3D97F2B55B21B00135F90 /* Stopwatch.swift */,
+				B023BC8B2B685A33000AD9D1 /* Calendar */,
 				C8D200652B3892C400E06148 /* ActivityListView.swift */,
 				C8D2006B2B3896E200E06148 /* SettingsView.swift */,
 				5600F2232B5E92BB00EBFF22 /* Database */,
@@ -225,14 +248,19 @@
 			files = (
 				B0BC28F42B5562A30087B309 /* TaskDetailView.swift in Sources */,
 				1626F2732B613D3D008D4713 /* NewTaskView.swift in Sources */,
+				B023BC8F2B685B35000AD9D1 /* CalendarView.swift in Sources */,
 				56EDD9DB2B5EF5E30030555D /* StopwatchData.swift in Sources */,
 				C8D2006C2B3896E200E06148 /* SettingsView.swift in Sources */,
 				1626F26F2B613CC5008D4713 /* EditTaskView.swift in Sources */,
 				1626F2672B613BE3008D4713 /* ExerciseCell.swift in Sources */,
 				1691B1CF2B6544F100783B03 /* EditTaskDetailView.swift in Sources */,
+				B023BC8D2B685A74000AD9D1 /* ListView.swift in Sources */,
+				B023BC932B685D6E000AD9D1 /* controlPanelView.swift in Sources */,
+				B023BC952B685F12000AD9D1 /* SearchAndFilterView.swift in Sources */,
 				1626F26B2B613C3C008D4713 /* ProjectContentView.swift in Sources */,
+				B023BC912B685CC8000AD9D1 /* utils.swift in Sources */,
 				C8D03AAD2B38654500C9B57D /* ContentView.swift in Sources */,
-				B0A724E62B65319E0038D4FB /* CalendarView.swift in Sources */,
+				B0A724E62B65319E0038D4FB /* MainView.swift in Sources */,
 				C8D200682B38930200E06148 /* HomeView.swift in Sources */,
 				56247C7A2B641BC400D16D8E /* ProjectsView.swift in Sources */,
 				5660A4A22B5C6F3B005B8BCE /* Project.swift in Sources */,
@@ -394,7 +422,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Activity/Preview Content\"";
-				DEVELOPMENT_TEAM = MJJL7LL2Y3;
+				DEVELOPMENT_TEAM = 883RL3788C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iTrackWorkout-Info.plist";
@@ -409,7 +437,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.iTracker;
+				PRODUCT_BUNDLE_IDENTIFIER = app.iTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -425,7 +453,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Activity/Preview Content\"";
-				DEVELOPMENT_TEAM = MJJL7LL2Y3;
+				DEVELOPMENT_TEAM = 883RL3788C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iTrackWorkout-Info.plist";
@@ -440,7 +468,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.iTracker;
+				PRODUCT_BUNDLE_IDENTIFIER = app.iTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
