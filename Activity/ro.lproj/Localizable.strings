@@ -47,6 +47,10 @@
 "Must" = "Mare";
 "Time" = "Timp";
 "EveryDayFormat" = "În fiecare %@";
+"There are no projects." = "Nu există proiecte.";
+"Add new project" = "Adaugă proiect nou";
+"There are no tasks." = "Nu există task-uri.";
+"Add new task" = "Adaugă task nou";
 
 // Calendar
 "Calendar" = "Calendar";

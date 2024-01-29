@@ -25,6 +25,17 @@ struct ProjectContentView: View {
     
     var body: some View {
         NavigationStack {
+            if (exercise.tasks.isEmpty) {
+                VStack {
+                    Spacer()
+                    Text("There are no tasks.")
+                    NavigationLink("Add new task") {
+                        NewTaskView(exercise: exercise)
+                    }
+                    Spacer()
+                }
+            }
+            
             List(exercise.tasks, selection: $selection) { task in
                 NavigationLink(destination: ProjectTaskDetailView(project:exercise, task: task)) {
                     Text(task.name)

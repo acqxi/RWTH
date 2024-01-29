@@ -47,6 +47,10 @@
 "Must" = "Must";
 "Time" = "Time";
 "EveryDayFormat" = "Every %@";
+"There are no projects." = "There are no projects.";
+"Add new project" = "Add new project";
+"There are no tasks." = "There are no tasks.";
+"Add new task" = "Add new task";
 
 // Calendar
 "Calendar" = "Calendar";

@@ -52,12 +52,22 @@ struct ProjectsView: View {
             
             Group {
                 if !isSearching {
+                    if (projects.isEmpty) {
+                        VStack {
+                            Spacer()
+                            Text("There are no projects.")
+                            NavigationLink("Add new project") {
+                                NewExerciseView()
+                            }
+                            Spacer()
+                        }
+                    }
+                    
                     List {
                         ForEach(projects) { exercise in
                             NavigationLink(destination: ProjectContentView(exercise: exercise)) {
                                 ExerciseCell(exercise: exercise)
                             }
-                            // TODO: Use .sheet()
                         }
                         .onDelete { indexSet in
                             for index in indexSet {
