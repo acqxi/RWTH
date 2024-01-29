@@ -1,4 +1,4 @@
-/* 
+/*
   Localizable.strings
   Activity
 
@@ -13,7 +13,7 @@
 "WelcomeWithName" = "您好, %@";
 "Hint" = "小提示";
 "Consider going to the Settings tab to customize the application, set your name or enable notifications" = "請到“設定”介面自訂您的姓名或啟用通知";
-"Today" = "[[ NOT TRANSLATED ]]";
+"Today" = "今天";
 
 // Project
 "Projects" = "主題";
@@ -47,10 +47,10 @@
 "Must" = "必須";
 "Time" = "時間";
 "EveryDayFormat" = "每個%@";
-"There are no projects." = "[[ NOT TRANSLATED ]]";
-"Add new project" = "[[ NOT TRANSLATED ]]";
-"There are no tasks." = "[[ NOT TRANSLATED ]]";
-"Add new task" = "[[ NOT TRANSLATED ]]";
+"There are no projects." = "沒有專題";
+"Add new project" = "新增專題";
+"There are no tasks." = "沒有任務";
+"Add new task" = "新增任務";
 
 // Calendar
 "Calendar" = "日曆";
@@ -60,19 +60,19 @@
 "Do you want to restart or continue the tracking?" = "您想重新開始還是繼續追蹤？";
 "Discard data and restart" = "放棄數據並重新啟動";
 "Continue tracking" = "繼續追蹤";
-"Time: %@" = "[[ NOT TRANSLATED ]]";
-"Filter" = "[[ NOT TRANSLATED ]]";
-"No tag exists" = "[[ NOT TRANSLATED ]]";
-"Choose tag" = "[[ NOT TRANSLATED ]]";
+"Time: %@" = "時間: %@";
+"Filter" = "篩選";
+"No tag exists" = "尚未建立標籤";
+"Choose tag" = "選擇標籤";
 
 // Stopwatch
 "Pause" = "暫停";
 "Start" = "開始";
 "Finish" = "完成";
-"Did you complete the workout already?" = "[[ NOT TRANSLATED ]]";
-"Start Time" = "[[ NOT TRANSLATED ]]";
-"End Time" = "[[ NOT TRANSLATED ]]";
-"Add manually" = "[[ NOT TRANSLATED ]]";
+"Did you complete the workout already?" = "您已經完成這項運動了嗎？";
+"Start Time" = "開始時間";
+"End Time" = "[結束時間";
+"Add manually" = "手動新增";
 
 // Summary
 "Summary" = "總結";
