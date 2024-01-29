@@ -3,11 +3,13 @@
 //  Activity
 //
 //  Created by Vivian Wang on 2024/1/24.
+//  Comment by Yu-Ting
 //
 
 import SwiftUI
 import SwiftData
 
+/// Displays content for a specific project, including tasks and options to add, delete, or move tasks.
 struct ProjectContentView: View {
     @Environment(\.modelContext) var modelContext
     
@@ -113,6 +115,7 @@ struct ProjectContentView: View {
     }
 }
 
+/// View for selecting a project to move tasks to.
 struct ChooseProjectView: View {
     var title: String
     var onProjectChosen: (Project?) -> ()
