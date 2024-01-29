@@ -193,6 +193,9 @@ func daysInMonth(date: Date) -> Int {
 struct ListView: View {
     var currentMonth: Date
     @Query var projects: [Project]
+    @Query var tags: [Tag]
+    
+    @State var isShowingPopover: Bool = false
     
     @State private var isSearching = false
     @State private var searchTerm = ""
@@ -269,14 +272,63 @@ struct ListView: View {
     
     var body: some View {
         VStack(){
-            HStack{
-                TextField("Type to search...".localized, text: $searchTerm)
-                    .padding(7)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(8)
-                    .padding(.horizontal, 10)
+            ZStack{
+                HStack{
+                    TextField("Type to search...".localized, text: $searchTerm)
+                        .padding(7)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(8)
+                        .padding(.horizontal, 10)
+                    
+                    
+                    Button(action: {
+                        self.isShowingPopover = true
+                    }) {
+                        Text("filter")
+                    }
+                    .padding()
+                }
+                .padding([.bottom])
+                
+                if isShowingPopover {
+                    HStack {
+                        
+                        Spacer()
+                        
+                        Text("tags:")
+                            .font(.headline)
+                        
+                        Picker(selection: $searchTerm, label: Text("choice")) {
+                            if tags.isEmpty{
+                                Text("No tag exists.").tag("")
+                            }else{
+                                Text("Choice one.").tag("")
+                                ForEach(0..<tags.count) { index in
+                                    Text(tags[index].name).tag(tags[index].name)
+                                }
+                            }
+                        }
+                        .pickerStyle(MenuPickerStyle())
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            self.isShowingPopover = false
+                            self.searchTerm = ""
+                        })
+                        {
+                            Image(systemName: "xmark.circle.fill").imageScale(.large)
+                        }
+                        .padding()
+                        
+                    }
+                    .frame(maxWidth: .infinity)
+                    .background(Color.white)
+                    .cornerRadius(10)
+                    .shadow(radius: 5)
+                }
             }
-            .padding([.bottom])
+            
             
             Group {
                 if searchTerm.isEmpty {
