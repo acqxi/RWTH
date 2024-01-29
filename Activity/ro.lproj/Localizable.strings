@@ -60,6 +60,7 @@
 "Do you want to restart or continue the tracking?" = "Dorești să repornești sau să continui măsurarea?";
 "Discard data and restart" = "Șterge datele și repornește";
 "Continue tracking" = "Continuă măsurarea";
+"Time: %@" = "Timp: %@";
 
 // Stopwatch
 "Pause" = "Pauză";

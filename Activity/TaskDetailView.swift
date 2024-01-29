@@ -104,14 +104,21 @@ struct TaskDetailView: View {
     private func exerciseItemView(_ item: Task) -> some View {
         let stopwatchDatum = stopwatchData.filter { $0.taskId == item.id && Calendar.current.isDate($0.completionDate, inSameDayAs: date) }.first
         
-        let label = HStack {
-            VStack(alignment: .leading) {
-                Text(item.name)
-                    .font(.headline)
+        let label = VStack {
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(item.name)
+                        .font(.headline)
+                }
+                Spacer()
+                if let stopwatchDatum = stopwatchDatum {
+                    Text(String(format: "Time: %@".localized, stopwatchDatum.totalInterval.formattedTime()))
+                        .padding([.horizontal])
+                }
+                Image(systemName: stopwatchDatum != nil ? "checkmark.circle.fill" : "circle")
+                    .foregroundColor(stopwatchDatum != nil ? .green : .gray)
             }
-            Spacer()
-            Image(systemName: stopwatchDatum != nil ? "checkmark.circle.fill" : "circle")
-                .foregroundColor(stopwatchDatum != nil ? .green : .gray)
+            
         }
         .padding()
         .background(Color.gray.opacity(0.1))

@@ -60,6 +60,7 @@
 "Do you want to restart or continue the tracking?" = "Do you want to restart or continue the tracking?";
 "Discard data and restart" = "Discard data and restart";
 "Continue tracking" = "Continue tracking";
+"Time: %@" = "Time: %@";
 
 // Stopwatch
 "Pause" = "Pause";

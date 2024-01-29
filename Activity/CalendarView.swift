@@ -337,6 +337,10 @@ struct ListDayView: View {
                                 .font(.headline)
                         }
                         Spacer()
+                        if let stopwatchData = stopwatchData {
+                            Text(String(format: "Time: %@".localized, stopwatchData.totalInterval.formattedTime()))
+                                .padding([.horizontal])
+                        }
                         Image(systemName: stopwatchData != nil ? "checkmark.circle.fill" : "circle")
                             .foregroundColor(stopwatchData != nil ? .green : .gray)
                     }
