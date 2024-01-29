@@ -13,7 +13,7 @@
 "WelcomeWithName" = "გამარჯობა, %@";
 "Hint" = "რჩევა";
 "Consider going to the Settings tab to customize the application, set your name or enable notifications" = "გადადით აპლიკაციის პარამეტრებში რომ მოირგოთ აპლიკაცია თქვენი სურვილისამებრ, შეიყვანეთ სახელი ან გააქტიურეთ შეტყობინებები";
-"Today" = "[[ NOT TRANSLATED ]]";
+"Today" = "დღეს";
 
 
 // Project
@@ -61,19 +61,19 @@
 "Do you want to restart or continue the tracking?" = "გინდა სცადო თავიდან?";
 "Discard data and restart" = "დავიწყება და თავიდან დაწყება";
 "Continue tracking" = "გააგრძელე ";
-"Time: %@" = "[[ NOT TRANSLATED ]]";
-"Filter" = "[[ NOT TRANSLATED ]]";
-"No tag exists" = "[[ NOT TRANSLATED ]]";
-"Choose tag" = "[[ NOT TRANSLATED ]]";
+"Time: %@" = "დრო: %@";
+"Filter" = "გაფილტვრა";
+"No tag exists" = "თაგი არ არსებობს";
+"Choose tag" = "აირჩიე თაგი";
 
 // Stopwatch
 "Pause" = "დაპაუზება";
 "Start" = "დაყება";
 "Finish" = "დასრულება";
-"Did you complete the workout already?" = "[[ NOT TRANSLATED ]]";
-"Start Time" = "[[ NOT TRANSLATED ]]";
-"End Time" = "[[ NOT TRANSLATED ]]";
-"Add manually" = "[[ NOT TRANSLATED ]]";
+"Did you complete the workout already?" = "უკვე ივარჯიშე?";
+"Start Time" = "დაწყების დრო";
+"End Time" = "დასრულების დრო";
+"Add manually" = "დაამატე შენით";
 
 // Summary
 "Summary" = "სტატისტიკა";
