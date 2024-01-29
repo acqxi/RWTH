@@ -3,16 +3,21 @@
 //  GymTime
 //
 //  Created by JieTing on 2024/1/15.
+//  Commented by Yu-Ting
 //
 
 import SwiftUI
 import SwiftData
 
+// MARK: - Control Panel Rectangle Definition
+
+/// Represents the rectangle of a control panel button with an associated view index.
 struct controlPanelRect: Equatable {
     let viewIdx: Int
     let rect: CGRect
 }
 
+/// PreferenceKey to collect control panel rectangles.
 struct controlPanelRectKey: PreferenceKey {
     typealias Value = [controlPanelRect]
     static var defaultValue: [controlPanelRect] = []
@@ -21,6 +26,9 @@ struct controlPanelRectKey: PreferenceKey {
     }
 }
 
+// MARK: - Control Panel Button View
+
+/// View for a button in the control panel.
 struct ctrlPanelBtnView: View {
     @Binding var activeBtn: Int
     let idx: Int
@@ -33,6 +41,7 @@ struct ctrlPanelBtnView: View {
     }
 }
 
+/// Sets the geometry for a control panel button.
 struct ctrlPanelBtnSetrView: View {
     let idx: Int
     
@@ -46,6 +55,9 @@ struct ctrlPanelBtnSetrView: View {
     }
 }
 
+// MARK: - Control Panel View
+
+/// View for the control panel, including navigation and style toggle.
 struct controlPanelView: View {
     
     @Binding var styleIdx: Int
@@ -100,15 +112,17 @@ struct controlPanelView: View {
         }
     }
     
-    // Function to change the current month.
+    /// Changes the current month displayed.
     func changeMonth(by amount: Int) {
-        // Logic to change the current month.
         if let newMonth = Calendar.current.date(byAdding: .month, value: amount, to: currentMonth) {
             currentMonth = newMonth
         }
     }
 }
 
+// MARK: - CalendarView Main View
+
+/// Main calendar view for displaying and interacting with dates and tasks.
 struct CalendarView: View {
     @State private var currentMonth = Date()
     private let calendar = Calendar.current
@@ -116,14 +130,13 @@ struct CalendarView: View {
     
     @Query var projects: [Project]
 
-    // Titles for days of the week.
+    /// Titles for days of the week.
     private let daysOfWeek = DayOfWeek.all
 
     var body: some View {
-        // Main navigation view for the calendar.
+        /// Main navigation view for the calendar.
         NavigationStack {
             VStack {
-                // Control
                 controlPanelView(styleIdx: $styleIdx, currentMonth: $currentMonth)
                 
                 if styleIdx == 1 {
@@ -140,6 +153,7 @@ struct CalendarView: View {
                     }
                     
                     ScrollView{
+                        
                         // Displaying month calendar.
                         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7)) {
                             // show empty day
@@ -169,22 +183,22 @@ struct CalendarView: View {
         }
     }
     
-    // Function to calculate how many days in first week before first day in the months.
+    /// Function to calculate how many days in first week before first day in the months.
     func numberOfEmptyCells(at date: Date) -> Int {
         let firstDayOfMonth = calendar.date(from: Calendar.current.dateComponents([.year, .month], from: date))!
-        // Sunday is 1, Monday is 2, Tuesday is 3
+        /// Sunday is 1, Monday is 2, Tuesday is 3
         let weekday = calendar.component(.weekday, from: firstDayOfMonth)
-        // Add 5: Sunday is 6, Monday is 7, Tuesday is 8
-        // Mod 7: Sunday is 6, Monday is 0, Tuesday is 1
-        // If the first day of the month is Monday, we need 0 empty cells
-        // If the first day of the month is Tuedsay, we need 1 empty cell
-        // ...
-        // If the first day of the month is Sunday, we need 6 empty cells
-        return (weekday + 5) % 7 // Count rest days in a week.
+        /// Add 5: Sunday is 6, Monday is 7, Tuesday is 8
+        /// Mod 7: Sunday is 6, Monday is 0, Tuesday is 1
+        /// If the first day of the month is Monday, we need 0 empty cells
+        /// If the first day of the month is Tuedsay, we need 1 empty cell
+        /// ...
+        /// If the first day of the month is Sunday, we need 6 empty cells
+        return (weekday + 5) % 7 /// Count rest days in a week.
     }
 }
 
-// Function to calculate how many days in a month.
+/// Function to calculate how many days in a month.
 func daysInMonth(date: Date) -> Int {
     let range = Calendar.current.range(of: .day, in: .month, for: date)
     return range?.count ?? 30
@@ -244,7 +258,7 @@ struct ListView: View {
             
             let componentsOfTask = Calendar.current.dateComponents([.day, .month, .year], from: task.startDate)
             if componentsOfDate == componentsOfTask {
-                // If the task starts today, then it is okay.
+                /// If the task starts today, then it is okay.
                 return true
             }
             
@@ -256,7 +270,7 @@ struct ListView: View {
                 return true
             }
             
-            // The task doesn't repeat today, don't use it.
+            /// The task doesn't repeat today, don't use it.
             return false
         }
     }
@@ -504,7 +518,11 @@ struct TaskView: View {
     }
 }
 
-// Extension to provide a custom date formatter for the month and year.
+// Extension and additional struct implementations (ListView, DayView, etc.) go here.
+
+// MARK: - Date Formatter Extension
+
+/// Extension to provide a custom date formatter for the month and year.// Extension to provide a custom date formatter for the month and year.
 extension DateFormatter {
     static let monthAndYear: DateFormatter = {
         let formatter = DateFormatter()
@@ -512,6 +530,8 @@ extension DateFormatter {
         return formatter
     }()
 }
+
+// MARK: - Preview Provider
 
 #Preview{
     CalendarView()
