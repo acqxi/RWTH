@@ -1,0 +1,23 @@
+name: env-ids-ws23
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.9
+  - graphviz
+  - pydotplus
+  - networkx
+  - nltk
+  - jupyter
+  - numpy
+  - pandas>=1.5
+  - scipy
+  - scikit-learn
+  - plotly
+  - bokeh
+  - matplotlib>=3.7
+  - seaborn
+  #- nb_conda_kernels
+  - pip
+  - pip:
+      - pm4py==2.7.*
